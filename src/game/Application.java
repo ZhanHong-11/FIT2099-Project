@@ -5,6 +5,7 @@ import game.actors.Player;
 import game.actors.enemies.WanderingUndead;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
+import game.gamemaps.AncientWoods;
 import game.gamemaps.BurialGround;
 import game.grounds.Dirt;
 import game.grounds.Floor;
@@ -40,6 +41,10 @@ public class Application {
 
     GameMap burialGround = new BurialGround(groundFactory);
     world.addGameMap(burialGround);
+
+    // REQ1: The Ancient Woods map
+    GameMap ancientWoods = new AncientWoods(groundFactory);
+    world.addGameMap(ancientWoods);
 
     for (String line : FancyMessage.TITLE.split("\n")) {
       new Display().println(line);
