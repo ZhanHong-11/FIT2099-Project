@@ -44,6 +44,10 @@ public abstract class Enemy extends Actor implements Droppable {
     this.addCapability(Status.DANGER);
   }
 
+  protected void addBehaviour(Behaviour newBehaviour) {
+    this.behaviours.put(0, newBehaviour);
+  }
+
   /**
    * At each turn, select a valid action to perform.
    *
@@ -60,6 +64,8 @@ public abstract class Enemy extends Actor implements Droppable {
     for (Behaviour behaviour : behaviours.values()) {
       Action action = behaviour.getAction(this, map);
       if (action != null) {
+        System.out.println("This is behaviour: " + behaviour);
+        System.out.println("This is action: " + action);
         return action;
       }
     }
