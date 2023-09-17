@@ -5,7 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import game.actions.BuyAction;
 import game.actions.ConsumeAction;
+import game.capabilities.Ability;
+import java.util.Random;
 
 /**
  * A subclass of Item that implements Consumable interface. A refreshing flask is a consumable item
@@ -15,7 +18,7 @@ import game.actions.ConsumeAction;
  * @see Item
  * @see Consumable
  */
-public class RefreshingFlask extends Item implements Consumable {
+public class RefreshingFlask extends Item implements Consumable, Buyable {
 
   /**
    * The type of attribute that is affected by consuming the refreshing flask
@@ -38,7 +41,12 @@ public class RefreshingFlask extends Item implements Consumable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    actionList.add(new ConsumeAction(this));
+    if (!owner.hasCapability(Ability.TRADING)){
+      actionList.add(new ConsumeAction(this));
+    }
+    else {
+      actionList.add(new BuyAction(this));
+    }
     return actionList;
   }
 
@@ -67,5 +75,22 @@ public class RefreshingFlask extends Item implements Consumable {
   @Override
   public String getAttribute() {
     return RefreshingFlask.ATTRIBUTE;
+  }
+
+  @Override
+  public String buy(Actor actor) {
+    actor.addItemToInventory(new RefreshingFlask());
+    return actor + " had purchased a " + this;
+  }
+
+  @Override
+  public int getBuyPrice() {
+    Random random = new Random();
+    int price = 75;
+    int luck = 10;
+    if (random.nextInt(100) < luck){
+      return Math.round(price * 0.8f);
+    }
+    return price;
   }
 }

@@ -4,7 +4,10 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import game.actions.BuyAction;
 import game.actions.ConsumeAction;
+import game.capabilities.Ability;
+import java.util.Random;
 
 /**
  * A subclass of Item that implements Consumable interface. A healing vial is a consumable item that
@@ -14,7 +17,7 @@ import game.actions.ConsumeAction;
  * @see Item
  * @see Consumable
  */
-public class HealingVial extends Item implements Consumable {
+public class HealingVial extends Item implements Consumable, Buyable {
 
   /**
    * The type of attribute that is affected by consuming the healing vial
@@ -37,7 +40,12 @@ public class HealingVial extends Item implements Consumable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    actionList.add(new ConsumeAction(this));
+    if (!owner.hasCapability(Ability.TRADING)){
+      actionList.add(new ConsumeAction(this));
+    }
+    else {
+      actionList.add(new BuyAction(this));
+    }
     return actionList;
   }
 
@@ -66,4 +74,20 @@ public class HealingVial extends Item implements Consumable {
     return HealingVial.ATTRIBUTE;
   }
 
+  @Override
+  public String buy(Actor actor) {
+    actor.addItemToInventory(new HealingVial());
+    return actor + " had purchased a " + this;
+  }
+
+  @Override
+  public int getBuyPrice() {
+    Random random = new Random();
+    int price = 100;
+    int luck = 25;
+    if (random.nextInt(100) < luck){
+      return Math.round(price * 1.5f);
+    }
+    return price;
+  }
 }
