@@ -2,19 +2,13 @@ package game;
 
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
-import game.actors.enemies.ForestKeeper;
 import game.actors.enemies.WanderingUndead;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
 import game.gamemaps.AncientWoods;
 import game.gamemaps.BurialGround;
-import game.grounds.Dirt;
-import game.grounds.Floor;
-import game.grounds.Graveyard;
-import game.grounds.LockedGate;
-import game.grounds.Puddle;
+import game.grounds.*;
 import game.grounds.Void;
-import game.grounds.Wall;
 import game.weapons.Broadsword;
 
 import edu.monash.fit2099.engine.displays.Display;
@@ -35,7 +29,7 @@ public class Application {
     World world = new World(new Display());
 
     FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(),
-        new Wall(), new Floor(), new Puddle(), new Void(), new Graveyard(), new LockedGate());
+        new Wall(), new Floor(), new Puddle(), new Void(), new Graveyard(), new LockedGate(), new Hut(), new Bushes());
 
     GameMap abandonedVillage = new AbandonedVillage(groundFactory);
     world.addGameMap(abandonedVillage);
@@ -59,16 +53,16 @@ public class Application {
     abandonedVillage.at(23, 10).addActor(new WanderingUndead());
     abandonedVillage.at(28, 6).addItem(new Broadsword());
     abandonedVillage.at(4, 3).setGround(
-        new LockedGate(new MoveActorAction(burialGround.at(22, 7), "to the Burial Ground!")));
+        new LockedGate(new MoveActorAction(burialGround.at(22, 7), "to the Burial Grounds!")));
 
     burialGround.at(22, 6).setGround(new LockedGate(
         new MoveActorAction(abandonedVillage.at(5, 3), "to the Abandoned Village!")));
 
-    abandonedVillage.at(35, 5).setGround(
-            new LockedGate(new MoveActorAction(ancientWoods.at(35, 5), "to the Ancient Woods!")));
+    burialGround.at(0, 8).setGround(
+            new LockedGate(new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
-    ancientWoods.at(35, 5).setGround(new LockedGate(
-            new MoveActorAction(abandonedVillage.at(35, 5), "to the Abandoned Village!")));
+    ancientWoods.at(0, 7).setGround(new LockedGate(
+            new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
     world.addPlayer(player, abandonedVillage.at(29, 5));
