@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
+import game.actors.enemies.ForestKeeper;
 import game.actors.enemies.WanderingUndead;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
@@ -62,6 +63,12 @@ public class Application {
 
     burialGround.at(22, 6).setGround(new LockedGate(
         new MoveActorAction(abandonedVillage.at(5, 3), "to the Abandoned Village!")));
+
+    abandonedVillage.at(35, 5).setGround(
+            new LockedGate(new MoveActorAction(ancientWoods.at(35, 5), "to the Ancient Woods!")));
+
+    ancientWoods.at(35, 5).setGround(new LockedGate(
+            new MoveActorAction(abandonedVillage.at(35, 5), "to the Abandoned Village!")));
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
     world.addPlayer(player, abandonedVillage.at(29, 5));
