@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.FollowBehaviour;
 import game.items.HealingVial;
+import game.items.Runes;
 
 
 import java.util.*;
@@ -14,12 +15,14 @@ public class ForestKeeper extends Enemy {
 
     private static final int BASE_INTRINSIC_WEAPON_DAMAGE = 25;
     private static final int BASE_INTRINSIC_HIT_RATE = 75;
-    private static final String BASE_WEAPON_VERB = "Attacks";
+    private static final String BASE_WEAPON_VERB = "smacks";
+    public static final int BASE_HIT_POINTS = 125;
+    public static final int BASE_RUNES_DROP_AMOUNT = 50;
     private Map<Integer, Behaviour> behaviours = new HashMap<>();
     private Random random = new Random();
 
     public ForestKeeper() {
-        super("Forest Keeper", '8', 125);
+        super("Forest Keeper", '8', BASE_HIT_POINTS);
         this.addBehaviour(new FollowBehaviour());
     }
 
@@ -29,10 +32,10 @@ public class ForestKeeper extends Enemy {
     }
 
     public void drop(GameMap map) {
-
         int num = random.nextInt(10);
+        Location location = map.locationOf(this);
+        map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
         if (num < 2) {
-            Location location = map.locationOf(this);
             map.at(location.x(), location.y()).addItem(new HealingVial());
         }
 

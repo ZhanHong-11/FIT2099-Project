@@ -9,14 +9,11 @@ import java.util.Random;
 
 public class Bushes extends Ground {
     private Random random = new Random();
-    private static final int BASE_RED_WOLF_SPAWN_CHANCE = 25;
+    private static final int BASE_RED_WOLF_SPAWN_CHANCE = 30;
     /**
      * Constructor.
-     *
-     * @param displayChar character to display for this type of terrain
      */
-
-    public Bushes(char displayChar) {
+    public Bushes() {
         super('m');
 
     }

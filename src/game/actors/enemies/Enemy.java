@@ -64,8 +64,6 @@ public abstract class Enemy extends Actor implements Droppable {
     for (Behaviour behaviour : behaviours.values()) {
       Action action = behaviour.getAction(this, map);
       if (action != null) {
-        System.out.println("This is behaviour: " + behaviour);
-        System.out.println("This is action: " + action);
         return action;
       }
     }
