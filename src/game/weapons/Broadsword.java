@@ -7,9 +7,11 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
 import game.actions.BuyAction;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.items.Buyable;
 import game.items.HealingVial;
+import game.items.Sellable;
 import game.skills.FocusSkill;
 import java.util.Random;
 
@@ -21,7 +23,7 @@ import java.util.Random;
  * @author Soo Zhan Hong
  * @see SkillWeapon
  */
-public class Broadsword extends SkillWeapon implements Buyable {
+public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   /**
    * The default hit rate of the broadsword
@@ -87,7 +89,12 @@ public class Broadsword extends SkillWeapon implements Buyable {
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
     ActionList actions = new ActionList();
-    actions.add(new AttackAction(otherActor, location.toString(), this));
+    if (!otherActor.hasCapability(Ability.TRADING)){
+      actions.add(new AttackAction(otherActor, location.toString(), this));
+    }
+    else {
+      actions.add(new SellAction(this));
+    }
     return actions;
   }
 
@@ -114,6 +121,18 @@ public class Broadsword extends SkillWeapon implements Buyable {
   @Override
   public int getBuyPrice() {
     int price = 250;
+    return price;
+  }
+
+  @Override
+  public String sell(Actor actor) {
+    actor.removeItemFromInventory(this);
+    return actor + " had sold a " + this;
+  }
+
+  @Override
+  public int getSellPrice() {
+    int price = 100;
     return price;
   }
 }

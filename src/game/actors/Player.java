@@ -106,6 +106,8 @@ public class Player extends Actor {
         this.getAttributeMaximum(BaseActorAttributes.HEALTH) + "\n" +
         "Stamina: " +
         this.getAttribute(BaseActorAttributes.STAMINA) + "/" +
-        this.getAttributeMaximum(BaseActorAttributes.STAMINA);
+        this.getAttributeMaximum(BaseActorAttributes.STAMINA) + "\n" +
+        "Wallet: $" +
+        this.getBalance();
   }
 }
