@@ -20,6 +20,7 @@ import game.display.FancyMessage;
  * Modified by: Soo Zhan Hong
  */
 public class Player extends Actor {
+  private int balance;
 
   /**
    * Constructor.
@@ -32,6 +33,15 @@ public class Player extends Actor {
     super(name, displayChar, hitPoints);
     this.addCapability(Status.HOSTILE_TO_ENEMY);
     this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
+    this.balance = 0;
+  }
+
+  public int getBalance() {
+    return this.balance;
+  }
+
+  public void addBalance(int amount) {
+    this.balance += amount;
   }
 
   @Override
