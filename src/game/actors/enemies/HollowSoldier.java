@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
+import game.items.Runes;
+
 import java.util.Random;
 
 /**
@@ -18,12 +20,16 @@ import java.util.Random;
 public class HollowSoldier extends Enemy {
 
   private Random random = new Random();
+  public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  public static final int BASE_REFRESHING_FLASK_DROP_RATE = 30;
+  public static final int BASE_HIT_POINTS = 200;
+  public static final int BASE_RUNES_DROP_AMOUNT = 100;
 
   /**
    * Constructs a new hollow soldier.
    */
   public HollowSoldier() {
-    super("Hollow Soldier", '&', 200);
+    super("Hollow Soldier", '&', BASE_HIT_POINTS);
     this.addCapability(Ability.IMMUNE_TO_VOID);
   }
 
@@ -48,13 +54,13 @@ public class HollowSoldier extends Enemy {
    */
   @Override
   public void drop(GameMap map) {
-    int num = random.nextInt(10);
-    if (num < 2) {
-      Location location = map.locationOf(this);
+    int num = random.nextInt(100);
+    Location location = map.locationOf(this);
+    map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
+    if (num < BASE_HEALING_VIAL_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new HealingVial());
     }
-    if (num < 3) {
-      Location location = map.locationOf(this);
+    if (num < BASE_REFRESHING_FLASK_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new RefreshingFlask());
     }
   }

@@ -9,14 +9,11 @@ import java.util.Random;
 
 public class Hut extends Ground {
     private Random random = new Random();
-    private static final int BASE_FOREST_KEEPER_SPAWN_CHANCE = 25;
+    private static final int BASE_FOREST_KEEPER_SPAWN_CHANCE = 15;
     /**
      * Constructor.
-     *
-     * @param displayChar character to display for this type of terrain
      */
-
-    public Hut(char displayChar) {
+    public Hut() {
         super('h');
 
     }

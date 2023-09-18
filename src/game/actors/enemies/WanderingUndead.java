@@ -6,6 +6,8 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.Key;
+import game.items.Runes;
+
 import java.util.Random;
 
 /**
@@ -18,7 +20,9 @@ import java.util.Random;
 public class WanderingUndead extends Enemy {
 
   private Random random = new Random();
-
+  public static final int BASE_KEY_DROP_RATE = 25;
+  public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  public static final int BASE_RUNES_DROP_AMOUNT = 50;
   /**
    * Constructs a new wandering undead.
    */
@@ -48,13 +52,13 @@ public class WanderingUndead extends Enemy {
    */
   @Override
   public void drop(GameMap map) {
-    int num = random.nextInt(10);
-    if (num < 1) {
-      Location location = map.locationOf(this);
+    int num = random.nextInt(100);
+    Location location = map.locationOf(this);
+    map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
+    if (num < BASE_KEY_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new Key());
     }
-    if (num < 2) {
-      Location location = map.locationOf(this);
+    if (num < BASE_HEALING_VIAL_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new HealingVial());
     }
   }
