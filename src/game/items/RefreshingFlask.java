@@ -5,7 +5,12 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actions.BuyAction;
 import game.actions.ConsumeAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
+import java.util.Random;
 
 /**
  * A subclass of Item that implements Consumable interface. A refreshing flask is a consumable item
@@ -15,7 +20,8 @@ import game.actions.ConsumeAction;
  * @see Item
  * @see Consumable
  */
-public class RefreshingFlask extends Item implements Consumable {
+public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable {
+  private Random random = new Random();
 
   /**
    * The type of attribute that is affected by consuming the refreshing flask
@@ -38,8 +44,22 @@ public class RefreshingFlask extends Item implements Consumable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    actionList.add(new ConsumeAction(this));
+    if (!owner.hasCapability(Ability.TRADING)){
+      actionList.add(new ConsumeAction(this));
+    }
+    else {
+      actionList.add(new BuyAction(this));
+    }
     return actionList;
+  }
+
+  @Override
+  public ActionList allowableActions(Actor otherActor, Location location) {
+    ActionList actions = new ActionList();
+    if (otherActor.hasCapability(Ability.TRADING)){
+      actions.add(new SellAction(this));
+    }
+    return actions;
   }
 
   /**
@@ -67,5 +87,39 @@ public class RefreshingFlask extends Item implements Consumable {
   @Override
   public String getAttribute() {
     return RefreshingFlask.ATTRIBUTE;
+  }
+
+  @Override
+  public String buy(Actor actor) {
+    actor.addItemToInventory(new RefreshingFlask());
+    return actor + " had purchased a " + this;
+  }
+
+  @Override
+  public int getBuyPrice() {
+    int price = 75;
+    int luck = 10;
+    if (random.nextInt(100) < luck){
+      return Math.round(price * 0.8f);
+    }
+    return price;
+  }
+
+  @Override
+  public String sell(Actor actor) {
+    int luck = 50;
+    actor.removeItemFromInventory(this);
+    if (random.nextInt(100) < luck){
+      return actor + " had been scammed!";
+    }
+    else {
+      return actor + " had sold a " + this;
+    }
+  }
+
+  @Override
+  public int getSellPrice() {
+    int price = 25;
+    return price;
   }
 }
