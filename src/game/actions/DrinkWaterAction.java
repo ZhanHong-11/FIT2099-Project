@@ -11,7 +11,8 @@ public class DrinkWaterAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        actor.modifyAttribute(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, 1);
+        int value = 1;
+        actor.heal(value);
         actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE, Math.round(0.01f * actor.getAttributeMaximum(BaseActorAttributes.STAMINA)));
         return actor + " drank water from the puddle. Health Increased by 1 and Stamina Increased by 1%";
     }

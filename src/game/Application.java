@@ -5,6 +5,7 @@ import game.actors.Player;
 import game.actors.enemies.WanderingUndead;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
+import game.gamemaps.AbxervyerBattleMap;
 import game.gamemaps.AncientWoods;
 import game.gamemaps.BurialGround;
 import game.grounds.*;
@@ -41,6 +42,9 @@ public class Application {
     GameMap ancientWoods = new AncientWoods(groundFactory);
     world.addGameMap(ancientWoods);
 
+    GameMap abxervyerBattleMap = new AbxervyerBattleMap(groundFactory);
+    world.addGameMap(abxervyerBattleMap);
+
     for (String line : FancyMessage.TITLE.split("\n")) {
       new Display().println(line);
       try {
@@ -63,6 +67,9 @@ public class Application {
 
     ancientWoods.at(0, 7).setGround(new LockedGate(
             new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
+
+    ancientWoods.at(55, 0).setGround(
+            new LockedGate(new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
     world.addPlayer(player, abandonedVillage.at(29, 5));
