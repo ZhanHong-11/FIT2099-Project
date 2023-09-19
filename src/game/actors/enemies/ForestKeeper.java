@@ -30,7 +30,7 @@ public class ForestKeeper extends Enemy {
     public IntrinsicWeapon getIntrinsicWeapon() {
         return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
     }
-
+    @Override
     public void drop(GameMap map) {
         int num = random.nextInt(10);
         Location location = map.locationOf(this);

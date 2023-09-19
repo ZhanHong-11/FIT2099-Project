@@ -27,7 +27,7 @@ public class AncientWoods extends GameMap {
             "++++...............~~~~~~~~~~~...m....~~~.......~~~~~~......",
             "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
-            public AncientWoods(GroundFactory groundFactory) {
-                super(groundFactory, AncientWoods.MAP);
-            }
+    public AncientWoods(GroundFactory groundFactory) {
+      super(groundFactory, AncientWoods.MAP);
+    }
 }

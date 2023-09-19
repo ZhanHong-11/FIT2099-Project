@@ -23,7 +23,7 @@ public class Hut extends Ground {
         int spawnChance = random.nextInt(100);
         if (spawnChance < BASE_FOREST_KEEPER_SPAWN_CHANCE && !location.containsAnActor()) {
             location.addActor(new ForestKeeper());
-            new Display().println("a Forest Keeper has spawned at " + location);
+            new Display().println("A Forest Keeper has spawned at " + location);
         }
     }
 }
