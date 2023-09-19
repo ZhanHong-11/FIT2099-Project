@@ -2,10 +2,13 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
 import game.actions.ActivateSkillAction;
+import game.actions.AttackAction;
 import game.skills.Skill;
+import java.util.ArrayList;
 
 /**
  * Class representing a weapon that has skill to be activated.
@@ -15,11 +18,7 @@ public abstract class SkillWeapon extends WeaponItem {
   /**
    * Skill of the weapon
    */
-  private final Skill skill;
-  /**
-   * The time left for the skill to be still activating
-   */
-  private int skillCountdown;
+  private ArrayList<Skill> skills = new ArrayList<>();
 
   /**
    * Constructor.
@@ -29,50 +28,17 @@ public abstract class SkillWeapon extends WeaponItem {
    * @param damage      amount of damage this weapon does
    * @param verb        verb to use for this weapon, e.g. "hits", "zaps"
    * @param hitRate     the probability/chance to hit the target.
-   * @param skill       skill of the weapon
    */
-  public SkillWeapon(String name, char displayChar, int damage, String verb, int hitRate,
-      Skill skill) {
+  public SkillWeapon(String name, char displayChar, int damage, String verb, int hitRate) {
     super(name, displayChar, damage, verb, hitRate);
-    this.skill = skill;
   }
 
-  /**
-   * Return the skill of the weapon
-   *
-   * @return the skill of the weapon
-   */
-  public Skill getSkill() {
-    return this.skill;
+  public void addSkill(Skill skill){
+    this.skills.add(skill);
   }
 
-  /**
-   * Get a description of the skill of the weapon. This is for showing a description after the
-   * player activated the skill of the weapon
-   *
-   * @return description of the skill of the weapon
-   */
-  public String getSkillDescription() {
-    return this.skill.skillDescription();
-  }
-
-  /**
-   * Return the time left for the activating skill in turn
-   *
-   * @return the time left for the activating skill in turn
-   */
-  public int getSkillCountdown() {
-    return this.skillCountdown;
-  }
-
-  /**
-   * Activates the skill of the weapon and returns the stamina percentage required to use it.
-   *
-   * @return The percentage of stamina required to use the skill
-   */
-  public int activateSkill() {
-    this.skillCountdown = skill.getSkillDuration();
-    return skill.getSkillStaminaPercent();
+  public ArrayList<Skill> getSkills() {
+    return this.skills;
   }
 
   /**
@@ -84,23 +50,40 @@ public abstract class SkillWeapon extends WeaponItem {
    */
   @Override
   public void tick(Location currentLocation, Actor actor) {
-    if (this.skillCountdown > 0) {
-      this.skillCountdown--;
+    for (Skill skill: skills){
+      skill.tickSkill(this);
     }
   }
 
-  /**
-   * Returns an ActionList that contains a ActivateSkillAction that allows an actor to activate the
-   * skill of the broadsword.
-   *
-   * @param owner the actor that owns the weapon
-   * @return an unmodifiable list of Actions
-   */
+  @Override
+  public PickUpAction getPickUpAction(Actor actor) {
+    resetWeapon();
+    return super.getPickUpAction(actor);
+  }
+
   @Override
   public ActionList allowableActions(Actor owner) {
-    ActionList actions = new ActionList();
-    actions.add(new ActivateSkillAction(owner, this));
+    ActionList actions = super.allowableActions(owner);
+    for (Skill skill: skills){
+      actions.add(new ActivateSkillAction(this, skill));
+    }
     return actions;
   }
 
+  /**
+   * Returns an ActionList that contains an AttackAction that allows an actor to attack another
+   * actor with the weapon.
+   *
+   * @param otherActor the other actor
+   * @param location   the location of the other actor
+   * @return an unmodifiable list of Actions
+   */
+  @Override
+  public ActionList allowableActions(Actor otherActor, Location location) {
+    ActionList actions = super.allowableActions(otherActor, location);
+    actions.add(new AttackAction(otherActor, location.toString(), this));
+    return actions;
+  }
+
+  public void resetWeapon(){}
 }

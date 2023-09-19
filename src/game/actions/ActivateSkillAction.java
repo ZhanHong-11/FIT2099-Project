@@ -2,9 +2,8 @@ package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.skills.Skill;
 import game.weapons.SkillWeapon;
 
 /**
@@ -16,23 +15,19 @@ import game.weapons.SkillWeapon;
 public class ActivateSkillAction extends Action {
 
   /**
-   * The actor who activate the skill
-   */
-  private final Actor player;
-  /**
    * The weapon that has skill to activate
    */
   private final SkillWeapon skillWeapon;
+  private final Skill skill;
 
   /**
    * Constructs a new activate skill action with the given actor and weapon.
    *
-   * @param player      The actor who activate the skill
    * @param skillWeapon The weapon that has skill to activate
    */
-  public ActivateSkillAction(Actor player, SkillWeapon skillWeapon) {
-    this.player = player;
+  public ActivateSkillAction(SkillWeapon skillWeapon, Skill skill) {
     this.skillWeapon = skillWeapon;
+    this.skill = skill;
   }
 
   /**
@@ -44,15 +39,7 @@ public class ActivateSkillAction extends Action {
    */
   @Override
   public String execute(Actor actor, GameMap map) {
-    int staminaCostPercent = skillWeapon.activateSkill();
-    int staminaCost = Math.round(
-        player.getAttributeMaximum(BaseActorAttributes.STAMINA) * staminaCostPercent / 100f);
-    if (player.getAttribute(BaseActorAttributes.STAMINA) < staminaCost) {
-      return actor + " has insufficient stamina.";
-    }
-    player.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE,
-        staminaCost);
-    return actor + " " + skillWeapon.getSkillDescription();
+    return this.skill.activateSkill(actor, this.skillWeapon);
   }
 
   /**
@@ -63,6 +50,6 @@ public class ActivateSkillAction extends Action {
    */
   @Override
   public String menuDescription(Actor actor) {
-    return actor + " activates " + this.skillWeapon.getSkill() + " on the " + this.skillWeapon;
+    return actor + " activates " + this.skill + " on the " + this.skillWeapon;
   }
 }

@@ -13,6 +13,7 @@ import game.items.Buyable;
 import game.items.HealingVial;
 import game.items.Sellable;
 import game.skills.FocusSkill;
+import game.skills.Skill;
 import java.util.Random;
 
 /**
@@ -28,54 +29,23 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   /**
    * The default hit rate of the broadsword
    */
-  private final int defaultHitRate;
+  private static final int BASE_HIT_RATE = 80;
 
   /**
    * Constructs a new broadsword with the default attributes and skill.
    */
   public Broadsword() {
-    super("Broadsword", '1', 110, "slashes", 80, new FocusSkill());
-    this.defaultHitRate = 80;
+    super("Broadsword", '1', 110, "slashes", BASE_HIT_RATE);
+    this.addSkill(new FocusSkill());
   }
 
-  /**
-   * Activates the skill of the broadsword and returns the stamina percentage required to use it.
-   *
-   * @return The percentage of stamina required to use the skill
-   */
   @Override
-  public int activateSkill() {
-    updateHitRate(getSkill().getHitRate());
-    increaseDamageMultiplier(getSkill().getSkillDamageMultiplierPercent() / 100f);
-    return super.activateSkill();
-  }
-
-  /**
-   * Skill should only last for some turns. Decrement the number of turn left for the activated
-   * skill. When skill duration is finished, update the damage multiplier back to the default
-   * value.
-   *
-   * @param currentLocation The location of the actor carrying this weapon.
-   * @param actor           The actor carrying this weapon.
-   */
-  @Override
-  public void tick(Location currentLocation, Actor actor) {
-    super.tick(currentLocation, actor);
-    if (getSkillCountdown() == 0) {
-      updateDamageMultiplier(1.0f);
+  public void resetWeapon() {
+    this.updateHitRate(BASE_HIT_RATE);
+    this.updateDamageMultiplier(1.0f);
+    for (Skill skill: getSkills()){
+      skill.deactivateSkill(this);
     }
-  }
-
-  /**
-   * Create and return an action to pick this Item up. Resets the hit rate of the broadsword to its
-   * default value when picked up.
-   *
-   * @return A PickUpAction that allows picking up the broadsword
-   */
-  @Override
-  public PickUpAction getPickUpAction(Actor actor) {
-    updateHitRate(this.defaultHitRate);
-    return super.getPickUpAction(actor);
   }
 
   /**
@@ -100,7 +70,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   @Override
   public ActionList allowableActions(Actor owner) {
-    ActionList actionList = new ActionList();
+    ActionList actionList = super.allowableActions(owner);
     if (owner.hasCapability(Ability.TRADING)){
       actionList.add(new BuyAction(this));
     }
