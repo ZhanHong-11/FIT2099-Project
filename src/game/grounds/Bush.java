@@ -7,13 +7,13 @@ import game.actors.enemies.RedWolf;
 
 import java.util.Random;
 
-public class Bushes extends Ground {
+public class Bush extends Ground {
     private Random random = new Random();
     private static final int BASE_RED_WOLF_SPAWN_CHANCE = 30;
     /**
      * Constructor.
      */
-    public Bushes() {
+    public Bush() {
         super('m');
 
     }
@@ -23,7 +23,7 @@ public class Bushes extends Ground {
         int spawnChance = random.nextInt(100);
         if (spawnChance < BASE_RED_WOLF_SPAWN_CHANCE && !location.containsAnActor()) {
             location.addActor(new RedWolf());
-            new Display().println("a Red Wolf has spawned at " + location);
+            new Display().println("A Red Wolf has spawned at " + location);
         }
     }
 }

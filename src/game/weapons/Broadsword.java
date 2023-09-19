@@ -100,7 +100,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   @Override
   public ActionList allowableActions(Actor owner) {
-    ActionList actionList = new ActionList();
+    ActionList actionList = super.allowableActions(owner);
     if (owner.hasCapability(Ability.TRADING)){
       actionList.add(new BuyAction(this));
     }

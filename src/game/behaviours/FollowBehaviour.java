@@ -15,48 +15,30 @@ public class FollowBehaviour implements Behaviour {
     public Action getAction(Actor actor, GameMap map) {
 
         Location actorLocation = map.locationOf(actor);
-        Location targetLocation = null;
 
         for (Exit exit1 : actorLocation.getExits()) {
             Location firstDestination = exit1.getDestination();
-            if (firstDestination.containsAnActor() && firstDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                targetLocation = firstDestination;
-                break;
+            // actor's exit contains a player so prioritize attack behaviour
+            if (firstDestination.containsAnActor() && firstDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)){
+                return null;
             }
-
             for (Exit exit2 : firstDestination.getExits()) {
                 Location secondDestination = exit2.getDestination();
-                if (exit1.getName().equals(exit2.getName()) && secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                    targetLocation = secondDestination;
-                    break;
+                // follow player if one block away from actor
+                if (secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)
+                     && firstDestination.canActorEnter(actor)) {
+
+                    return new MoveActorAction(firstDestination,exit1.getName());
                 }
-            }
 
-            if (targetLocation != null) {
-                break;
+
             }
         }
-
-        if (targetLocation == null) {
-            return null;
-        }
-
-        int currentDistance = distance(actorLocation, targetLocation);
-
-        for (Exit exit : actorLocation.getExits()) {
-            Location destination = exit.getDestination();
-            if (destination.canActorEnter(actor)) {
-                int newDistance = distance(destination, targetLocation);
-                if (newDistance < currentDistance) {
-                    return new MoveActorAction(destination, exit.getName());
-                }
-            }
-        }
-
         return null;
     }
 
-    private int distance(Location a, Location b) {
-        return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());
+    private double distance(Location actorLocation, Location playerLocation){
+        return Math.sqrt(Math.pow(actorLocation.x() - playerLocation.x(),2) + Math.pow(actorLocation.y() - playerLocation.y(),2));
     }
+
 }
