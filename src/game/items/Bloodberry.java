@@ -8,7 +8,7 @@ import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
 import game.actions.ConsumeRunesAction;
 
-public class Bloodberry extends Item implements Consumable {
+public class Bloodberry extends Item implements Consumable, Sellable {
 
     /**
      * The type of attribute that is affected by consuming the bloodberry
@@ -53,5 +53,17 @@ public class Bloodberry extends Item implements Consumable {
     @Override
     public String getAttribute() {
         return Bloodberry.ATTRIBUTE;
+    }
+
+    @Override
+    public String sell(Actor actor) {
+        actor.removeItemFromInventory(this);
+        return actor + " had sold a " + this;
+    }
+
+    @Override
+    public int getSellPrice() {
+        int price = 10;
+        return price;
     }
 }
