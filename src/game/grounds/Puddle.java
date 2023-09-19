@@ -22,7 +22,7 @@ public class Puddle extends Ground {
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
         ActionList actions = super.allowableActions(actor, location, direction);
-        if (location.getActor().hasCapability(Status.HOSTILE_TO_ENEMY) && location.containsAnActor()) {
+        if (location.containsAnActor() && location.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new DrinkWaterAction());
         }
         return actions;
