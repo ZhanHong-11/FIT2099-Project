@@ -1,6 +1,7 @@
 package game.skills;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.GameMap;
 import game.weapons.SkillWeapon;
 
 /**
@@ -60,7 +61,13 @@ public abstract class Skill {
     }
   }
 
-  public abstract String activateSkill(Actor actor, SkillWeapon weapon);
+  public String activateSkill(Actor actor, SkillWeapon weapon){
+    return "";
+  }
+
+  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction){
+    return "";
+  }
 
   public void deactivateSkill(SkillWeapon weapon){}
 

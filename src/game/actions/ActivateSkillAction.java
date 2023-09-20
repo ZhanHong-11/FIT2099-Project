@@ -17,8 +17,10 @@ public class ActivateSkillAction extends Action {
   /**
    * The weapon that has skill to activate
    */
-  private final SkillWeapon skillWeapon;
-  private final Skill skill;
+  private SkillWeapon skillWeapon;
+  private Skill skill;
+  private Actor target;
+  private String direction;
 
   /**
    * Constructs a new activate skill action with the given actor and weapon.
@@ -30,6 +32,13 @@ public class ActivateSkillAction extends Action {
     this.skill = skill;
   }
 
+  public ActivateSkillAction(SkillWeapon skillWeapon, Skill skill, Actor target, String direction){
+    this.skillWeapon = skillWeapon;
+    this.skill = skill;
+    this.target = target;
+    this.direction = direction;
+  }
+
   /**
    * Executes the activating skill action and returns a string that describes what happened.
    *
@@ -39,7 +48,12 @@ public class ActivateSkillAction extends Action {
    */
   @Override
   public String execute(Actor actor, GameMap map) {
-    return this.skill.activateSkill(actor, this.skillWeapon);
+    if (target == null){
+      return this.skill.activateSkill(actor, this.skillWeapon);
+    }
+    else {
+      return this.skill.activateSkill(actor, this.skillWeapon, this.target, map, this.direction);
+    }
   }
 
   /**
@@ -50,6 +64,13 @@ public class ActivateSkillAction extends Action {
    */
   @Override
   public String menuDescription(Actor actor) {
-    return actor + " activates " + this.skill + " on the " + this.skillWeapon;
+    String result = actor + " activates " + this.skill + " on the " + this.skillWeapon;
+
+    if (target == null){
+      return result;
+    }
+    else {
+      return result + " and attack " + target + " at " + direction;
+    }
   }
 }
