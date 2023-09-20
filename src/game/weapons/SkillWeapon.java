@@ -2,13 +2,11 @@ package game.weapons;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.WeaponItem;
-import game.actions.ActivateSkillAction;
 import game.actions.AttackAction;
+import game.capabilities.Status;
 import game.skills.Skill;
-import java.util.ArrayList;
 
 /**
  * Class representing a weapon that has skill to be activated.
@@ -18,7 +16,7 @@ public abstract class SkillWeapon extends WeaponItem {
   /**
    * Skill of the weapon
    */
-  private ArrayList<Skill> skills = new ArrayList<>();
+  private Skill skill;
 
   /**
    * Constructor.
@@ -33,41 +31,12 @@ public abstract class SkillWeapon extends WeaponItem {
     super(name, displayChar, damage, verb, hitRate);
   }
 
-  public void addSkill(Skill skill){
-    this.skills.add(skill);
+  public void setSkill(Skill skill){
+    this.skill = skill;
   }
 
-  public ArrayList<Skill> getSkills() {
-    return this.skills;
-  }
-
-  /**
-   * Skill should only last for some turns. Decrement the number of turns left for the activated
-   * skill
-   *
-   * @param currentLocation The location of the actor carrying this weapon.
-   * @param actor           The actor carrying this weapon.
-   */
-  @Override
-  public void tick(Location currentLocation, Actor actor) {
-    for (Skill skill: skills){
-      skill.tickSkill(this);
-    }
-  }
-
-  @Override
-  public PickUpAction getPickUpAction(Actor actor) {
-    resetWeapon();
-    return super.getPickUpAction(actor);
-  }
-
-  @Override
-  public ActionList allowableActions(Actor owner) {
-    ActionList actions = super.allowableActions(owner);
-    for (Skill skill: skills){
-      actions.add(new ActivateSkillAction(this, skill));
-    }
-    return actions;
+  public Skill getSkill() {
+    return this.skill;
   }
 
   /**
@@ -81,7 +50,9 @@ public abstract class SkillWeapon extends WeaponItem {
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
     ActionList actions = super.allowableActions(otherActor, location);
-    actions.add(new AttackAction(otherActor, location.toString(), this));
+    if (!otherActor.hasCapability(Status.NEUTRAL)){
+      actions.add(new AttackAction(otherActor, location.toString(), this));
+    }
     return actions;
   }
 

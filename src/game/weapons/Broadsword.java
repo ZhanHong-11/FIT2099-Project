@@ -4,16 +4,13 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.AttackAction;
+import game.actions.ActivateSkillAction;
 import game.actions.BuyAction;
-import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.items.Buyable;
-import game.items.HealingVial;
 import game.items.Sellable;
 import game.skills.FocusSkill;
-import game.skills.Skill;
 import java.util.Random;
 
 /**
@@ -36,16 +33,14 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
    */
   public Broadsword() {
     super("Broadsword", '1', 110, "slashes", BASE_HIT_RATE);
-    this.addSkill(new FocusSkill());
+    this.setSkill(new FocusSkill());
   }
 
   @Override
   public void resetWeapon() {
     this.updateHitRate(BASE_HIT_RATE);
     this.updateDamageMultiplier(1.0f);
-    for (Skill skill: getSkills()){
-      skill.deactivateSkill(this);
-    }
+    getSkill().deactivateSkill(this);
   }
 
   /**
@@ -58,11 +53,8 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
    */
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
-    ActionList actions = new ActionList();
-    if (!otherActor.hasCapability(Ability.TRADING)){
-      actions.add(new AttackAction(otherActor, location.toString(), this));
-    }
-    else {
+    ActionList actions = super.allowableActions(otherActor, location);
+    if (otherActor.hasCapability(Ability.TRADING)){
       actions.add(new SellAction(this));
     }
     return actions;
@@ -74,7 +66,28 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
     if (owner.hasCapability(Ability.TRADING)){
       actionList.add(new BuyAction(this));
     }
+    else {
+      actionList.add(new ActivateSkillAction(this, getSkill()));
+    }
     return actionList;
+  }
+
+  @Override
+  public PickUpAction getPickUpAction(Actor actor) {
+    resetWeapon();
+    return super.getPickUpAction(actor);
+  }
+
+  /**
+   * Skill should only last for some turns. Decrement the number of turns left for the activated
+   * skill
+   *
+   * @param currentLocation The location of the actor carrying this weapon.
+   * @param actor           The actor carrying this weapon.
+   */
+  @Override
+  public void tick(Location currentLocation, Actor actor) {
+    getSkill().tickSkill(this);
   }
 
   @Override
