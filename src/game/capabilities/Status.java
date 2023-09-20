@@ -8,5 +8,6 @@ package game.capabilities;
  */
 public enum Status {
     HOSTILE_TO_ENEMY,
-    DANGER
+    DANGER,
+    NEUTRAL
 }

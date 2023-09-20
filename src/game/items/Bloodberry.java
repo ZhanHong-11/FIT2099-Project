@@ -5,8 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
-import game.actions.ConsumeRunesAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
 
 public class Bloodberry extends Item implements Consumable, Sellable {
 
@@ -32,6 +34,15 @@ public class Bloodberry extends Item implements Consumable, Sellable {
     public ActionList allowableActions(Actor owner) {
         ActionList actions = new ActionList();
         actions.add(new ConsumeAction(this));
+        return actions;
+    }
+
+    @Override
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = super.allowableActions(otherActor, location);
+        if (otherActor.hasCapability(Ability.TRADING)){
+            actions.add(new SellAction(this));
+        }
         return actions;
     }
 

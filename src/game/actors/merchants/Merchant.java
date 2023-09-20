@@ -8,11 +8,13 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.capabilities.Ability;
+import game.capabilities.Status;
 
 public abstract class Merchant extends Actor {
 
   public Merchant(String name, char displayChar) {
     super(name, displayChar, 999);
+    this.addCapability(Status.NEUTRAL);
     this.addCapability(Ability.TRADING);
   }
 
