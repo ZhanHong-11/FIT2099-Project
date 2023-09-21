@@ -1,6 +1,7 @@
 package game.items;
 
 import edu.monash.fit2099.engine.items.Item;
+import game.capabilities.Ability;
 
 /**
  * A subclass of Item that represents an old key. An old key is a portable item that can be used to
@@ -16,5 +17,6 @@ public class Key extends Item {
    */
   public Key() {
     super("Old Key", '-', true);
+    this.addCapability(Ability.UNLOCK);
   }
 }

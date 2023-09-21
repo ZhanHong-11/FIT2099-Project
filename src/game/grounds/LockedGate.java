@@ -26,13 +26,13 @@ public class LockedGate extends Ground implements Unlockable {
    */
   private Action travelAction;
 
-  /**
-   * Constructs a new locked gate with the default display character and state.
-   */
-  public LockedGate() {
-    super('=');
-    this.isLocked = true;
-  }
+//  /**
+//   * Constructs a new locked gate with the default display character and state.
+//   */
+//  public LockedGate() {
+//    super('=');
+//    this.isLocked = true;
+//  }
 
   /**
    * Constructs a new locked gate with the given travel action and the default display character and
