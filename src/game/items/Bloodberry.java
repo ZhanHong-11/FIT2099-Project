@@ -5,10 +5,12 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
-import game.actions.ConsumeRunesAction;
+import game.actions.SellAction;
+import game.capabilities.Ability;
 
-public class Bloodberry extends Item implements Consumable {
+public class Bloodberry extends Item implements Consumable, Sellable {
 
     /**
      * The type of attribute that is affected by consuming the bloodberry
@@ -35,6 +37,15 @@ public class Bloodberry extends Item implements Consumable {
         return actions;
     }
 
+    @Override
+    public ActionList allowableActions(Actor otherActor, Location location) {
+        ActionList actions = super.allowableActions(otherActor, location);
+        if (otherActor.hasCapability(Ability.TRADING)){
+            actions.add(new SellAction(this));
+        }
+        return actions;
+    }
+
     /**
      * Consumes the blood berry and returns the amount of maximum health gained by the actor.
      * the blood berry increases the actor's maximum health by 5 points and is removed once it is consumed.
@@ -53,5 +64,17 @@ public class Bloodberry extends Item implements Consumable {
     @Override
     public String getAttribute() {
         return Bloodberry.ATTRIBUTE;
+    }
+
+    @Override
+    public String sell(Actor actor) {
+        actor.removeItemFromInventory(this);
+        return actor + " had sold a " + this;
+    }
+
+    @Override
+    public int getSellPrice() {
+        int price = 10;
+        return price;
     }
 }

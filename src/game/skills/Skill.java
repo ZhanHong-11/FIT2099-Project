@@ -1,5 +1,9 @@
 package game.skills;
 
+import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.GameMap;
+import game.weapons.SkillWeapon;
+
 /**
  * An abstract class that represents a skill that can be used by a game character. Subclasses of
  * this class should implement the specific logic of how the skill is executed and what effects it
@@ -17,37 +21,18 @@ public abstract class Skill {
    * The percentage of stamina required to use the skill
    */
   private final int skillStaminaPercent;
-  /**
-   * The duration of the skill in turns
-   */
-  private final int skillDuration;
-  /**
-   * The percentage of damage multiplier increase when using the skill
-   */
-  private final int skillDamageMultiplierPercent;
-  /**
-   * The probability of hitting the target when using the skill
-   */
-  private final int hitRate;
+  private int skillCountdown;
 
   /**
    * Constructs a new skill with the given attributes.
    *
    * @param skillName                    The name of the skill
    * @param skillStaminaPercent          The percentage of stamina required to use the skill
-   * @param skillDuration                The duration of the skill in turns
-   * @param skillDamageMultiplierPercent The percentage of damage multiplier increase when using the
-   *                                     skill
-   * @param hitRate                      The probability of hitting the target when using the skill
    */
-  public Skill(String skillName, int skillStaminaPercent, int skillDuration,
-      int skillDamageMultiplierPercent,
-      int hitRate) {
+  public Skill(String skillName, int skillStaminaPercent) {
     this.skillName = skillName;
     this.skillStaminaPercent = skillStaminaPercent;
-    this.skillDuration = skillDuration;
-    this.skillDamageMultiplierPercent = skillDamageMultiplierPercent;
-    this.hitRate = hitRate;
+    this.skillCountdown = 0;
   }
 
   /**
@@ -59,32 +44,32 @@ public abstract class Skill {
     return this.skillStaminaPercent;
   }
 
-  /**
-   * Returns the duration of the skill in turns.
-   *
-   * @return The duration of the skill in turns
-   */
-  public int getSkillDuration() {
-    return this.skillDuration;
+  public int getSkillCountdown() {
+    return this.skillCountdown;
   }
 
-  /**
-   * Returns the percentage of damage multiplier increase when using the skill.
-   *
-   * @return The percentage of damage multiplier increase when using the skill
-   */
-  public int getSkillDamageMultiplierPercent() {
-    return this.skillDamageMultiplierPercent;
+  public void setSkillCountdown(int skillCountdown) {
+    this.skillCountdown = skillCountdown;
   }
 
-  /**
-   * Returns the probability of hitting the target when using the skill.
-   *
-   * @return The probability of hitting the target when using the skill
-   */
-  public int getHitRate() {
-    return this.hitRate;
+  public void tickSkill(SkillWeapon weapon){
+    if (this.skillCountdown > 0){
+      this.skillCountdown--;
+    }
+    if (this.skillCountdown == 0){
+      deactivateSkill(weapon);
+    }
   }
+
+  public String activateSkill(Actor actor, SkillWeapon weapon){
+    return "";
+  }
+
+  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction){
+    return "";
+  }
+
+  public void deactivateSkill(SkillWeapon weapon){}
 
   /**
    * Return a description of the skill. This is for showing a description after the player activated

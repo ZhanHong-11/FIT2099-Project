@@ -44,18 +44,18 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    if (!owner.hasCapability(Ability.TRADING)){
-      actionList.add(new ConsumeAction(this));
+    if (owner.hasCapability(Ability.TRADING)){
+      actionList.add(new BuyAction(this));
     }
     else {
-      actionList.add(new BuyAction(this));
+      actionList.add(new ConsumeAction(this));
     }
     return actionList;
   }
 
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
-    ActionList actions = new ActionList();
+    ActionList actions = super.allowableActions(otherActor, location);
     if (otherActor.hasCapability(Ability.TRADING)){
       actions.add(new SellAction(this));
     }

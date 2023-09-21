@@ -4,13 +4,11 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.AttackAction;
+import game.actions.ActivateSkillAction;
 import game.actions.BuyAction;
-import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.items.Buyable;
-import game.items.HealingVial;
 import game.items.Sellable;
 import game.skills.FocusSkill;
 import java.util.Random;
@@ -28,54 +26,21 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   /**
    * The default hit rate of the broadsword
    */
-  private final int defaultHitRate;
+  private static final int BASE_HIT_RATE = 80;
 
   /**
    * Constructs a new broadsword with the default attributes and skill.
    */
   public Broadsword() {
-    super("Broadsword", '1', 110, "slashes", 80, new FocusSkill());
-    this.defaultHitRate = 80;
+    super("Broadsword", '1', 110, "slashes", BASE_HIT_RATE);
+    this.setSkill(new FocusSkill());
   }
 
-  /**
-   * Activates the skill of the broadsword and returns the stamina percentage required to use it.
-   *
-   * @return The percentage of stamina required to use the skill
-   */
   @Override
-  public int activateSkill() {
-    updateHitRate(getSkill().getHitRate());
-    increaseDamageMultiplier(getSkill().getSkillDamageMultiplierPercent() / 100f);
-    return super.activateSkill();
-  }
-
-  /**
-   * Skill should only last for some turns. Decrement the number of turn left for the activated
-   * skill. When skill duration is finished, update the damage multiplier back to the default
-   * value.
-   *
-   * @param currentLocation The location of the actor carrying this weapon.
-   * @param actor           The actor carrying this weapon.
-   */
-  @Override
-  public void tick(Location currentLocation, Actor actor) {
-    super.tick(currentLocation, actor);
-    if (getSkillCountdown() == 0) {
-      updateDamageMultiplier(1.0f);
-    }
-  }
-
-  /**
-   * Create and return an action to pick this Item up. Resets the hit rate of the broadsword to its
-   * default value when picked up.
-   *
-   * @return A PickUpAction that allows picking up the broadsword
-   */
-  @Override
-  public PickUpAction getPickUpAction(Actor actor) {
-    updateHitRate(this.defaultHitRate);
-    return super.getPickUpAction(actor);
+  public void resetWeapon() {
+    this.updateHitRate(BASE_HIT_RATE);
+    this.updateDamageMultiplier(1.0f);
+    getSkill().deactivateSkill(this);
   }
 
   /**
@@ -88,11 +53,8 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
    */
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
-    ActionList actions = new ActionList();
-    if (!otherActor.hasCapability(Ability.TRADING)){
-      actions.add(new AttackAction(otherActor, location.toString(), this));
-    }
-    else {
+    ActionList actions = super.allowableActions(otherActor, location);
+    if (otherActor.hasCapability(Ability.TRADING)){
       actions.add(new SellAction(this));
     }
     return actions;
@@ -104,7 +66,28 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
     if (owner.hasCapability(Ability.TRADING)){
       actionList.add(new BuyAction(this));
     }
+    else {
+      actionList.add(new ActivateSkillAction(this, getSkill()));
+    }
     return actionList;
+  }
+
+  @Override
+  public PickUpAction getPickUpAction(Actor actor) {
+    resetWeapon();
+    return super.getPickUpAction(actor);
+  }
+
+  /**
+   * Skill should only last for some turns. Decrement the number of turns left for the activated
+   * skill
+   *
+   * @param currentLocation The location of the actor carrying this weapon.
+   * @param actor           The actor carrying this weapon.
+   */
+  @Override
+  public void tick(Location currentLocation, Actor actor) {
+    getSkill().tickSkill(this);
   }
 
   @Override
