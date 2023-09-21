@@ -10,35 +10,43 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Status;
 
 public class FollowBehaviour implements Behaviour {
+    private Actor target;
+    public FollowBehaviour(Actor target) {
+        this.target = target;
+
+    }
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
+        if(!map.contains(target) || !map.contains(actor)) {
+            return null;
+        }
 
-        Location actorLocation = map.locationOf(actor);
+        Location here = map.locationOf(actor);
+        Location there = map.locationOf(target);
 
-        for (Exit exit1 : actorLocation.getExits()) {
-            Location firstDestination = exit1.getDestination();
-            // actor's exit contains a player so prioritize attack behaviour
-            if (firstDestination.containsAnActor() && firstDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)){
-                return null;
-            }
-            for (Exit exit2 : firstDestination.getExits()) {
-                Location secondDestination = exit2.getDestination();
-                // follow player if one block away from actor
-                if (secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)
-                     && firstDestination.canActorEnter(actor)) {
-
-                    return new MoveActorAction(firstDestination,exit1.getName());
+        int currentDistance = distance(here, there);
+        for (Exit exit : here.getExits()) {
+            Location destination = exit.getDestination();
+            if (destination.canActorEnter(actor)) {
+                int newDistance = distance(destination, there);
+                if (newDistance < currentDistance) {
+                    return new MoveActorAction(destination, exit.getName());
                 }
-
-
             }
         }
+
         return null;
     }
 
-    private double distance(Location actorLocation, Location playerLocation){
-        return Math.sqrt(Math.pow(actorLocation.x() - playerLocation.x(),2) + Math.pow(actorLocation.y() - playerLocation.y(),2));
+    /**
+     * Compute the Manhattan distance between two locations.
+     *
+     * @param a the first location
+     * @param b the first location
+     * @return the number of steps between a and b if you only move in the four cardinal directions.
+     */
+    private int distance(Location a, Location b) {
+        return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());
     }
-
 }
