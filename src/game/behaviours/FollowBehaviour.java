@@ -10,43 +10,26 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Status;
 
 public class FollowBehaviour implements Behaviour {
+    private Actor target;
+    public FollowBehaviour(Actor target) {
+        this.target = target;
+
+    }
 
     @Override
     public Action getAction(Actor actor, GameMap map) {
-
-        Location actorLocation = map.locationOf(actor);
-        Location targetLocation = null;
-
-        for (Exit exit1 : actorLocation.getExits()) {
-            Location firstDestination = exit1.getDestination();
-            if (firstDestination.containsAnActor() && firstDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                targetLocation = firstDestination;
-                break;
-            }
-
-            for (Exit exit2 : firstDestination.getExits()) {
-                Location secondDestination = exit2.getDestination();
-                if (exit1.getName().equals(exit2.getName()) && secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
-                    targetLocation = secondDestination;
-                    break;
-                }
-            }
-
-            if (targetLocation != null) {
-                break;
-            }
-        }
-
-        if (targetLocation == null) {
+        if(!map.contains(target) || !map.contains(actor)) {
             return null;
         }
 
-        int currentDistance = distance(actorLocation, targetLocation);
+        Location here = map.locationOf(actor);
+        Location there = map.locationOf(target);
 
-        for (Exit exit : actorLocation.getExits()) {
+        int currentDistance = distance(here, there);
+        for (Exit exit : here.getExits()) {
             Location destination = exit.getDestination();
             if (destination.canActorEnter(actor)) {
-                int newDistance = distance(destination, targetLocation);
+                int newDistance = distance(destination, there);
                 if (newDistance < currentDistance) {
                     return new MoveActorAction(destination, exit.getName());
                 }
@@ -56,6 +39,13 @@ public class FollowBehaviour implements Behaviour {
         return null;
     }
 
+    /**
+     * Compute the Manhattan distance between two locations.
+     *
+     * @param a the first location
+     * @param b the first location
+     * @return the number of steps between a and b if you only move in the four cardinal directions.
+     */
     private int distance(Location a, Location b) {
         return Math.abs(a.x() - b.x()) + Math.abs(a.y() - b.y());
     }

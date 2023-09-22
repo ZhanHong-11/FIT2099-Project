@@ -27,7 +27,7 @@ public abstract class Enemy extends Actor implements Droppable {
   /**
    * A map of behaviours that the enemy can perform, with key as the priority
    */
-  private Map<Integer, Behaviour> behaviours = new HashMap<>();
+  protected Map<Integer, Behaviour> behaviours = new HashMap<>();
 
   /**
    * Constructs a new enemy with the given name, display character, and hit points. The enemy also
