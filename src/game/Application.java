@@ -3,13 +3,24 @@ package game;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
 import game.actors.enemies.WanderingUndead;
+import game.actors.spawners.ForestKeeperFactory;
+import game.actors.spawners.HollowSoldierFactory;
+import game.actors.spawners.RedWolfFactory;
+import game.actors.spawners.WanderingUndeadFactory;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
 import game.gamemaps.AbxervyerBattleMap;
 import game.gamemaps.AncientWoods;
 import game.gamemaps.BurialGround;
-import game.grounds.*;
+import game.grounds.Dirt;
+import game.grounds.Floor;
+import game.grounds.LockedGate;
+import game.grounds.Puddle;
 import game.grounds.Void;
+import game.grounds.Wall;
+import game.grounds.spawnlocation.Bush;
+import game.grounds.spawnlocation.Graveyard;
+import game.grounds.spawnlocation.Hut;
 import game.weapons.Broadsword;
 
 import edu.monash.fit2099.engine.displays.Display;
@@ -20,8 +31,7 @@ import edu.monash.fit2099.engine.positions.World;
 /**
  * The main class to start the game. Created by:
  *
- * @author Adrian Kristanto
- * Modified by: Soo Zhan Hong
+ * @author Adrian Kristanto Modified by: Soo Zhan Hong
  */
 public class Application {
 
@@ -30,7 +40,7 @@ public class Application {
     World world = new World(new Display());
 
     FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(),
-        new Wall(), new Floor(), new Puddle(), new Void(), new Graveyard(), new LockedGate(), new Hut(), new Bushes());
+        new Wall(), new Floor(), new Puddle(), new Void());
 
     GameMap abandonedVillage = new AbandonedVillage(groundFactory);
     world.addGameMap(abandonedVillage);
@@ -56,17 +66,22 @@ public class Application {
 
     abandonedVillage.at(23, 10).addActor(new WanderingUndead());
     abandonedVillage.at(28, 6).addItem(new Broadsword());
-    abandonedVillage.at(4, 3).setGround(
-        new LockedGate(new MoveActorAction(burialGround.at(22, 7), "to the Burial Grounds!")));
+    abandonedVillage.at(40, 2).setGround(new Graveyard(new WanderingUndeadFactory()));
+    abandonedVillage.at(4, 3).setGround(new LockedGate(
+        new MoveActorAction(burialGround.at(22, 7), "to the Burial Grounds!")));
 
+    burialGround.at(7, 3).setGround(new Graveyard(new HollowSoldierFactory()));
     burialGround.at(22, 6).setGround(new LockedGate(
         new MoveActorAction(abandonedVillage.at(5, 3), "to the Abandoned Village!")));
+    burialGround.at(0, 8).setGround(new LockedGate(
+        new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
-    burialGround.at(0, 8).setGround(
-            new LockedGate(new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
-
+    ancientWoods.at(10, 1).setGround(new Bush(new RedWolfFactory()));
+    ancientWoods.at(31, 10).setGround(new Bush(new RedWolfFactory()));
+    ancientWoods.at(43, 3).setGround(new Hut(new ForestKeeperFactory()));
+    ancientWoods.at(6, 6).setGround(new Hut(new ForestKeeperFactory()));
     ancientWoods.at(0, 7).setGround(new LockedGate(
-            new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
+        new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
 
     ancientWoods.at(55, 0).setGround(
             new LockedGate(new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));

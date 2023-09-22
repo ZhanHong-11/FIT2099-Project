@@ -6,5 +6,6 @@ package game.capabilities;
  */
 public enum Ability {
   IMMUNE_TO_VOID,
+  UNLOCK,
   TRADING
 }
