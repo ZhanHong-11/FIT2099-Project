@@ -55,10 +55,10 @@ public class Bloodberry extends Item implements Consumable, Sellable {
      */
     @Override
     public int consume(Actor actor) {
-        int value = 5;
-        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, value);
+        int healthRecovery = 5;
+        actor.heal(healthRecovery);
         actor.removeItemFromInventory(this);
-        return value;
+        return healthRecovery;
     }
 
     @Override
