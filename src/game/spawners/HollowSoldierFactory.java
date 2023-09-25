@@ -1,27 +1,27 @@
-package game.actors.spawners;
+package game.spawners;
 
 import game.actors.enemies.Enemy;
-import game.actors.enemies.WanderingUndead;
+import game.actors.enemies.HollowSoldier;
 import java.util.Random;
 
-public class WanderingUndeadFactory implements EnemyFactory{
+public class HollowSoldierFactory implements EnemyFactory{
   private Random random = new Random();
-  private static final int BASE_SPAWN_RATE = 25;
+  private static final int BASE_SPAWN_RATE = 10;
 
   private int spawningRate;
 
-  public WanderingUndeadFactory(){
+  public HollowSoldierFactory(){
     this.spawningRate = BASE_SPAWN_RATE;
   }
 
-  public WanderingUndeadFactory(int spawningRate){
+  public HollowSoldierFactory(int spawningRate){
     this.spawningRate = spawningRate;
   }
 
   @Override
   public Enemy spawnEnemy() {
     if (random.nextInt(100) < spawningRate){
-      return new WanderingUndead();
+      return new HollowSoldier();
     }
     return null;
   }

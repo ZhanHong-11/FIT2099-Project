@@ -1,4 +1,4 @@
-package game.actors.spawners;
+package game.spawners;
 
 import game.actors.enemies.Enemy;
 import game.actors.enemies.ForestKeeper;

@@ -1,6 +1,6 @@
 package game.grounds.spawnlocation;
 
-import game.actors.spawners.EnemyFactory;
+import game.spawners.EnemyFactory;
 
 public class Bush extends SpawnGround {
 
