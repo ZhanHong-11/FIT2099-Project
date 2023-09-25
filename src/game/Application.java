@@ -3,10 +3,11 @@ package game;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
 import game.actors.enemies.WanderingUndead;
-import game.actors.spawners.ForestKeeperFactory;
-import game.actors.spawners.HollowSoldierFactory;
-import game.actors.spawners.RedWolfFactory;
-import game.actors.spawners.WanderingUndeadFactory;
+import game.items.Bloodberry;
+import game.spawners.ForestKeeperFactory;
+import game.spawners.HollowSoldierFactory;
+import game.spawners.RedWolfFactory;
+import game.spawners.WanderingUndeadFactory;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
 import game.gamemaps.AbxervyerBattleMap;
@@ -76,15 +77,19 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
+    ancientWoods.at(7, 7).addItem(new Bloodberry());
     ancientWoods.at(10, 1).setGround(new Bush(new RedWolfFactory()));
     ancientWoods.at(31, 10).setGround(new Bush(new RedWolfFactory()));
     ancientWoods.at(43, 3).setGround(new Hut(new ForestKeeperFactory()));
     ancientWoods.at(6, 6).setGround(new Hut(new ForestKeeperFactory()));
     ancientWoods.at(0, 7).setGround(new LockedGate(
         new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
-
     ancientWoods.at(55, 0).setGround(
             new LockedGate(new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));
+
+    abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory()));
+    abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory()));
+    abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory()));
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
     world.addPlayer(player, abandonedVillage.at(29, 5));
