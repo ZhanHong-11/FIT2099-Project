@@ -37,9 +37,7 @@ public class ConsumeAction extends Action {
    */
   @Override
   public String execute(Actor actor, GameMap map) {
-    int recoveryPoints = this.consumableItem.consume(actor);
-    return actor + " restores the " + consumableItem.getAttribute() + " by " + recoveryPoints
-        + " points.";
+    return this.consumableItem.consume(actor);
   }
 
   /**

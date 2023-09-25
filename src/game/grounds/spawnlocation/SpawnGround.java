@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
-import game.actors.spawners.EnemyFactory;
+import game.spawners.EnemyFactory;
 import java.util.List;
 
 public abstract class SpawnGround extends Ground {

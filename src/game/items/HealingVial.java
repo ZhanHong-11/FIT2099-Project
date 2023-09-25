@@ -1,6 +1,5 @@
 package game.items;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
@@ -22,11 +21,6 @@ import java.util.Random;
  */
 public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   private Random random = new Random();
-
-  /**
-   * The type of attribute that is affected by consuming the healing vial
-   */
-  private final static String ATTRIBUTE = "health";
 
   /**
    * Constructs a new healing vial with the default attributes.
@@ -70,21 +64,11 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
    * @return The amount of health gained by the actor
    */
   @Override
-  public int consume(Actor actor) {
+  public String consume(Actor actor) {
     int healthRecovery = Math.round(actor.getAttributeMaximum(BaseActorAttributes.HEALTH) / 10f);
     actor.heal(healthRecovery);
     actor.removeItemFromInventory(this);
-    return healthRecovery;
-  }
-
-  /**
-   * Returns the type of attribute that is affected by consuming the healing vial.
-   *
-   * @return The type of attribute that is affected by consuming the healing vial
-   */
-  @Override
-  public String getAttribute() {
-    return HealingVial.ATTRIBUTE;
+    return actor + " restores the health by " + healthRecovery + " points.";
   }
 
   @Override

@@ -24,11 +24,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   private Random random = new Random();
 
   /**
-   * The type of attribute that is affected by consuming the refreshing flask
-   */
-  private final static String ATTRIBUTE = "stamina";
-
-  /**
    * Constructs a new refreshing flask with the default attributes.
    */
   public RefreshingFlask() {
@@ -71,22 +66,12 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
    * @return The amount of stamina gained by the actor
    */
   @Override
-  public int consume(Actor actor) {
+  public String consume(Actor actor) {
     int staminaRecovery = Math.round(actor.getAttributeMaximum(BaseActorAttributes.STAMINA) / 5f);
     actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE,
         staminaRecovery);
     actor.removeItemFromInventory(this);
-    return staminaRecovery;
-  }
-
-  /**
-   * Returns the type of attribute that is affected by consuming the refreshing flask.
-   *
-   * @return The type of attribute that is affected by consuming the refreshing flask
-   */
-  @Override
-  public String getAttribute() {
-    return RefreshingFlask.ATTRIBUTE;
+    return actor + " restores the stamina by " + staminaRecovery + " points.";
   }
 
   @Override

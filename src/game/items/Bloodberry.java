@@ -2,8 +2,6 @@ package game.items;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
@@ -11,11 +9,6 @@ import game.actions.SellAction;
 import game.capabilities.Ability;
 
 public class Bloodberry extends Item implements Consumable, Sellable {
-
-    /**
-     * The type of attribute that is affected by consuming the bloodberry
-     */
-    private final static String ATTRIBUTE = "maximum health";
 
     /**
      * Constructs a new blood berry with the default attributes.
@@ -54,16 +47,11 @@ public class Bloodberry extends Item implements Consumable, Sellable {
      * @return The amount of maximum health increased by the actor
      */
     @Override
-    public int consume(Actor actor) {
-        int value = 5;
-        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, value);
+    public String consume(Actor actor) {
+        int healthRecovery = 5;
+        actor.heal(healthRecovery);
         actor.removeItemFromInventory(this);
-        return value;
-    }
-
-    @Override
-    public String getAttribute() {
-        return Bloodberry.ATTRIBUTE;
+        return actor + " restores the health by " + healthRecovery + " points.";
     }
 
     @Override
