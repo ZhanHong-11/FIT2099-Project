@@ -17,13 +17,5 @@ public interface Consumable {
    * @param actor The actor who consumes the item
    * @return the effect of the consumable item
    */
-  int consume(Actor actor);
-
-  /**
-   * Returns the attribute that is affected by consuming the item. For example, health, stamina,
-   * etc.
-   *
-   * @return The type of the attribute, such as 'health', 'stamina', etc.
-   */
-  String getAttribute();
+  String consume(Actor actor);
 }
