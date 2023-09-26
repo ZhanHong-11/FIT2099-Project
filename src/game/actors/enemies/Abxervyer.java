@@ -63,6 +63,7 @@ public class Abxervyer extends Enemy{
 
   public void drop(GameMap map) {
     Location location = map.locationOf(this);
+    // drop 5000 runes onto ground upon death
     map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
 
 
