@@ -66,9 +66,6 @@ public class Abxervyer extends Enemy{
     // drop 5000 runes onto ground upon death
     map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
 
-
-    }
-
   }
   @Override
   public String unconscious(Actor actor, GameMap map) {
