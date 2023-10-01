@@ -6,8 +6,12 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.FollowBehaviour;
+import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
@@ -27,7 +31,7 @@ public abstract class Enemy extends Actor implements Droppable {
   /**
    * A map of behaviours that the enemy can perform, with key as the priority
    */
-  protected Map<Integer, Behaviour> behaviours = new HashMap<>();
+  private Map<Integer, Behaviour> behaviours = new HashMap<>();
 
   /**
    * Constructs a new enemy with the given name, display character, and hit points. The enemy also
@@ -44,10 +48,6 @@ public abstract class Enemy extends Actor implements Droppable {
     this.addCapability(Status.DANGER);
   }
 
-  protected void addBehaviour(Behaviour newBehaviour) {
-    this.behaviours.put(0, newBehaviour);
-  }
-
   /**
    * At each turn, select a valid action to perform.
    *
@@ -61,6 +61,9 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+    if (this.hasCapability(Ability.FOLLOW)){
+      addFollowBehaviour(map);
+    }
     for (Behaviour behaviour : behaviours.values()) {
       Action action = behaviour.getAction(this, map);
       if (action != null) {
@@ -68,6 +71,18 @@ public abstract class Enemy extends Actor implements Droppable {
       }
     }
     return new DoNothingAction();
+  }
+
+  private void addFollowBehaviour(GameMap map){
+    for (Exit exit : map.locationOf(this).getExits()) {
+      Location firstDestination = exit.getDestination();
+      for (Exit exitTwo : firstDestination.getExits()) {
+        Location secondDestination = exitTwo.getDestination();
+        if (secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+          this.behaviours.put(500, new FollowBehaviour(secondDestination.getActor()));
+        }
+      }
+    }
   }
 
   /**

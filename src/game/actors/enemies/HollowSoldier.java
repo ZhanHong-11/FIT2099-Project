@@ -3,7 +3,6 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 import game.items.Runes;
@@ -30,7 +29,6 @@ public class HollowSoldier extends Enemy {
    */
   public HollowSoldier() {
     super("Hollow Soldier", '&', BASE_HIT_POINTS);
-    this.addCapability(Ability.IMMUNE_TO_VOID);
   }
 
   /**
