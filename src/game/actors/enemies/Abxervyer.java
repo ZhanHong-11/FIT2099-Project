@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.items.Runes;
-import java.util.Random;
 
 public class Abxervyer extends Enemy{
   private static final int BASE_INTRINSIC_WEAPON_DAMAGE = 80;
