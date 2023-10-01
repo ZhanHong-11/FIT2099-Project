@@ -11,7 +11,7 @@ import game.spawners.WanderingUndeadFactory;
 import game.display.FancyMessage;
 import game.gamemaps.AbandonedVillage;
 import game.gamemaps.AbxervyerBattleMap;
-import game.gamemaps.AncientWoods;
+import game.gamemaps.AncientWood;
 import game.gamemaps.BurialGround;
 import game.grounds.Dirt;
 import game.grounds.Floor;
@@ -50,7 +50,7 @@ public class Application {
     world.addGameMap(burialGround);
 
     // REQ1: The Ancient Woods map
-    GameMap ancientWoods = new AncientWoods(groundFactory);
+    GameMap ancientWoods = new AncientWood(groundFactory);
     world.addGameMap(ancientWoods);
 
     GameMap abxervyerBattleMap = new AbxervyerBattleMap(groundFactory);
