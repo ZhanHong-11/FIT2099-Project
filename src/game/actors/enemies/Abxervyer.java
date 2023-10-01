@@ -3,7 +3,6 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
-import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.Behaviour;
 import edu.monash.fit2099.engine.displays.Display;
@@ -13,8 +12,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Status;
-import game.grounds.LockedGate;
-import game.items.Runes;
+import game.items.Rune;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -64,7 +62,7 @@ public class Abxervyer extends Enemy{
   public void drop(GameMap map) {
     Location location = map.locationOf(this);
     // drop 5000 runes onto ground upon death
-    map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
+    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
 
   }
   @Override
