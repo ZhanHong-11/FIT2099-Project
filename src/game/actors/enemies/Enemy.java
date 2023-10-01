@@ -86,7 +86,7 @@ public abstract class Enemy extends Actor implements Droppable {
   }
 
   /**
-   * The enemy can attack any player or actor that has the Status.HOSTILE_TO_ENEMY capability
+   * Any player or actor that has the Status.HOSTILE_TO_ENEMY capability can attack this actor
    *
    * @param otherActor the Actor that might be performing attack
    * @param direction  String representing the direction of the other Actor
