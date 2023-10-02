@@ -5,11 +5,11 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import game.actions.ConsumeAction;
 
-public class Runes extends Item implements Consumable {
+public class Rune extends Item implements Consumable {
     private final int value; // Amount of runes
 
-     public Runes(int value) {
-         super("Runes", '$', true);
+     public Rune(int value) {
+         super("Rune", '$', true);
          this.value = value;
      }
 

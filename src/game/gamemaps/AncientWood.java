@@ -12,7 +12,7 @@ import java.util.List;
  * @author Alvin Andrean
  * @see GameMap
  */
-public class AncientWoods extends GameMap {
+public class AncientWood extends GameMap {
     private static final List<String> MAP = Arrays.asList(
             "....+++..............................+++++++++....~~~....~~~",
             "+...+++..............................++++++++.....~~~.....~~",
@@ -27,7 +27,7 @@ public class AncientWoods extends GameMap {
             "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
             "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
-    public AncientWoods(GroundFactory groundFactory) {
-      super(groundFactory, AncientWoods.MAP);
+    public AncientWood(GroundFactory groundFactory) {
+      super(groundFactory, AncientWood.MAP);
     }
 }
