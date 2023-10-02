@@ -1,9 +1,13 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 
@@ -26,9 +30,15 @@ public class RedWolf extends Enemy {
 
     @Override
     public IntrinsicWeapon getIntrinsicWeapon() {
-        return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
+        if (!this.hasCapability(Status.SUNNY_BUFF)){
+            return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
+        }
+        else {
+            return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE * 3, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
+        }
     }
 
+    @Override
     public void drop(GameMap map) {
         int num = random.nextInt(10);
         Location location = map.locationOf(this);
@@ -36,7 +46,6 @@ public class RedWolf extends Enemy {
         if (num < 1) {
             map.at(location.x(), location.y()).addItem(new HealingVial());
         }
-
     }
 
 }

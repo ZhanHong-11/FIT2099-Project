@@ -1,9 +1,13 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.items.HealingVial;
 import game.items.Runes;
 
@@ -37,7 +41,13 @@ public class ForestKeeper extends Enemy {
         if (num < 2) {
             map.at(location.x(), location.y()).addItem(new HealingVial());
         }
-
     }
 
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if (this.hasCapability(Status.RAINY_BUFF)){
+            heal(10);
+        }
+        return super.playTurn(actions, lastAction, map, display);
+    }
 }
