@@ -99,6 +99,7 @@ public class Application {
     abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
+    world.addPlayer(player, abandonedVillage.at(29, 5));
 
     world.run();
   }
