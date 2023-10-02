@@ -9,7 +9,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.HealingVial;
-import game.items.Runes;
+import game.items.Rune;
 
 
 import java.util.*;
@@ -42,7 +42,7 @@ public class RedWolf extends Enemy {
     public void drop(GameMap map) {
         int num = random.nextInt(10);
         Location location = map.locationOf(this);
-        map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
+        map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
         if (num < 1) {
             map.at(location.x(), location.y()).addItem(new HealingVial());
         }
