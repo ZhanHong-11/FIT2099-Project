@@ -20,6 +20,7 @@ import java.util.Random;
  * @see Consumable
  */
 public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable {
+  private static final int BASE_SELL_PRICE = 25;
   private Random random = new Random();
 
   /**
@@ -79,6 +80,7 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     int luck = 50;
     actor.removeItemFromInventory(this);
     if (random.nextInt(100) < luck){
+      actor.deductBalance(BASE_SELL_PRICE);
       return actor + " had been scammed!";
     }
     else {
@@ -88,7 +90,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
 
   @Override
   public int getSellPrice() {
-    int price = 25;
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

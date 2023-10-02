@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
 import game.actors.enemies.WanderingUndead;
+import game.actors.merchants.Traveller;
 import game.items.Bloodberry;
 import game.spawners.ForestKeeperFactory;
 import game.spawners.HollowSoldierFactory;
@@ -29,6 +30,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
+import game.weapons.GiantHammer;
 
 /**
  * The main class to start the game. Created by:
@@ -78,6 +80,7 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
+    ancientWoods.at(0, 0).addActor(new Traveller());
     ancientWoods.at(7, 7).addItem(new Bloodberry());
     ancientWoods.at(10, 1).setGround(new Bush(new RedWolfFactory()));
     ancientWoods.at(31, 10).setGround(new Bush(new RedWolfFactory()));
@@ -93,9 +96,9 @@ public class Application {
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory()));
     LockedGate gate = new LockedGate(new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
     abxervyerBattleMap.at(23, 10).addActor(new Abxervyer(gate));
+    abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
-    world.addPlayer(player, abandonedVillage.at(29, 5));
 
     world.run();
   }

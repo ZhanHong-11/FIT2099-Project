@@ -13,6 +13,7 @@ import game.skills.StabStepSkill;
 import java.util.Random;
 
 public class GreatKnife extends SkillWeapon implements Buyable, Sellable {
+  private static final int BASE_SELL_PRICE = 175;
   private Random random = new Random();
 
   public GreatKnife() {
@@ -40,9 +41,10 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable {
 
   @Override
   public String sell(Actor actor) {
+    int luck = 10;
     actor.removeItemFromInventory(this);
 
-    if (random.nextInt(100) < 10){
+    if (random.nextInt(100) < luck){
       if (actor.getBalance() > getSellPrice() * 2){
         actor.deductBalance(getSellPrice() * 2);
       }
@@ -51,13 +53,11 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable {
       }
       return actor + " had been scammed!";
     }
-
     return actor + " had sold a " + this;
   }
 
   @Override
   public int getSellPrice() {
-    int price = 175;
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

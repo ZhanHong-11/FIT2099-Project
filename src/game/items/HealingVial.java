@@ -19,6 +19,7 @@ import java.util.Random;
  * @see Consumable
  */
 public class HealingVial extends Item implements Consumable, Buyable, Sellable {
+  private static final int BASE_SELL_PRICE = 35;
   private Random random = new Random();
 
   /**
@@ -79,11 +80,10 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
 
   @Override
   public int getSellPrice() {
-    int price = 35;
     int luck = 10;
     if (random.nextInt(100) < luck){
-      return price * 2;
+      return BASE_SELL_PRICE * 2;
     }
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

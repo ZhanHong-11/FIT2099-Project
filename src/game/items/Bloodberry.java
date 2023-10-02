@@ -11,6 +11,7 @@ import game.actions.SellAction;
 import game.capabilities.Ability;
 
 public class Bloodberry extends Item implements Consumable, Sellable {
+    private static final int BASE_SELL_PRICE = 10;
 
     /**
      * Constructs a new blood berry with the default attributes.
@@ -64,7 +65,6 @@ public class Bloodberry extends Item implements Consumable, Sellable {
 
     @Override
     public int getSellPrice() {
-        int price = 10;
-        return price;
+        return BASE_SELL_PRICE;
     }
 }

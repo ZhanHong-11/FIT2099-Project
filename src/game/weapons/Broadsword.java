@@ -25,6 +25,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
    * The default hit rate of the broadsword
    */
   private static final int BASE_HIT_RATE = 80;
+  private static final int BASE_SELL_PRICE = 100;
 
   /**
    * Constructs a new broadsword with the default attributes and skill.
@@ -97,7 +98,6 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   @Override
   public int getSellPrice() {
-    int price = 100;
-    return price;
+    return BASE_SELL_PRICE;
   }
 }
