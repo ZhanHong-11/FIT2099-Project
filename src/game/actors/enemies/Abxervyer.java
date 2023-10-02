@@ -6,7 +6,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.grounds.LockedGate;
-import game.items.Runes;
+import game.items.Rune;
 
 public class Abxervyer extends Enemy{
   private static final int BASE_INTRINSIC_WEAPON_DAMAGE = 80;
@@ -32,7 +32,7 @@ public class Abxervyer extends Enemy{
   @Override
   public void drop(GameMap map) {
     Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Runes(BASE_RUNES_DROP_AMOUNT));
+    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     map.at(location.x(), location.y()).setGround(gate);
   }
 
