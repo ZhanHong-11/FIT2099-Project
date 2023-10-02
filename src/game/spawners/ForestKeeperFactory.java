@@ -5,10 +5,9 @@ import game.actors.enemies.ForestKeeper;
 import java.util.Random;
 
 public class ForestKeeperFactory implements EnemyFactory{
-  private Random random = new Random();
-  private static final int BASE_SPAWN_RATE = 15;
-
+  public static final int BASE_SPAWN_RATE = 15;
   private int spawningRate;
+  private Random random = new Random();
 
   public ForestKeeperFactory(){
     this.spawningRate = BASE_SPAWN_RATE;

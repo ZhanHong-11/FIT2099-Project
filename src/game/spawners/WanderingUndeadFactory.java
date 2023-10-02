@@ -5,10 +5,9 @@ import game.actors.enemies.WanderingUndead;
 import java.util.Random;
 
 public class WanderingUndeadFactory implements EnemyFactory{
-  private Random random = new Random();
-  private static final int BASE_SPAWN_RATE = 25;
-
+  public static final int BASE_SPAWN_RATE = 25;
   private int spawningRate;
+  private Random random = new Random();
 
   public WanderingUndeadFactory(){
     this.spawningRate = BASE_SPAWN_RATE;

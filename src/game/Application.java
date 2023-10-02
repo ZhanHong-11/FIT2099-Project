@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
+import game.actors.enemies.Abxervyer;
 import game.actors.enemies.WanderingUndead;
 import game.items.Bloodberry;
 import game.spawners.ForestKeeperFactory;
@@ -90,6 +91,8 @@ public class Application {
     abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory()));
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory()));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory()));
+    LockedGate gate = new LockedGate(new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
+    abxervyerBattleMap.at(23, 10).addActor(new Abxervyer(gate));
 
     Player player = new Player("The Abstracted One", '@', 150, 200);
     world.addPlayer(player, abandonedVillage.at(29, 5));
