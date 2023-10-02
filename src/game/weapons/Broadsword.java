@@ -5,13 +5,11 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ActivateSkillAction;
-import game.actions.BuyAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.items.Buyable;
 import game.items.Sellable;
 import game.skills.FocusSkill;
-import java.util.Random;
 
 /**
  * A subclass of SkillWeapon that represents a broadsword that have skill. A broadsword is a
@@ -63,12 +61,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = super.allowableActions(owner);
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    else {
-      actionList.add(new ActivateSkillAction(this, getSkill()));
-    }
+    actionList.add(new ActivateSkillAction(this, getSkill()));
     return actionList;
   }
 
@@ -92,19 +85,8 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   @Override
   public String buy(Actor actor) {
-    Random random = new Random();
-    int luck = 5;
-    if (random.nextInt(100) < luck){
-      return actor + " had been scammed!";
-    }
     actor.addItemToInventory(new Broadsword());
     return actor + " had purchased a " + this;
-  }
-
-  @Override
-  public int getBuyPrice() {
-    int price = 250;
-    return price;
   }
 
   @Override

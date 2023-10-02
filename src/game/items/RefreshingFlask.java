@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.BuyAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
@@ -39,12 +38,7 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    else {
-      actionList.add(new ConsumeAction(this));
-    }
+    actionList.add(new ConsumeAction(this));
     return actionList;
   }
 
@@ -78,16 +72,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   public String buy(Actor actor) {
     actor.addItemToInventory(new RefreshingFlask());
     return actor + " had purchased a " + this;
-  }
-
-  @Override
-  public int getBuyPrice() {
-    int price = 75;
-    int luck = 10;
-    if (random.nextInt(100) < luck){
-      return Math.round(price * 0.8f);
-    }
-    return price;
   }
 
   @Override

@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ActivateSkillAction;
-import game.actions.BuyAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 import game.capabilities.Status;
@@ -34,28 +33,9 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable {
   }
 
   @Override
-  public ActionList allowableActions(Actor owner) {
-    ActionList actionList = super.allowableActions(owner);
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    return actionList;
-
-  }
-
-  @Override
   public String buy(Actor actor) {
     actor.addItemToInventory(new GreatKnife());
     return actor + " had purchased the " + this;
-  }
-
-  @Override
-  public int getBuyPrice() {
-    int price = 300;
-    if (random.nextInt(100) < 5){
-      return price * 3;
-    }
-    return price;
   }
 
   @Override

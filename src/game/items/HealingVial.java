@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.BuyAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
@@ -38,12 +37,7 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    else {
-      actionList.add(new ConsumeAction(this));
-    }
+    actionList.add(new ConsumeAction(this));
     return actionList;
   }
 
@@ -75,16 +69,6 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   public String buy(Actor actor) {
     actor.addItemToInventory(new HealingVial());
     return actor + " had purchased a " + this;
-  }
-
-  @Override
-  public int getBuyPrice() {
-    int price = 100;
-    int luck = 25;
-    if (random.nextInt(100) < luck){
-      return Math.round(price * 1.5f);
-    }
-    return price;
   }
 
   @Override
