@@ -28,6 +28,7 @@ public class AttackAction extends Action {
      * Weapon used for the attack
      */
     private Weapon weapon;
+    private int damage;
 
     /**
      * Constructor.
@@ -35,10 +36,11 @@ public class AttackAction extends Action {
      * @param target the Actor to attack
      * @param direction the direction where the attack should be performed (only used for display purposes)
      */
-    public AttackAction(Actor target, String direction, Weapon weapon) {
+    public AttackAction(Actor target, String direction, Weapon weapon, int damage) {
         this.target = target;
         this.direction = direction;
         this.weapon = weapon;
+        this.damage = damage;
     }
 
     /**
@@ -56,15 +58,15 @@ public class AttackAction extends Action {
     public String execute(Actor actor, GameMap map) {
         if (weapon == null) {
             weapon = actor.getIntrinsicWeapon();
+            this.damage = weapon.damage();
         }
 
         if (!(rand.nextInt(100) <= weapon.chanceToHit())) {
             return actor + " misses " + target + ".";
         }
 
-        int damage = weapon.damage();
-        String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
-        target.hurt(damage);
+        String result = actor + " " + weapon.verb() + " " + target + " for " + this.damage + " damage.";
+        target.hurt(this.damage);
         if (!target.isConscious()) {
             result += "\n" + target.unconscious(actor, map);
         }

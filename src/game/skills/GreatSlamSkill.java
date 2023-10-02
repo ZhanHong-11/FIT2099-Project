@@ -17,16 +17,18 @@ public class GreatSlamSkill extends Skill{
 
   @Override
   public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction) {
+    Location targetLocation = map.locationOf(target);
+
     String result = actor + " " + skillDescription();
-    Action attackAction = new AttackAction(target, direction, weapon);
+    Action attackAction = new AttackAction(target, direction, weapon, weapon.damage());
     result += "\n" + attackAction.execute(actor, map);
 
-    for (Exit exit: map.locationOf(target).getExits()){
+    for (Exit exit: targetLocation.getExits()){
       Location location = exit.getDestination();
       if (location.containsAnActor() && !location.getActor().hasCapability(Status.NEUTRAL)){
         int damage = Math.round(weapon.damage() / 2f);
-        result += "\n" + location.getActor() + " is hurt by " + damage + " damage from the shockwave.";
-        location.getActor().hurt(damage);
+        Action attackAction2 = new AttackAction(location.getActor(), direction, weapon, damage);
+        result += "\n" + attackAction2.execute(actor, map);
       }
     }
     return result;
