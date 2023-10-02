@@ -20,6 +20,10 @@ public abstract class SpawnGround extends Ground {
     this.enemyFactory = enemyFactory;
   }
 
+  public void setEnemyFactory(EnemyFactory enemyFactory){
+    this.enemyFactory = enemyFactory;
+  }
+
   /**
    * For every turn, there is a probability to spawn a new enemy If the ground is surrounded with enemies, and
    * there is also an enemy standing on the ground, the ground will not spawn another enemy

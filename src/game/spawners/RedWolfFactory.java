@@ -5,10 +5,9 @@ import game.actors.enemies.RedWolf;
 import java.util.Random;
 
 public class RedWolfFactory implements EnemyFactory{
-  private Random random = new Random();
-  private static final int BASE_SPAWN_RATE = 30;
-
+  public static final int BASE_SPAWN_RATE = 30;
   private int spawningRate;
+  private Random random = new Random();
 
   public RedWolfFactory(){
     this.spawningRate = BASE_SPAWN_RATE;

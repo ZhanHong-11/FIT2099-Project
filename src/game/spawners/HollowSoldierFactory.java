@@ -5,10 +5,9 @@ import game.actors.enemies.HollowSoldier;
 import java.util.Random;
 
 public class HollowSoldierFactory implements EnemyFactory{
-  private Random random = new Random();
-  private static final int BASE_SPAWN_RATE = 10;
-
+  public static final int BASE_SPAWN_RATE = 10;
   private int spawningRate;
+  private Random random = new Random();
 
   public HollowSoldierFactory(){
     this.spawningRate = BASE_SPAWN_RATE;
