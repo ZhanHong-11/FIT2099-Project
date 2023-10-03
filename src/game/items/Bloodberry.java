@@ -11,7 +11,6 @@ import game.actions.SellAction;
 import game.capabilities.Ability;
 
 public class Bloodberry extends Item implements Consumable, Sellable {
-    private static final int BASE_SELL_PRICE = 10;
 
     /**
      * Constructs a new blood berry with the default attributes.
@@ -46,7 +45,7 @@ public class Bloodberry extends Item implements Consumable, Sellable {
      * Consumes the blood berry and returns the amount of maximum health gained by the actor.
      * the blood berry increases the actor's maximum health by 5 points and is removed once it is consumed.
      *
-     * @param actor The actor who consumes the healing vial
+     * @param actor The actor who consumes the bloodberry
      * @return The amount of maximum health increased by the actor
      */
     @Override
@@ -65,6 +64,7 @@ public class Bloodberry extends Item implements Consumable, Sellable {
 
     @Override
     public int getSellPrice() {
-        return BASE_SELL_PRICE;
+        int price = 10;
+        return price;
     }
 }
