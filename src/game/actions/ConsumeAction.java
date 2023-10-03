@@ -29,6 +29,12 @@ public class ConsumeAction extends Action {
     this.consumableItem = consumableItem;
   }
 
+  /**
+   * Constructs a new consume action with the given consumable item and description.
+   *
+   * @param consumableItem The consumable item that is to be consumed by the player
+   * @param description The description of the item after it's consumed by the player
+   */
   public ConsumeAction(Consumable consumableItem, String description){
     this.consumableItem = consumableItem;
     this.description = description;

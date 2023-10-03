@@ -12,16 +12,32 @@ import game.items.Consumable;
 
 /**
  * A class that represents puddle.
+ * Extending to the Ground class, and implements the Consumable Interface.
  * Created by:
  * @author Riordan D. Alfredo
  * Modified by:
+ * @author Alvin Andrean
+ * @author Soo Zhan Hong
+ * @see Ground
+ * @see Consumable
  *
  */
 public class Puddle extends Ground implements Consumable {
+
+    /**
+     * Constructs a new blood berry with the default attributes.
+     */
     public Puddle() {
         super('~');
     }
 
+    /**
+     * List of allowable actions that blood-berry can perform to the current actor
+     *
+     * @param actor the actor that's standing in the puddle
+     * @param location the location of the puddle
+     * @return an ActionList that contain the ConsumeAction
+     */
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction) {
         ActionList actions = super.allowableActions(actor, location, direction);
@@ -31,6 +47,13 @@ public class Puddle extends Ground implements Consumable {
         return actions;
     }
 
+    /**
+     * Consumes the puddle and returns a message with the amount of health gained by the actor.
+     * drinking from the puddle increases the actor's health and stamina by 1 points
+     *
+     * @param actor The actor who consumes the water in the puddle
+     * @return a string representing a message with the amount of health increased by the actor
+     */
     @Override
     public String consume(Actor actor) {
         int healthRecovery = 1;
@@ -40,6 +63,10 @@ public class Puddle extends Ground implements Consumable {
         return actor + " drank water from the puddle. Health Increased by 1 and Stamina Increased by 1%";
     }
 
+    /**
+     * The description of the action
+     * @return a String of the action's description.
+     */
     private String menuDescription() {
         return "drinks water from the puddle";
     }

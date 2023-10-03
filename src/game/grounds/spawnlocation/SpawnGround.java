@@ -7,6 +7,11 @@ import game.actors.enemies.Enemy;
 import game.spawners.EnemyFactory;
 import java.util.List;
 
+/**
+ * an abstract class which represents a SpawnGround, it extends to the Ground Class
+ * @author Soo Zhan Hong
+ * @see Ground
+ */
 public abstract class SpawnGround extends Ground {
   private EnemyFactory enemyFactory;
 
@@ -20,6 +25,10 @@ public abstract class SpawnGround extends Ground {
     this.enemyFactory = enemyFactory;
   }
 
+  /**
+   * a Method to set the enemy factory of the spawn ground
+   * @param enemyFactory
+   */
   public void setEnemyFactory(EnemyFactory enemyFactory){
     this.enemyFactory = enemyFactory;
   }

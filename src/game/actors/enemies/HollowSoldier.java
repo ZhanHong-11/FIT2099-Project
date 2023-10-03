@@ -10,8 +10,8 @@ import game.items.Rune;
 import java.util.Random;
 
 /**
- * A subclass of Enemy that represents a hollow soldier. A hollow soldier is an enemy that are
- * immune to the void and can attack those that are hostile to enemy. It can drop healing vials or
+ * A subclass of Enemy that represents a hollow soldier. A hollow soldier is an enemy that
+ * can wander and attack those that are hostile to enemy. It can drop healing vials or
  * refreshing flasks when killed with a certain probability.
  *
  * @see Enemy
@@ -47,6 +47,7 @@ public class HollowSoldier extends Enemy {
    * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
    * probability of item dropping is independent to the others. The item is dropped at the location
    * of the hollow soldier.
+   * Will also drop Runes when killed by another actor
    *
    * @param map The game map where the hollow soldier is located.
    */

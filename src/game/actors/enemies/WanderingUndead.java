@@ -45,6 +45,7 @@ public class WanderingUndead extends Enemy {
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
    * dropping is independent to the others. The item is dropped at the location of the wandering
    * undead.
+   * Wandering Undead also drop runes when killed by another actor.
    *
    * @param map The game map where the wandering undead is located.
    */

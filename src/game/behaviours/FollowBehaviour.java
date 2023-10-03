@@ -9,13 +9,39 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Status;
 
+/**
+ * A subclass of Behaviour that represents follow behaviour. A follow behaviour is a behaviour
+ * that cause the enemy to follow the player who is hostile to them and near to them.
+ * The enemy that starts following won't stop following until either the target is unconscious
+ * or the enemy is unconscious
+ *
+ * @author Soo Zhan Hong
+ * @author Alvin Andrean
+ * @author Marco Gotama
+ * @author Vihanga Mihiranga Malaviarachchi
+ * @see Behaviour
+ */
 public class FollowBehaviour implements Behaviour {
     private Actor target;
+
+    /**
+     * Constructs a new Follow Behaviour
+     * @param target
+     */
     public FollowBehaviour(Actor target) {
         this.target = target;
-
     }
 
+    /**
+     * Returns a MoveActorAction that allows the actor to move closer to a hostile target, or null if none is
+     * available. The method checks all the exits from the actor's location and finds any actors who
+     * have the Status.HOSTILE_TO_ENEMY capability.
+     *
+     * @param actor The actor who performs the move action
+     * @param map   The game map that contains the actor and the target
+     * @return A MoveActorAction that allows the actor to follow a hostile target, or null if none is
+     * available
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
         if(!map.contains(target) || !map.contains(actor)) {

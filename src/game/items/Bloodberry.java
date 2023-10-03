@@ -10,6 +10,15 @@ import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
 
+/**
+ * A subclass of Item which implements the Consumable and Sellable Interface,
+ * representing a consumable Item (Blood-berry)
+ *
+ * @author Alvin Andrean
+ * @see Item
+ * @see Consumable
+ * @see Sellable
+ */
 public class Bloodberry extends Item implements Consumable, Sellable {
 
     /**
@@ -32,6 +41,12 @@ public class Bloodberry extends Item implements Consumable, Sellable {
         return actions;
     }
 
+    /**
+     * List of allowable actions that blood-berry can perform to the current actor
+     *
+     * @param otherActor the other actor that can purchase this item
+     * @return an ActionList that contain the SellAction
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, Location location) {
         ActionList actions = super.allowableActions(otherActor, location);
@@ -42,11 +57,11 @@ public class Bloodberry extends Item implements Consumable, Sellable {
     }
 
     /**
-     * Consumes the blood berry and returns the amount of maximum health gained by the actor.
+     * Consumes the blood berry and returns a message with the amount of maximum health gained by the actor.
      * the blood berry increases the actor's maximum health by 5 points and is removed once it is consumed.
      *
      * @param actor The actor who consumes the bloodberry
-     * @return The amount of maximum health increased by the actor
+     * @return a string representing a message with the amount of maximum health increased by the actor
      */
     @Override
     public String consume(Actor actor) {
@@ -56,12 +71,24 @@ public class Bloodberry extends Item implements Consumable, Sellable {
         return actor + " has increase the maximum health by " + healthRecovery + " points.";
     }
 
+    /**
+     * Sells the blood berry and returns a message showing that the player has sold the item
+     * after selling the item, the blood-berry is removed from the player's inventory
+     *
+     * @param actor The actor who's selling the blood-berry
+     * @return a message showing that the player has sold the blood-berry
+     */
     @Override
     public String sell(Actor actor) {
         actor.removeItemFromInventory(this);
         return actor + " had sold a " + this;
     }
 
+    /**
+     * To get the sell price of a particular item
+     *
+     * @return the selling price of the item
+     */
     @Override
     public int getSellPrice() {
         int price = 10;
