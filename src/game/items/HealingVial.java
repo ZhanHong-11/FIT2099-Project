@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.BuyAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
@@ -20,6 +19,7 @@ import java.util.Random;
  * @see Consumable
  */
 public class HealingVial extends Item implements Consumable, Buyable, Sellable {
+  private static final int BASE_SELL_PRICE = 35;
   private Random random = new Random();
 
   /**
@@ -38,12 +38,7 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    else {
-      actionList.add(new ConsumeAction(this));
-    }
+    actionList.add(new ConsumeAction(this));
     return actionList;
   }
 
@@ -78,16 +73,6 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   }
 
   @Override
-  public int getBuyPrice() {
-    int price = 100;
-    int luck = 25;
-    if (random.nextInt(100) < luck){
-      return Math.round(price * 1.5f);
-    }
-    return price;
-  }
-
-  @Override
   public String sell(Actor actor) {
     actor.removeItemFromInventory(this);
     return actor + " had sold a " + this;
@@ -95,11 +80,10 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
 
   @Override
   public int getSellPrice() {
-    int price = 35;
     int luck = 10;
     if (random.nextInt(100) < luck){
-      return price * 2;
+      return BASE_SELL_PRICE * 2;
     }
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

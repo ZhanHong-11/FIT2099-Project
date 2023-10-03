@@ -2,6 +2,8 @@ package game.items;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
@@ -9,6 +11,7 @@ import game.actions.SellAction;
 import game.capabilities.Ability;
 
 public class Bloodberry extends Item implements Consumable, Sellable {
+    private static final int BASE_SELL_PRICE = 10;
 
     /**
      * Constructs a new blood berry with the default attributes.
@@ -49,9 +52,9 @@ public class Bloodberry extends Item implements Consumable, Sellable {
     @Override
     public String consume(Actor actor) {
         int healthRecovery = 5;
-        actor.heal(healthRecovery);
+        actor.modifyAttributeMaximum(BaseActorAttributes.HEALTH, ActorAttributeOperations.INCREASE, healthRecovery);
         actor.removeItemFromInventory(this);
-        return actor + " restores the health by " + healthRecovery + " points.";
+        return actor + " has increase the maximum health by " + healthRecovery + " points.";
     }
 
     @Override
@@ -62,7 +65,6 @@ public class Bloodberry extends Item implements Consumable, Sellable {
 
     @Override
     public int getSellPrice() {
-        int price = 10;
-        return price;
+        return BASE_SELL_PRICE;
     }
 }

@@ -11,6 +11,7 @@ import game.items.Sellable;
 import game.skills.GreatSlamSkill;
 
 public class GiantHammer extends SkillWeapon implements Sellable {
+  private static final int BASE_SELL_PRICE = 250;
 
   public GiantHammer() {
     super("Giant Hammer", 'P', 160, "slam", 90);
@@ -37,7 +38,6 @@ public class GiantHammer extends SkillWeapon implements Sellable {
 
   @Override
   public int getSellPrice() {
-    int price = 250;
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

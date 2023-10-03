@@ -51,7 +51,7 @@ public abstract class SkillWeapon extends WeaponItem {
   public ActionList allowableActions(Actor otherActor, Location location) {
     ActionList actions = super.allowableActions(otherActor, location);
     if (!otherActor.hasCapability(Status.NEUTRAL)){
-      actions.add(new AttackAction(otherActor, location.toString(), this));
+      actions.add(new AttackAction(otherActor, location.toString(), this, this.damage()));
     }
     return actions;
   }

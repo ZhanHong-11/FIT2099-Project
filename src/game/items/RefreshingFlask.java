@@ -6,7 +6,6 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.BuyAction;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
 import game.capabilities.Ability;
@@ -21,6 +20,7 @@ import java.util.Random;
  * @see Consumable
  */
 public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable {
+  private static final int BASE_SELL_PRICE = 25;
   private Random random = new Random();
 
   /**
@@ -39,12 +39,7 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   @Override
   public ActionList allowableActions(Actor owner) {
     ActionList actionList = new ActionList();
-    if (owner.hasCapability(Ability.TRADING)){
-      actionList.add(new BuyAction(this));
-    }
-    else {
-      actionList.add(new ConsumeAction(this));
-    }
+    actionList.add(new ConsumeAction(this));
     return actionList;
   }
 
@@ -81,20 +76,11 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   }
 
   @Override
-  public int getBuyPrice() {
-    int price = 75;
-    int luck = 10;
-    if (random.nextInt(100) < luck){
-      return Math.round(price * 0.8f);
-    }
-    return price;
-  }
-
-  @Override
   public String sell(Actor actor) {
     int luck = 50;
     actor.removeItemFromInventory(this);
     if (random.nextInt(100) < luck){
+      actor.deductBalance(BASE_SELL_PRICE);
       return actor + " had been scammed!";
     }
     else {
@@ -104,7 +90,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
 
   @Override
   public int getSellPrice() {
-    int price = 25;
-    return price;
+    return BASE_SELL_PRICE;
   }
 }

@@ -21,7 +21,7 @@ public class StabStepSkill extends Skill {
   @Override
   public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction) {
     String result = actor + " " + skillDescription();
-    Action attackAction = new AttackAction(target, direction, weapon);
+    Action attackAction = new AttackAction(target, direction, weapon, weapon.damage());
     result += "\n" + attackAction.execute(actor, map);
 
     Action moveAction = findMoveAction(actor, map);
