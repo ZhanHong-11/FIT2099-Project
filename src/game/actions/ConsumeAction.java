@@ -18,6 +18,7 @@ public class ConsumeAction extends Action {
    * The consumable item that to be consumed by the player
    */
   private final Consumable consumableItem;
+  private String description;
 
   /**
    * Constructs a new consume action with the given consumable item.
@@ -26,6 +27,11 @@ public class ConsumeAction extends Action {
    */
   public ConsumeAction(Consumable consumableItem) {
     this.consumableItem = consumableItem;
+  }
+
+  public ConsumeAction(Consumable consumableItem, String description){
+    this.consumableItem = consumableItem;
+    this.description = description;
   }
 
   /**
@@ -48,6 +54,11 @@ public class ConsumeAction extends Action {
    */
   @Override
   public String menuDescription(Actor actor) {
-    return actor + " consumes " + consumableItem;
+    if (description == null){
+      return actor + " consumes " + consumableItem;
+    }
+    else {
+      return actor + " " + description;
+    }
   }
 }
