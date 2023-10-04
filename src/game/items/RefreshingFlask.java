@@ -13,13 +13,19 @@ import java.util.Random;
 
 /**
  * A subclass of Item that implements Consumable interface. A refreshing flask is a consumable item
- * that can restore a fraction of the actor's stamina.
+ * that can restore a fraction of the actor's stamina. It can be bought and sold by the player.
  *
  * @author Soo Zhan Hong
  * @see Item
  * @see Consumable
+ * @see Buyable
+ * @see Sellable
  */
 public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable {
+
+  /**
+   * The base selling price of the refreshing flask
+   */
   private static final int BASE_SELL_PRICE = 25;
   private Random random = new Random();
 
@@ -43,10 +49,17 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     return actionList;
   }
 
+  /**
+   * List of allowable actions that refreshing flask can perform to the current actor This item can
+   * be sold to actor that has the trading ability
+   *
+   * @param otherActor the other actor
+   * @return an ActionList that contain the SellAction
+   */
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
     ActionList actions = super.allowableActions(otherActor, location);
-    if (otherActor.hasCapability(Ability.TRADING)){
+    if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
     }
     return actions;
@@ -69,25 +82,43 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     return actor + " restores the stamina by " + staminaRecovery + " points.";
   }
 
+  /**
+   * Buys the refreshing flask.
+   *
+   * @param actor The actor who buys the refreshing flask
+   * @return Description after the refreshing flask is bought
+   */
   @Override
   public String buy(Actor actor) {
     actor.addItemToInventory(new RefreshingFlask());
     return actor + " had purchased a " + this;
   }
 
+  /**
+   * Sells the refreshing flask and returns a message showing that the player has sold the item
+   * after selling the item, the refreshing flask is removed from the player's inventory
+   *
+   * @param actor The actor who's selling the refreshing flask
+   * @return a message showing that the player has sold the refreshing flask
+   */
   @Override
   public String sell(Actor actor) {
     int luck = 50;
     actor.removeItemFromInventory(this);
-    if (random.nextInt(100) < luck){
+    if (random.nextInt(100) < luck) {
       actor.deductBalance(BASE_SELL_PRICE);
       return actor + " had been scammed!";
-    }
-    else {
+    } else {
       return actor + " had sold a " + this;
     }
   }
 
+  /**
+   * Returns the selling price of the refreshing flask. The selling price of the refreshing flask is
+   * 25 coins.
+   *
+   * @return the selling price of the refreshing flask
+   */
   @Override
   public int getSellPrice() {
     return BASE_SELL_PRICE;
