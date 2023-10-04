@@ -17,18 +17,37 @@ import java.util.Random;
  * @see Enemy
  */
 public class HollowSoldier extends Enemy {
-
-  private Random random = new Random();
+  /**
+   * The base intrinsic weapon damage of the hollow soldier
+   */
+  private static final int BASE_INTRINSIC_WEAPON_DAMAGE = 50;
+  /**
+   * The base intrinsic hit rate of the hollow soldier
+   */
+  private static final int BASE_INTRINSIC_HIT_RATE = 50;
+  /**
+   * The base weapon verb of the hollow soldier
+   */
+  private static final String BASE_WEAPON_VERB = "whacked";
+  /**
+   * The base healing vial drop rate of the hollow soldier
+   */
   public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  /**
+   * The base refreshing flask drop rate of the hollow soldier
+   */
   public static final int BASE_REFRESHING_FLASK_DROP_RATE = 30;
-  public static final int BASE_HIT_POINTS = 200;
+  /**
+   * The base runes drop amount of the hollow soldier
+   */
   public static final int BASE_RUNES_DROP_AMOUNT = 100;
+  private Random random = new Random();
 
   /**
    * Constructs a new hollow soldier.
    */
   public HollowSoldier() {
-    super("Hollow Soldier", '&', BASE_HIT_POINTS);
+    super("Hollow Soldier", '&', 200);
   }
 
   /**
@@ -39,7 +58,7 @@ public class HollowSoldier extends Enemy {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(50, "whacked", 50);
+    return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
   }
 
   /**

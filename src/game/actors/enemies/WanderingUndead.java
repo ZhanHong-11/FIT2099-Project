@@ -18,10 +18,32 @@ import java.util.Random;
  */
 public class WanderingUndead extends Enemy {
 
-  private Random random = new Random();
+  /**
+   * The base intrinsic weapon damage of the wandering undead
+   */
+  private static final int BASE_INTRINSIC_WEAPON_DAMAGE = 30;
+  /**
+   * The base intrinsic hit rate of the wandering undead
+   */
+  private static final int BASE_INTRINSIC_HIT_RATE = 50;
+  /**
+   * The base weapon verb of the wandering undead
+   */
+  private static final String BASE_WEAPON_VERB = "smacked";
+  /**
+   * The base key drop rate of the wandering undead
+   */
   public static final int BASE_KEY_DROP_RATE = 25;
+  /**
+   * The base healing vial drop rate of the wandering undead
+   */
   public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  /**
+   * The base runes drop amount of the wandering undead
+   */
   public static final int BASE_RUNES_DROP_AMOUNT = 50;
+  private Random random = new Random();
+
   /**
    * Constructs a new wandering undead.
    */
@@ -30,22 +52,21 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
-   * Returns an IntrinsicWeapon that represents the attack of the wandering undead. The attack
-   * has a damage of 30 and a hit rate of 50%.
+   * Returns an IntrinsicWeapon that represents the attack of the wandering undead.
    *
    * @return An IntrinsicWeapon that represents the attack
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(30, "smacked", 50);
+    return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB,
+        BASE_INTRINSIC_HIT_RATE);
   }
 
   /**
    * Drops an item on the game map when the wandering undead is killed. The item can be either a
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
    * dropping is independent to the others. The item is dropped at the location of the wandering
-   * undead.
-   * Wandering Undead also drop runes when killed by another actor.
+   * undead. Wandering Undead also drop runes when killed by another actor.
    *
    * @param map The game map where the wandering undead is located.
    */

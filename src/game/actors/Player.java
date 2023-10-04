@@ -14,10 +14,9 @@ import game.capabilities.Status;
 import game.display.FancyMessage;
 
 /**
- * Class representing the Player.
- * Created by:
- * @author Adrian Kristanto
- * Modified by: Soo Zhan Hong
+ * Class representing the Player. Created by:
+ *
+ * @author Adrian Kristanto Modified by: Soo Zhan Hong
  */
 public class Player extends Actor {
 
@@ -63,8 +62,8 @@ public class Player extends Actor {
   }
 
   /**
-   * Inform the player the passage of time.
-   * For example: recover player's stamina for 1% every turn.
+   * Inform the player the passage of time. For example: recover player's stamina for 1% every
+   * turn.
    */
   private void tickPlayer() {
     int staminaRecovery = Math.round(this.getAttributeMaximum(BaseActorAttributes.STAMINA) / 100f);
