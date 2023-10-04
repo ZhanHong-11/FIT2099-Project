@@ -89,12 +89,14 @@ public class Application {
     ancientWoods.at(0, 7).setGround(new LockedGate(
         new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
     ancientWoods.at(55, 0).setGround(
-            new LockedGate(new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));
+        new LockedGate(
+            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));
 
     abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory()));
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory()));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory()));
-    LockedGate gate = new LockedGate(new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
+    LockedGate gate = new LockedGate(
+        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
     abxervyerBattleMap.at(23, 10).addActor(new Abxervyer(gate));
     abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
 

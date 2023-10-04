@@ -31,30 +31,41 @@ public abstract class SkillWeapon extends WeaponItem {
     super(name, displayChar, damage, verb, hitRate);
   }
 
-  public void setSkill(Skill skill){
+  /**
+   * Sets the skill of the weapon
+   */
+  public void setSkill(Skill skill) {
     this.skill = skill;
   }
 
+  /**
+   * Returns the skill of the weapon
+   */
   public Skill getSkill() {
     return this.skill;
   }
 
   /**
    * Returns an ActionList that contains an AttackAction that allows an actor to attack another
-   * actor with the weapon.
+   * actor with the weapon. If the other actor has a neutral status, it will not add an
+   * AttackAction
    *
    * @param otherActor the other actor
    * @param location   the location of the other actor
-   * @return an unmodifiable list of Actions
+   * @return a list of possible actions
    */
   @Override
   public ActionList allowableActions(Actor otherActor, Location location) {
     ActionList actions = super.allowableActions(otherActor, location);
-    if (!otherActor.hasCapability(Status.NEUTRAL)){
+    if (!otherActor.hasCapability(Status.NEUTRAL)) {
       actions.add(new AttackAction(otherActor, location.toString(), this, this.damage()));
     }
     return actions;
   }
 
-  public void resetWeapon(){}
+  /**
+   * Reset the skill on the weapon.
+   */
+  public void resetWeapon() {
+  }
 }

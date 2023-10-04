@@ -18,6 +18,9 @@ public class ConsumeAction extends Action {
    * The consumable item that to be consumed by the player
    */
   private final Consumable consumableItem;
+  /**
+   * The menu description, for objects that are not a type of item
+   */
   private String description;
 
   /**
@@ -30,12 +33,14 @@ public class ConsumeAction extends Action {
   }
 
   /**
-   * Constructs a new consume action with the given consumable item and description.
+   * Constructs a new consume action with the given consumable item and description. This
+   * constructor is useful for those items that have a different menu description. (especially for
+   * non-item type)
    *
    * @param consumableItem The consumable item that is to be consumed by the player
-   * @param description The description of the item after it's consumed by the player
+   * @param description    The action description to be display on the menu
    */
-  public ConsumeAction(Consumable consumableItem, String description){
+  public ConsumeAction(Consumable consumableItem, String description) {
     this.consumableItem = consumableItem;
     this.description = description;
   }
@@ -60,10 +65,9 @@ public class ConsumeAction extends Action {
    */
   @Override
   public String menuDescription(Actor actor) {
-    if (description == null){
+    if (description == null) {
       return actor + " consumes " + consumableItem;
-    }
-    else {
+    } else {
       return actor + " " + description;
     }
   }

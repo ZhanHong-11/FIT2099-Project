@@ -8,17 +8,24 @@ import game.spawners.EnemyFactory;
 import java.util.List;
 
 /**
- * an abstract class which represents a SpawnGround, it extends to the Ground Class
+ * an abstract class which represents a SpawnGround, it extends from the Ground Class
+ *
  * @author Soo Zhan Hong
  * @see Ground
  */
 public abstract class SpawnGround extends Ground {
+
+  /**
+   * an Enemy Factory that will spawn a certain type of enemy in this type of ground
+   */
   private EnemyFactory enemyFactory;
 
   /**
    * Constructor.
    *
-   * @param displayChar character to display for this type of terrain
+   * @param displayChar  character to display for this type of terrain
+   * @param enemyFactory represents an Enemy Factory that will spawn a certain type of enemy in this
+   *                     spawning ground
    */
   public SpawnGround(char displayChar, EnemyFactory enemyFactory) {
     super(displayChar);
@@ -26,34 +33,36 @@ public abstract class SpawnGround extends Ground {
   }
 
   /**
-   * a Method to set the enemy factory of the spawn ground
-   * @param enemyFactory
+   * Set the enemy factory for the spawn ground Useful for setting different spawning rate for the
+   * enemy factory
+   *
+   * @param enemyFactory The enemy factory
    */
-  public void setEnemyFactory(EnemyFactory enemyFactory){
+  public void setEnemyFactory(EnemyFactory enemyFactory) {
     this.enemyFactory = enemyFactory;
   }
 
   /**
-   * For every turn, there is a probability to spawn a new enemy If the ground is surrounded with enemies, and
-   * there is also an enemy standing on the ground, the ground will not spawn another enemy
-   * unless there is an empty space at the surrounding.
+   * For every turn, there is a probability to spawn a new enemy If the ground is surrounded with
+   * enemies, and there is also an enemy standing on the ground, the ground will not spawn another
+   * enemy unless there is an empty space at the surrounding.
    *
    * @param location The location of the ground
    */
   @Override
   public void tick(Location location) {
     Enemy enemy = enemyFactory.spawnEnemy();
-    if (enemy != null){
+    if (enemy != null) {
       Location spawnLocation = validLocation(location);
-      if (spawnLocation != null){
+      if (spawnLocation != null) {
         spawnLocation.addActor(enemy);
       }
     }
   }
 
   /**
-   * Find a valid location at the surrounding of the ground. Return a location if there is an
-   * empty space, return null otherwise
+   * Find a valid location at the surrounding of the ground. Return a location if there is an empty
+   * space, return null otherwise
    *
    * @param location The location of the ground
    * @return a valid location if there is an empty space at the surrounding of the ground, return

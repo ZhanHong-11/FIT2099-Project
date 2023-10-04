@@ -49,7 +49,9 @@ public abstract class Enemy extends Actor implements Droppable {
   }
 
   /**
-   * At each turn, select a valid action to perform.
+   * At each turn, select a valid action to perform. If the enemy has the capability of
+   * Ability.FOLLOW, it will add a follow behaviour to the enemy when a nearby actor which is
+   * hostile to the enemy is detected.
    *
    * @param actions    collection of possible Actions for this Actor
    * @param lastAction The Action this Actor took last turn. Can do interesting things in
@@ -61,7 +63,7 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-    if (this.hasCapability(Ability.FOLLOW)){
+    if (this.hasCapability(Ability.FOLLOW)) {
       addFollowBehaviour(map);
     }
     for (Behaviour behaviour : behaviours.values()) {
@@ -73,12 +75,13 @@ public abstract class Enemy extends Actor implements Droppable {
     return new DoNothingAction();
   }
 
-  private void addFollowBehaviour(GameMap map){
+  private void addFollowBehaviour(GameMap map) {
     for (Exit exit : map.locationOf(this).getExits()) {
       Location firstDestination = exit.getDestination();
       for (Exit exitTwo : firstDestination.getExits()) {
         Location secondDestination = exitTwo.getDestination();
-        if (secondDestination.containsAnActor() && secondDestination.getActor().hasCapability(Status.HOSTILE_TO_ENEMY)) {
+        if (secondDestination.containsAnActor() && secondDestination.getActor()
+            .hasCapability(Status.HOSTILE_TO_ENEMY)) {
           this.behaviours.put(500, new FollowBehaviour(secondDestination.getActor()));
         }
       }

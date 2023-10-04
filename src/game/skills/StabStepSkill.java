@@ -11,30 +11,57 @@ import game.weapons.SkillWeapon;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * A subclass of Skill that represents a Stab and Step skill. This skill can be used to attack an
+ * enemy and then move away. This skill requires a certain percentage of stamina to use.
+ *
+ * @see Skill
+ */
 public class StabStepSkill extends Skill {
+
   private Random random = new Random();
 
+  /**
+   * Constructs a new skill named "Stab and Step" with the default attributes.
+   */
   public StabStepSkill() {
     super("Stab and step", 25);
   }
 
+  /**
+   * Activate the skill. This method will attack the target and then move to a random location.
+   *
+   * @param actor     The actor that uses the skill
+   * @param weapon    The weapon that has the skill
+   * @param target    The target to be attacked by this skill
+   * @param map       The map that the actor is currently in
+   * @param direction The direction of the target from the actor
+   * @return A string describing the result of the skill activation
+   */
   @Override
-  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction) {
+  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map,
+      String direction) {
     String result = actor + " " + skillDescription();
     Action attackAction = new AttackAction(target, direction, weapon, weapon.damage());
     result += "\n" + attackAction.execute(actor, map);
 
     Action moveAction = findMoveAction(actor, map);
-    if (moveAction != null){
+    if (moveAction != null) {
       return result + "\n" + moveAction.execute(actor, map);
-    }
-    else {
+    } else {
       return result + "\n" + actor + " fails to step away";
     }
 
   }
 
-  private Action findMoveAction(Actor actor, GameMap map){
+  /**
+   * Find a random location that the actor can move to.
+   *
+   * @param actor The actor that uses the skill
+   * @param map   The map that the actor is currently in
+   * @return A MoveActorAction that move the actor to a random location
+   */
+  private Action findMoveAction(Actor actor, GameMap map) {
     ArrayList<Action> actions = new ArrayList<>();
 
     for (Exit exit : map.locationOf(actor).getExits()) {
@@ -46,13 +73,17 @@ public class StabStepSkill extends Skill {
 
     if (!actions.isEmpty()) {
       return actions.get(random.nextInt(actions.size()));
-    }
-    else {
+    } else {
       return null;
     }
 
   }
 
+  /**
+   * Returns a string describing the skill.
+   *
+   * @return A string describing the skill
+   */
   @Override
   public String skillDescription() {
     return "perform stab and step!";
