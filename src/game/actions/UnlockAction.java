@@ -2,12 +2,9 @@ package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.capabilities.Ability;
 import game.grounds.Unlockable;
-import game.items.Key;
-import java.util.List;
 
 /**
  * A subclass of Action that represents an unlock action. An unlock action is an action that allows
