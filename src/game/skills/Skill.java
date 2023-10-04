@@ -21,13 +21,16 @@ public abstract class Skill {
    * The percentage of stamina required to use the skill
    */
   private final int skillStaminaPercent;
+  /**
+   * The countdown of the skill. Use for skills that can last for several turns
+   */
   private int skillCountdown;
 
   /**
    * Constructs a new skill with the given attributes.
    *
-   * @param skillName                    The name of the skill
-   * @param skillStaminaPercent          The percentage of stamina required to use the skill
+   * @param skillName           The name of the skill
+   * @param skillStaminaPercent The percentage of stamina required to use the skill
    */
   public Skill(String skillName, int skillStaminaPercent) {
     this.skillName = skillName;
@@ -44,32 +47,61 @@ public abstract class Skill {
     return this.skillStaminaPercent;
   }
 
+  /**
+   * Returns the countdown of the skill.
+   *
+   * @return The countdown of the skill
+   */
   public int getSkillCountdown() {
     return this.skillCountdown;
   }
 
+  /**
+   * Sets the countdown of the skill. Useful for skill that can lasts for several turns.
+   *
+   * @param skillCountdown The countdown of the skill
+   */
   public void setSkillCountdown(int skillCountdown) {
     this.skillCountdown = skillCountdown;
   }
 
-  public void tickSkill(SkillWeapon weapon){
-    if (this.skillCountdown > 0){
+  /**
+   * Countdown the skill. For skill that can lasts for several turns.
+   */
+  public void tickSkill(SkillWeapon weapon) {
+    if (this.skillCountdown > 0) {
       this.skillCountdown--;
     }
-    if (this.skillCountdown == 0){
+    if (this.skillCountdown == 0) {
       deactivateSkill(weapon);
     }
   }
 
-  public String activateSkill(Actor actor, SkillWeapon weapon){
+  /**
+   * Activate the skill.
+   *
+   * @return The description after activating the skill
+   */
+  public String activateSkill(Actor actor, SkillWeapon weapon) {
     return "";
   }
 
-  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map, String direction){
+  /**
+   * Activate the skill. For skill that requires a target (an attack skill).
+   *
+   * @return The description after activating the skill
+   */
+  public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map,
+      String direction) {
     return "";
   }
 
-  public void deactivateSkill(SkillWeapon weapon){}
+  /**
+   * Deactivate the skill. For skill that can lasts for several turns. Basically remove the effect
+   * and reset the countdown.
+   */
+  public void deactivateSkill(SkillWeapon weapon) {
+  }
 
   /**
    * Return a description of the skill. This is for showing a description after the player activated

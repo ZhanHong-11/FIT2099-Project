@@ -13,6 +13,7 @@ import game.weapons.SkillWeapon;
  * @see Skill
  */
 public class FocusSkill extends Skill {
+
   /**
    * The duration of the skill in turns
    */
@@ -36,14 +37,27 @@ public class FocusSkill extends Skill {
     this.hitRate = 90;
   }
 
+  /**
+   * Countdown the skill duration. When the skill duration is over, reset the damage multiplier
+   *
+   * @param skillWeapon The weapon that has the skill
+   */
   @Override
   public void tickSkill(SkillWeapon skillWeapon) {
     super.tickSkill(skillWeapon);
-    if (getSkillCountdown() == 0){
+    if (getSkillCountdown() == 0) {
       skillWeapon.updateDamageMultiplier(1.0f);
     }
   }
 
+  /**
+   * Activate the skill. This method will increase the damage multiplier and hit rate of the weapon
+   * that has the skill. It will also decrease the stamina of the player.
+   *
+   * @param player The actor that uses the skill
+   * @param weapon The weapon that has the skill
+   * @return A string describing the result of the skill activation
+   */
   @Override
   public String activateSkill(Actor player, SkillWeapon weapon) {
     int staminaCost = Math.round(
@@ -60,6 +74,12 @@ public class FocusSkill extends Skill {
     return player + " " + this.skillDescription();
   }
 
+  /**
+   * Deactivate the skill. This method will reset the damage multiplier of the weapon that has the
+   * skill.
+   *
+   * @param weapon The weapon that has the skill
+   */
   @Override
   public void deactivateSkill(SkillWeapon weapon) {
     weapon.updateDamageMultiplier(1.0f);
