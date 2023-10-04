@@ -44,11 +44,10 @@ public class UnlockAction extends Action {
    */
   @Override
   public String execute(Actor actor, GameMap map) {
-    if (actor.hasCapability(Ability.UNLOCK)){
+    if (actor.hasCapability(Ability.UNLOCK)) {
       sealedObject.unlocked();
       return "The " + sealedObject + " is unlocked.";
-    }
-    else {
+    } else {
       return "The " + sealedObject + " is locked.";
     }
   }
