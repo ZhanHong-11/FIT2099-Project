@@ -1,10 +1,11 @@
 package game.spawners;
 
+import edu.monash.fit2099.engine.displays.Display;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
-import game.gamemaps.weather.Weather;
-import game.gamemaps.weather.WeatherPublisher;
-import game.gamemaps.weather.WeatherSubscriber;
+import game.weather.Weather;
+import game.weather.WeatherController;
+import game.weather.WeatherSubscriber;
 
 import java.util.Random;
 
@@ -12,38 +13,28 @@ import java.util.Random;
  * A factory that can spawn a red wolf.
  *
  * @see EnemyFactory
+ * @see WeatherSubscriber
  */
-public class RedWolfFactory implements EnemyFactory, WeatherSubscriber {
+public class RedWolfFactory extends EnemyFactory implements WeatherSubscriber {
+
   /**
    * The base spawning rate of the red wolf
    */
   public static final int BASE_SPAWN_RATE = 30;
   /**
-   * The spawning rate of the red wolf
+   * The weather controller
    */
-  private int spawningRate;
+  private WeatherController controller;
   private Random random = new Random();
-  private WeatherPublisher publisher;
 
   /**
    * Constructs a new red wolf factory with the default spawning rate.
    */
-  public RedWolfFactory(WeatherPublisher publisher){
-    this.spawningRate = BASE_SPAWN_RATE;
-    this.publisher = publisher;
-    this.publisher.subscribe(Weather.SUNNY, this);
-    this.publisher.subscribe(Weather.RAINY, this);
+  public RedWolfFactory(WeatherController controller) {
+    super(BASE_SPAWN_RATE);
+    this.controller = controller;
+    this.controller.subscribe(this);
   }
-
-//  /**
-//   * Constructs a new red wolf factory with the specified spawning rate. Useful for those
-//   * ability that can change the spawning rate of a spawning ground
-//   *
-//   * @param spawningRate The spawning rate of the red wolf
-//   */
-//  public RedWolfFactory(int spawningRate){
-//    this.spawningRate = spawningRate;
-//  }
 
   /**
    * Spawns a red wolf.
@@ -52,20 +43,33 @@ public class RedWolfFactory implements EnemyFactory, WeatherSubscriber {
    */
   @Override
   public Enemy spawnEnemy() {
-    if (random.nextInt(100) < spawningRate){
-      return new RedWolf(this.publisher);
+    if (random.nextInt(100) < getSpawningRate()) {
+      return new RedWolf(this.controller);
     }
     return null;
   }
 
+  /**
+   * Updates the spawning rate of the red wolf based on the current weather.
+   *
+   * @param currentWeather The current weather
+   */
   @Override
   public void update(Weather currentWeather) {
     if (currentWeather == Weather.RAINY) {
-      this.spawningRate = Math.round(BASE_SPAWN_RATE * 1.5f);
-      System.out.println("Spawning rate increased" + this.spawningRate);
+      setSpawningRate(Math.round(BASE_SPAWN_RATE * 1.5f));
+      new Display().println("The red wolfs are more active!");
     } else {
-      this.spawningRate = BASE_SPAWN_RATE;
-      System.out.println("Spawning rate reset");
+      setSpawningRate(BASE_SPAWN_RATE);
+      new Display().println("The red wolfs are less active.");
     }
+  }
+
+  /**
+   * Clears the weather effect if the weather is cleared.
+   */
+  @Override
+  public void clear() {
+    setSpawningRate(BASE_SPAWN_RATE);
   }
 }

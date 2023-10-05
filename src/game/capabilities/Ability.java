@@ -8,6 +8,5 @@ public enum Ability {
   IMMUNE_TO_VOID,
   UNLOCK,
   TRADING,
-  FOLLOW,
-  CONTROL_WEATHER
+  FOLLOW
 }

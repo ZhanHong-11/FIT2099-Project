@@ -5,10 +5,7 @@ import game.actors.Player;
 import game.actors.enemies.Abxervyer;
 import game.actors.enemies.WanderingUndead;
 import game.actors.merchants.Traveller;
-import game.gamemaps.weather.Weather;
-import game.gamemaps.weather.WeatherPublisher;
 import game.items.Bloodberry;
-import game.items.Rune;
 import game.spawners.ForestKeeperFactory;
 import game.spawners.HollowSoldierFactory;
 import game.spawners.RedWolfFactory;
@@ -35,8 +32,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.weapons.GiantHammer;
 
-import java.util.ArrayList;
-
 /**
  * The main class to start the game. Created by:
  *
@@ -57,13 +52,11 @@ public class Application {
     GameMap burialGround = new BurialGround(groundFactory);
     world.addGameMap(burialGround);
 
-    // REQ1: The Ancient Woods map
     GameMap ancientWoods = new AncientWood(groundFactory);
     world.addGameMap(ancientWoods);
 
     GameMap abxervyerBattleMap = new AbxervyerBattleMap(groundFactory);
     world.addGameMap(abxervyerBattleMap);
-
 
     for (String line : FancyMessage.TITLE.split("\n")) {
       new Display().println(line);
@@ -86,31 +79,30 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
+    LockedGate gate = new LockedGate(
+        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
+    Abxervyer abxervyer = new Abxervyer(gate);
+
     ancientWoods.at(0, 0).addActor(new Traveller());
     ancientWoods.at(7, 7).addItem(new Bloodberry());
-    LockedGate gate = new LockedGate(
-            new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
-    Abxervyer abxervyer = new Abxervyer(gate);
     ancientWoods.at(10, 1).setGround(new Bush(new RedWolfFactory(abxervyer)));
     ancientWoods.at(31, 10).setGround(new Bush(new RedWolfFactory(abxervyer)));
-    ancientWoods.at(43, 3).setGround(new Hut(new ForestKeeperFactory()));
-    ancientWoods.at(6, 6).setGround(new Hut(new ForestKeeperFactory()));
+    ancientWoods.at(43, 3).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
+    ancientWoods.at(6, 6).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
     ancientWoods.at(0, 7).setGround(new LockedGate(
         new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!")));
     ancientWoods.at(55, 0).setGround(
         new LockedGate(
             new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!")));
 
-    abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory()));
-    abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory()));
+    abxervyerBattleMap.at(23, 10).addActor(abxervyer);
+    abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
+    abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
+    abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer)));
 
-    abxervyerBattleMap.at(23, 10).addActor(abxervyer);
-
-    abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
-
     Player player = new Player("The Abstracted One", '@', 150, 200);
-    world.addPlayer(player, abxervyerBattleMap.at(15,5));
+    world.addPlayer(player, abandonedVillage.at(29, 5));
 
     world.run();
   }

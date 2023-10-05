@@ -9,33 +9,19 @@ import java.util.Random;
  *
  * @see EnemyFactory
  */
-public class HollowSoldierFactory implements EnemyFactory {
+public class HollowSoldierFactory extends EnemyFactory {
 
   /**
    * The base spawning rate of the hollow soldier
    */
   public static final int BASE_SPAWN_RATE = 10;
-  /**
-   * The spawning rate of the hollow soldier
-   */
-  private int spawningRate;
   private Random random = new Random();
 
   /**
    * Constructs a new hollow soldier factory with the default spawning rate.
    */
   public HollowSoldierFactory() {
-    this.spawningRate = BASE_SPAWN_RATE;
-  }
-
-  /**
-   * Constructs a new hollow soldier factory with the specified spawning rate. Useful for those
-   * ability that can change the spawning rate of a spawning ground
-   *
-   * @param spawningRate The spawning rate of the hollow soldier
-   */
-  public HollowSoldierFactory(int spawningRate) {
-    this.spawningRate = spawningRate;
+    super(BASE_SPAWN_RATE);
   }
 
   /**
@@ -45,7 +31,7 @@ public class HollowSoldierFactory implements EnemyFactory {
    */
   @Override
   public Enemy spawnEnemy() {
-    if (random.nextInt(100) < spawningRate) {
+    if (random.nextInt(100) < getSpawningRate()) {
       return new HollowSoldier();
     }
     return null;

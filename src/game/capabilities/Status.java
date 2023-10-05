@@ -9,7 +9,5 @@ package game.capabilities;
 public enum Status {
     HOSTILE_TO_ENEMY,
     DANGER,
-    NEUTRAL,
-    SUNNY_BUFF,
-    RAINY_BUFF
+    NEUTRAL
 }

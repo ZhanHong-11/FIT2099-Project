@@ -1,13 +1,13 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
-import game.capabilities.Status;
-import game.gamemaps.weather.Weather;
-import game.gamemaps.weather.WeatherPublisher;
-import game.gamemaps.weather.WeatherSubscriber;
+import game.weather.Weather;
+import game.weather.WeatherController;
+import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
 import game.items.Rune;
 
@@ -37,24 +37,29 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
   /**
    * The base healing vial drop rate of the Red Wolf
    */
-  public static final int BASE_HEALING_VIAL_DROP_RATE = 10;
+  private static final int BASE_HEALING_VIAL_DROP_RATE = 10;
   /**
    * The base runes drop amount of the Red Wolf
    */
-  public static final int BASE_RUNES_DROP_AMOUNT = 25;
+  private static final int BASE_RUNES_DROP_AMOUNT = 25;
+  /**
+   * The current intrinsic weapon damage of the Red Wolf
+   */
+  private int intrinsicWeaponDamage = BASE_INTRINSIC_WEAPON_DAMAGE;
+  /**
+   * The weather controller that the Red Wolf is subscribed to
+   */
+  private WeatherController controller;
   private Random random = new Random();
-
-  private WeatherPublisher publisher;
 
   /**
    * Constructs a new Red Wolf.
    */
-  public RedWolf(WeatherPublisher publisher) {
+  public RedWolf(WeatherController controller) {
     super("Red Wolf", 'r', 25);
+    this.controller = controller;
+    this.controller.subscribe(this);
     this.addCapability(Ability.FOLLOW);
-    this.publisher = publisher;
-    this.publisher.subscribe(Weather.SUNNY, this);
-    this.publisher.subscribe(Weather.RAINY, this);
   }
 
   /**
@@ -65,13 +70,8 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    if (!this.hasCapability(Status.SUNNY_BUFF)) {
-      return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB,
-          BASE_INTRINSIC_HIT_RATE);
-    } else {
-      return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE * 3, BASE_WEAPON_VERB,
-          BASE_INTRINSIC_HIT_RATE);
-    }
+    return new IntrinsicWeapon(this.intrinsicWeaponDamage, BASE_WEAPON_VERB,
+        BASE_INTRINSIC_HIT_RATE);
   }
 
   /**
@@ -92,14 +92,29 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
     }
   }
 
+  /**
+   * Updates the intrinsic weapon damage of the Red Wolf when the weather is updated. If the weather
+   * is sunny, the intrinsic weapon damage is tripled. If the weather is rainy, the intrinsic weapon
+   * damage is set to the base value.
+   *
+   * @param currentWeather the current weather
+   */
   @Override
   public void update(Weather currentWeather) {
     if (currentWeather == Weather.RAINY) {
-      this.updateDamageMultiplier(BASE_INTRINSIC_WEAPON_DAMAGE);
-      System.out.println("Red wolf become less aggressive");
+      this.intrinsicWeaponDamage = BASE_INTRINSIC_WEAPON_DAMAGE;
+      new Display().println("Red wolf is less aggressive");
     } else {
-      this.updateDamageMultiplier(BASE_INTRINSIC_WEAPON_DAMAGE * 3);
-      System.out.println("Red wolf become aggressive");
+      this.intrinsicWeaponDamage = BASE_INTRINSIC_WEAPON_DAMAGE * 3;
+      new Display().println("Red wolf is more aggressive");
     }
+  }
+
+  /**
+   * Clears the intrinsic weapon damage of the Red Wolf when the weather is cleared.
+   */
+  @Override
+  public void clear() {
+    this.intrinsicWeaponDamage = BASE_INTRINSIC_WEAPON_DAMAGE;
   }
 }
