@@ -2,6 +2,8 @@ package game.skills;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -51,6 +53,9 @@ public class GreatSlamSkill extends Skill {
       if (location.containsAnActor() && !location.getActor().hasCapability(Status.NEUTRAL)) {
         int damage = Math.round(weapon.damage() / 2f);
         Action attackAction2 = new AttackAction(location.getActor(), direction, weapon, damage);
+        float maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
+        float staminaReduction = maxStamina * 0.05f;
+        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, Math.round(staminaReduction));
         result += "\n" + attackAction2.execute(actor, map);
       }
     }
