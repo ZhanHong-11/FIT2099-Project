@@ -102,7 +102,11 @@ public class Abxervyer extends Enemy implements WeatherController {
   @Override
   public String unconscious(Actor actor, GameMap map) {
     String result = clearWeather();
-    return super.unconscious(actor, map) + "\n" + this + " is dead!!\n" + result;
+    return super.unconscious(actor, map) + "\n" + this + " meets his end, " +
+            "and the forest falls silent. Moonlight reveals twisted roots, casting eerie shadows.\n" +
+            "The night chills, and leaves rustle ominously. " +
+            "From the shadows, a ghostly voice emerges, whispering, " +
+            "'In death, Abxervyer's gaze finds you, merging you with the haunted woods.\n" + result;
 
   }
 
@@ -121,7 +125,7 @@ public class Abxervyer extends Enemy implements WeatherController {
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
     turnCounter();
     notifyWeather();
-    display.println("The weather is " + this.currentWeather + "...");
+
 
     return super.playTurn(actions, lastAction, map, display);
   }
@@ -132,8 +136,10 @@ public class Abxervyer extends Enemy implements WeatherController {
   private void switchWeather() {
     if (this.currentWeather == Weather.SUNNY) {
       this.currentWeather = Weather.RAINY;
+      new Display().println("The weather is now " + this.currentWeather.name().toLowerCase() + "...");
     } else {
       this.currentWeather = Weather.SUNNY;
+      new Display().println("The weather is now " + this.currentWeather.name().toLowerCase() + "...");
     }
   }
 

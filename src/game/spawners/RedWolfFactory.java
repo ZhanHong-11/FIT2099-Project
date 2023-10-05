@@ -58,10 +58,10 @@ public class RedWolfFactory extends EnemyFactory implements WeatherSubscriber {
   public void update(Weather currentWeather) {
     if (currentWeather == Weather.RAINY) {
       setSpawningRate(Math.round(BASE_SPAWN_RATE * 1.5f));
-      new Display().println("The red wolfs are more active!");
+      new Display().println("The red-wolves are more active!");
     } else {
       setSpawningRate(BASE_SPAWN_RATE);
-      new Display().println("The red wolfs are less active.");
+      new Display().println("The red-wolves are less active.");
     }
   }
 

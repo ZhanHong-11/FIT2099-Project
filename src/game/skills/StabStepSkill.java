@@ -3,6 +3,9 @@ package game.skills;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -47,7 +50,11 @@ public class StabStepSkill extends Skill {
 
     Action moveAction = findMoveAction(actor, map);
     if (moveAction != null) {
+      float maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
+      float staminaReduction = maxStamina * 0.25f;
+      actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, Math.round(staminaReduction));
       return result + "\n" + moveAction.execute(actor, map);
+
     } else {
       return result + "\n" + actor + " fails to step away";
     }

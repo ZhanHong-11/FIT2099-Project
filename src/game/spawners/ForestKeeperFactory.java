@@ -57,10 +57,10 @@ public class ForestKeeperFactory extends EnemyFactory implements WeatherSubscrib
   public void update(Weather currentWeather) {
     if (currentWeather == Weather.SUNNY) {
       setSpawningRate(BASE_SPAWN_RATE * 2);
-      new Display().println("The forest keepers are more active!");
+      new Display().println("The forest-keepers are more active!");
     } else {
       setSpawningRate(BASE_SPAWN_RATE);
-      new Display().println("The forest keepers are less active.");
+      new Display().println("The forest-keepers are less active.");
     }
   }
 

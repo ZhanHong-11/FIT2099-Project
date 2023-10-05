@@ -99,7 +99,7 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
     int healthRecoveryInRain = 10;
     if (currentWeather == Weather.RAINY) {
       heal(healthRecoveryInRain);
-      new Display().println("Forest Keeper heals by " + healthRecoveryInRain + " points");
+      new Display().println("Forest Keeper is healed by " + healthRecoveryInRain + " points");
     }
   }
 
