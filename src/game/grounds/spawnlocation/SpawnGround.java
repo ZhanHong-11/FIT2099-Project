@@ -33,16 +33,6 @@ public abstract class SpawnGround extends Ground {
   }
 
   /**
-   * Set the enemy factory for the spawn ground Useful for setting different spawning rate for the
-   * enemy factory
-   *
-   * @param spawnable The enemy factory
-   */
-  public void setEnemyFactory(Spawnable spawnable) {
-    this.spawnable = spawnable;
-  }
-
-  /**
    * For every turn, there is a probability to spawn a new enemy If the ground is surrounded with
    * enemies, and there is also an enemy standing on the ground, the ground will not spawn another
    * enemy unless there is an empty space at the surrounding.
