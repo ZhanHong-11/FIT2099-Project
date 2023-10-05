@@ -2,7 +2,6 @@ package game.skills;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -42,6 +41,13 @@ public class GreatSlamSkill extends Skill {
   @Override
   public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map,
       String direction) {
+    int staminaCost = Math.round(
+        actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * getSkillStaminaPercent() / 100f);
+    if (actor.getAttribute(BaseActorAttributes.STAMINA) < staminaCost) {
+      return actor + " has insufficient stamina.";
+    }
+    consumeStamina(actor, staminaCost);
+
     Location targetLocation = map.locationOf(target);
 
     String result = actor + " " + skillDescription();
@@ -53,9 +59,6 @@ public class GreatSlamSkill extends Skill {
       if (location.containsAnActor() && !location.getActor().hasCapability(Status.NEUTRAL)) {
         int damage = Math.round(weapon.damage() / 2f);
         Action attackAction2 = new AttackAction(location.getActor(), direction, weapon, damage);
-        float maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-        float staminaReduction = maxStamina * 0.05f;
-        actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, Math.round(staminaReduction));
         result += "\n" + attackAction2.execute(actor, map);
       }
     }

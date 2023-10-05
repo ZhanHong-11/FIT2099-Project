@@ -1,6 +1,8 @@
 package game.skills;
 
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.weapons.SkillWeapon;
 
@@ -36,6 +38,14 @@ public abstract class Skill {
     this.skillName = skillName;
     this.skillStaminaPercent = skillStaminaPercent;
     this.skillCountdown = 0;
+  }
+
+  /**
+   * Decrease the stamina of the player based on the stamina required by the activated skill
+   */
+  protected void consumeStamina(Actor actor, int staminaReduction) {
+    actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE,
+        staminaReduction);
   }
 
   /**

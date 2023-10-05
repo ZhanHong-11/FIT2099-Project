@@ -1,7 +1,6 @@
 package game.skills;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import game.weapons.SkillWeapon;
 
@@ -65,9 +64,7 @@ public class FocusSkill extends Skill {
     if (player.getAttribute(BaseActorAttributes.STAMINA) < staminaCost) {
       return player + " has insufficient stamina.";
     }
-    player.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE,
-        staminaCost);
-
+    consumeStamina(player, staminaCost);
     setSkillCountdown(this.skillDuration);
     weapon.updateHitRate(this.hitRate);
     weapon.increaseDamageMultiplier(this.skillDamageMultiplierPercent / 100f);

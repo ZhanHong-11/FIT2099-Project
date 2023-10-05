@@ -3,8 +3,6 @@ package game.skills;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
-import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
@@ -44,15 +42,19 @@ public class StabStepSkill extends Skill {
   @Override
   public String activateSkill(Actor actor, SkillWeapon weapon, Actor target, GameMap map,
       String direction) {
+    int staminaCost = Math.round(
+        actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * getSkillStaminaPercent() / 100f);
+    if (actor.getAttribute(BaseActorAttributes.STAMINA) < staminaCost) {
+      return actor + " has insufficient stamina.";
+    }
+    consumeStamina(actor, staminaCost);
+
     String result = actor + " " + skillDescription();
     Action attackAction = new AttackAction(target, direction, weapon, weapon.damage());
     result += "\n" + attackAction.execute(actor, map);
 
     Action moveAction = findMoveAction(actor, map);
     if (moveAction != null) {
-      float maxStamina = actor.getAttributeMaximum(BaseActorAttributes.STAMINA);
-      float staminaReduction = maxStamina * 0.25f;
-      actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.DECREASE, Math.round(staminaReduction));
       return result + "\n" + moveAction.execute(actor, map);
 
     } else {
