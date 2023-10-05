@@ -4,7 +4,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actors.enemies.Enemy;
-import game.spawners.EnemyFactory;
+import game.spawners.Spawnable;
 import java.util.List;
 
 /**
@@ -18,28 +18,28 @@ public abstract class SpawnGround extends Ground {
   /**
    * an Enemy Factory that will spawn a certain type of enemy in this type of ground
    */
-  private EnemyFactory enemyFactory;
+  private Spawnable spawnable;
 
   /**
    * Constructor.
    *
    * @param displayChar  character to display for this type of terrain
-   * @param enemyFactory represents an Enemy Factory that will spawn a certain type of enemy in this
+   * @param spawnable represents an Enemy Factory that will spawn a certain type of enemy in this
    *                     spawning ground
    */
-  public SpawnGround(char displayChar, EnemyFactory enemyFactory) {
+  public SpawnGround(char displayChar, Spawnable spawnable) {
     super(displayChar);
-    this.enemyFactory = enemyFactory;
+    this.spawnable = spawnable;
   }
 
   /**
    * Set the enemy factory for the spawn ground Useful for setting different spawning rate for the
    * enemy factory
    *
-   * @param enemyFactory The enemy factory
+   * @param spawnable The enemy factory
    */
-  public void setEnemyFactory(EnemyFactory enemyFactory) {
-    this.enemyFactory = enemyFactory;
+  public void setEnemyFactory(Spawnable spawnable) {
+    this.spawnable = spawnable;
   }
 
   /**
@@ -51,7 +51,7 @@ public abstract class SpawnGround extends Ground {
    */
   @Override
   public void tick(Location location) {
-    Enemy enemy = enemyFactory.spawnEnemy();
+    Enemy enemy = spawnable.spawnEnemy();
     if (enemy != null) {
       Location spawnLocation = validLocation(location);
       if (spawnLocation != null) {

@@ -10,13 +10,14 @@ import game.items.Rune;
 import java.util.Random;
 
 /**
- * A subclass of Enemy that represents a hollow soldier. A hollow soldier is an enemy that
- * can wander and attack those that are hostile to enemy. It can drop healing vials or
- * refreshing flasks when killed with a certain probability.
+ * A subclass of Enemy that represents a hollow soldier. A hollow soldier is an enemy that can
+ * wander and attack those that are hostile to enemy. It can drop healing vials or refreshing flasks
+ * when killed with a certain probability.
  *
  * @see Enemy
  */
 public class HollowSoldier extends Enemy {
+
   /**
    * The base intrinsic weapon damage of the hollow soldier
    */
@@ -32,15 +33,15 @@ public class HollowSoldier extends Enemy {
   /**
    * The base healing vial drop rate of the hollow soldier
    */
-  public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  private static final int BASE_HEALING_VIAL_DROP_RATE = 20;
   /**
    * The base refreshing flask drop rate of the hollow soldier
    */
-  public static final int BASE_REFRESHING_FLASK_DROP_RATE = 30;
+  private static final int BASE_REFRESHING_FLASK_DROP_RATE = 30;
   /**
    * The base runes drop amount of the hollow soldier
    */
-  public static final int BASE_RUNES_DROP_AMOUNT = 100;
+  private static final int BASE_RUNES_DROP_AMOUNT = 100;
   private Random random = new Random();
 
   /**
@@ -58,15 +59,15 @@ public class HollowSoldier extends Enemy {
    */
   @Override
   public IntrinsicWeapon getIntrinsicWeapon() {
-    return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB, BASE_INTRINSIC_HIT_RATE);
+    return new IntrinsicWeapon(BASE_INTRINSIC_WEAPON_DAMAGE, BASE_WEAPON_VERB,
+        BASE_INTRINSIC_HIT_RATE);
   }
 
   /**
    * Drops an item on the game map when the hollow soldier is killed. The item can be either a
    * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
    * probability of item dropping is independent to the others. The item is dropped at the location
-   * of the hollow soldier.
-   * Will also drop Runes when killed by another actor
+   * of the hollow soldier. Will also drop Runes when killed by another actor
    *
    * @param map The game map where the hollow soldier is located.
    */

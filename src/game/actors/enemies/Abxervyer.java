@@ -8,9 +8,9 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
-import game.gamemaps.weather.Weather;
-import game.gamemaps.weather.WeatherPublisher;
-import game.gamemaps.weather.WeatherSubscriber;
+import game.weather.Weather;
+import game.weather.WeatherController;
+import game.weather.WeatherSubscriber;
 import game.grounds.LockedGate;
 import game.items.Rune;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
  *
  * @see Enemy
  */
-public class Abxervyer extends Enemy implements WeatherPublisher {
+public class Abxervyer extends Enemy implements WeatherController {
 
   /**
    * The base intrinsic weapon damage of the Abxervyer
@@ -47,10 +47,17 @@ public class Abxervyer extends Enemy implements WeatherPublisher {
    * The gate that will appear on the map after the Abxervyer is killed
    */
   private LockedGate gate;
+  /**
+   * The current weather that the boss is affecting
+   */
   private Weather currentWeather = Weather.SUNNY;
-
+  /**
+   * The turn count for the boss to switch the weather
+   */
   private int turnCount = 3;
-
+  /**
+   * The list of subscribers that are subscribed to the weather of the boss
+   */
   private ArrayList<WeatherSubscriber> subscribers = new ArrayList<>();
 
   /**
@@ -63,8 +70,6 @@ public class Abxervyer extends Enemy implements WeatherPublisher {
     this.gate = gate;
     this.addCapability(Ability.IMMUNE_TO_VOID);
     this.addCapability(Ability.FOLLOW);
-    this.addCapability(Ability.CONTROL_WEATHER);
-
   }
 
   /**
@@ -91,58 +96,99 @@ public class Abxervyer extends Enemy implements WeatherPublisher {
   }
 
   /**
-   * A dead message will be return after the boss is dead
+   * A dead message will be return after the boss is dead The weather will be cleared after the boss
+   * is dead
    */
   @Override
   public String unconscious(Actor actor, GameMap map) {
-    return super.unconscious(actor, map) + "\n" + this + " is dead!!";
+    String result = clearWeather();
+    return super.unconscious(actor, map) + "\n" + this + " is dead!!\n" + result;
 
   }
 
+  /**
+   * The boss will switch the weather every 3 turns. It will notify the enemies that are affected by
+   * weather
+   *
+   * @param actions    collection of possible Actions for this Actor
+   * @param lastAction The Action this Actor took last turn. Can do interesting things in
+   *                   conjunction with Action.getNextAction()
+   * @param map        the map containing the Actor
+   * @param display    the I/O object to which messages may be written
+   * @return
+   */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
     turnCounter();
-    display.println("Weather is now " + this.currentWeather);
-
+    notifyWeather();
+    display.println("The weather is " + this.currentWeather + "...");
 
     return super.playTurn(actions, lastAction, map, display);
   }
 
+  /**
+   * Switch weather
+   */
   private void switchWeather() {
     if (this.currentWeather == Weather.SUNNY) {
       this.currentWeather = Weather.RAINY;
     } else {
       this.currentWeather = Weather.SUNNY;
     }
-    notifyWeather();
   }
 
+  /**
+   * Count down the turn
+   */
   private void turnCounter() {
     if (this.turnCount > 1) {
       this.turnCount--;
-    }
-    else {
+    } else {
       this.turnCount = 3;
       switchWeather();
     }
   }
 
-
+  /**
+   * For the enemy that are affected by the weather to subscribe to the weather controller.
+   *
+   * @param subscriber the subscriber to subscribe
+   */
   @Override
-  public void subscribe(Weather weather, WeatherSubscriber subscriber) {
+  public void subscribe(WeatherSubscriber subscriber) {
     this.subscribers.add(subscriber);
-
   }
 
+  /**
+   * For the enemy that are affected by the weather to unsubscribe to the weather controller.
+   *
+   * @param subscriber the subscriber to unsubscribe
+   */
   @Override
-  public void unsubscribe() {
-
+  public void unsubscribe(WeatherSubscriber subscriber) {
+    this.subscribers.remove(subscriber);
   }
 
+  /**
+   * For the weather controller to notify the subscribers of the weather update.
+   */
   @Override
   public void notifyWeather() {
     for (WeatherSubscriber subscriber : subscribers) {
       subscriber.update(this.currentWeather);
     }
+  }
+
+  /**
+   * For the weather controller to clear the weather.
+   *
+   * @return the message to be displayed
+   */
+  @Override
+  public String clearWeather() {
+    for (WeatherSubscriber subscriber : subscribers) {
+      subscriber.clear();
+    }
+    return "The weather is back to normal.";
   }
 }

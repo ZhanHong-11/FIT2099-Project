@@ -33,15 +33,15 @@ public class WanderingUndead extends Enemy {
   /**
    * The base key drop rate of the wandering undead
    */
-  public static final int BASE_KEY_DROP_RATE = 25;
+  private static final int BASE_KEY_DROP_RATE = 25;
   /**
    * The base healing vial drop rate of the wandering undead
    */
-  public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  private static final int BASE_HEALING_VIAL_DROP_RATE = 20;
   /**
    * The base runes drop amount of the wandering undead
    */
-  public static final int BASE_RUNES_DROP_AMOUNT = 50;
+  private static final int BASE_RUNES_DROP_AMOUNT = 50;
   private Random random = new Random();
 
   /**

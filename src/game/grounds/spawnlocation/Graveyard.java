@@ -1,6 +1,6 @@
 package game.grounds.spawnlocation;
 
-import game.spawners.EnemyFactory;
+import game.spawners.Spawnable;
 
 /**
  * A class that represents the graveyard, where it extends SpawnGround Created by:
@@ -13,11 +13,11 @@ public class Graveyard extends SpawnGround {
   /**
    * Constructs a new Graveyard
    *
-   * @param enemyFactory represents an Enemy Factory that will spawn a certain type of enemy in this
+   * @param spawnable represents an Enemy Factory that will spawn a certain type of enemy in this
    *                     type of ground
    */
-  public Graveyard(EnemyFactory enemyFactory) {
-    super('n', enemyFactory);
+  public Graveyard(Spawnable spawnable) {
+    super('n', spawnable);
   }
 
 }

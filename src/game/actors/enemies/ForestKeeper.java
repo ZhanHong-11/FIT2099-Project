@@ -1,13 +1,13 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.actions.Action;
-import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
-import game.capabilities.Status;
+import game.weather.Weather;
+import game.weather.WeatherController;
+import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
 import game.items.Rune;
 
@@ -21,7 +21,7 @@ import java.util.Random;
  *
  * @see Enemy
  */
-public class ForestKeeper extends Enemy {
+public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
   /**
    * The base intrinsic weapon damage of the Forest Keeper
@@ -38,18 +38,24 @@ public class ForestKeeper extends Enemy {
   /**
    * The base healing vial drop rate of the Forest Keeper
    */
-  public static final int BASE_HEALING_VIAL_DROP_RATE = 20;
+  private static final int BASE_HEALING_VIAL_DROP_RATE = 20;
   /**
    * The base runes drop amount of the Forest Keeper
    */
-  public static final int BASE_RUNES_DROP_AMOUNT = 50;
+  private static final int BASE_RUNES_DROP_AMOUNT = 50;
+  /**
+   * The weather controller
+   */
+  private WeatherController controller;
   private Random random = new Random();
 
   /**
    * Constructs a new Forest Keeper.
    */
-  public ForestKeeper() {
+  public ForestKeeper(WeatherController controller) {
     super("Forest Keeper", '8', 125);
+    this.controller = controller;
+    this.controller.subscribe(this);
     this.addCapability(Ability.FOLLOW);
   }
 
@@ -83,13 +89,25 @@ public class ForestKeeper extends Enemy {
   }
 
   /**
-   * If the Forest Keeper has the capability of Status.RAINY_BUFF, it will heal 10 hit points
+   * Updates the Forest Keeper when the weather changes. If the weather is sunny, the Forest Keeper
+   * will heal by 10 points.
+   *
+   * @param currentWeather the current weather
    */
   @Override
-  public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-    if (this.hasCapability(Status.RAINY_BUFF)) {
-      heal(10);
+  public void update(Weather currentWeather) {
+    int healthRecoveryInRain = 10;
+    if (currentWeather == Weather.RAINY) {
+      heal(healthRecoveryInRain);
+      new Display().println("Forest Keeper heals by " + healthRecoveryInRain + " points");
     }
-    return super.playTurn(actions, lastAction, map, display);
+  }
+
+  /**
+   * Forest keeper only heal when it is raining. Clearing the weather does not affect anything but
+   * not continue to heal.
+   */
+  @Override
+  public void clear() {
   }
 }
