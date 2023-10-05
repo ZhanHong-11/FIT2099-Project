@@ -1,12 +1,20 @@
 package game.actors.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
+import game.gamemaps.weather.Weather;
+import game.gamemaps.weather.WeatherPublisher;
+import game.gamemaps.weather.WeatherSubscriber;
 import game.grounds.LockedGate;
 import game.items.Rune;
+
+import java.util.ArrayList;
 
 /**
  * A class that represents the Abxervyer. The Abxervyer is a boss that can attack other actors who
@@ -17,7 +25,7 @@ import game.items.Rune;
  *
  * @see Enemy
  */
-public class Abxervyer extends Enemy {
+public class Abxervyer extends Enemy implements WeatherPublisher {
 
   /**
    * The base intrinsic weapon damage of the Abxervyer
@@ -34,11 +42,16 @@ public class Abxervyer extends Enemy {
   /**
    * The base runes drop amount of the Abxervyer
    */
-  public static final int BASE_RUNES_DROP_AMOUNT = 5000;
+  private static final int BASE_RUNES_DROP_AMOUNT = 5000;
   /**
    * The gate that will appear on the map after the Abxervyer is killed
    */
   private LockedGate gate;
+  private Weather currentWeather = Weather.SUNNY;
+
+  private int turnCount = 3;
+
+  private ArrayList<WeatherSubscriber> subscribers = new ArrayList<>();
 
   /**
    * Constructs a new Abxervyer.
@@ -51,6 +64,7 @@ public class Abxervyer extends Enemy {
     this.addCapability(Ability.IMMUNE_TO_VOID);
     this.addCapability(Ability.FOLLOW);
     this.addCapability(Ability.CONTROL_WEATHER);
+
   }
 
   /**
@@ -82,5 +96,53 @@ public class Abxervyer extends Enemy {
   @Override
   public String unconscious(Actor actor, GameMap map) {
     return super.unconscious(actor, map) + "\n" + this + " is dead!!";
+
+  }
+
+  @Override
+  public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+    turnCounter();
+    display.println("Weather is now " + this.currentWeather);
+
+
+    return super.playTurn(actions, lastAction, map, display);
+  }
+
+  private void switchWeather() {
+    if (this.currentWeather == Weather.SUNNY) {
+      this.currentWeather = Weather.RAINY;
+    } else {
+      this.currentWeather = Weather.SUNNY;
+    }
+    notifyWeather();
+  }
+
+  private void turnCounter() {
+    if (this.turnCount > 1) {
+      this.turnCount--;
+    }
+    else {
+      this.turnCount = 3;
+      switchWeather();
+    }
+  }
+
+
+  @Override
+  public void subscribe(Weather weather, WeatherSubscriber subscriber) {
+    this.subscribers.add(subscriber);
+
+  }
+
+  @Override
+  public void unsubscribe() {
+
+  }
+
+  @Override
+  public void notifyWeather() {
+    for (WeatherSubscriber subscriber : subscribers) {
+      subscriber.update(this.currentWeather);
+    }
   }
 }
