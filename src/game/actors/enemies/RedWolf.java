@@ -5,6 +5,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.capabilities.Status;
+import game.gamemaps.weather.Weather;
+import game.gamemaps.weather.WeatherPublisher;
+import game.gamemaps.weather.WeatherSubscriber;
 import game.items.HealingVial;
 import game.items.Rune;
 
@@ -17,7 +20,7 @@ import java.util.Random;
  *
  * @see Enemy
  */
-public class RedWolf extends Enemy {
+public class RedWolf extends Enemy implements WeatherSubscriber {
 
   /**
    * The base intrinsic weapon damage of the Red Wolf
@@ -41,12 +44,17 @@ public class RedWolf extends Enemy {
   public static final int BASE_RUNES_DROP_AMOUNT = 25;
   private Random random = new Random();
 
+  private WeatherPublisher publisher;
+
   /**
    * Constructs a new Red Wolf.
    */
-  public RedWolf() {
+  public RedWolf(WeatherPublisher publisher) {
     super("Red Wolf", 'r', 25);
     this.addCapability(Ability.FOLLOW);
+    this.publisher = publisher;
+    this.publisher.subscribe(Weather.SUNNY, this);
+    this.publisher.subscribe(Weather.RAINY, this);
   }
 
   /**
@@ -84,4 +92,14 @@ public class RedWolf extends Enemy {
     }
   }
 
+  @Override
+  public void update(Weather currentWeather) {
+    if (currentWeather == Weather.RAINY) {
+      this.updateDamageMultiplier(BASE_INTRINSIC_WEAPON_DAMAGE);
+      System.out.println("Red wolf become less aggressive");
+    } else {
+      this.updateDamageMultiplier(BASE_INTRINSIC_WEAPON_DAMAGE * 3);
+      System.out.println("Red wolf become aggressive");
+    }
+  }
 }
