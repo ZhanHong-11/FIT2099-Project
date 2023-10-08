@@ -4,15 +4,13 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
+import game.actors.enemies.LivingBranch;
 import game.actors.enemies.WanderingUndead;
 import game.actors.merchants.Traveller;
 import game.gamemaps.*;
 import game.items.Bloodberry;
 import game.items.Key;
-import game.spawners.ForestKeeperFactory;
-import game.spawners.HollowSoldierFactory;
-import game.spawners.RedWolfFactory;
-import game.spawners.WanderingUndeadFactory;
+import game.spawners.*;
 import game.display.FancyMessage;
 import game.grounds.Dirt;
 import game.grounds.Floor;
@@ -110,13 +108,14 @@ public class Application {
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer)));
 
+    overgrownSanctuary.at(16, 1).setGround(new Hut(new EldentreeGuardianFactory()));
+    overgrownSanctuary.at(18, 1).setGround(new Bush(new LivingBranchFactory()));
 
 
 
 
 
-
-    Player player = new Player("The Abstracted One", '@', 150, 200);
+    Player player = new Player("The Abstracted One", '@', 999, 200);
 //    world.addPlayer(player, abandonedVillage.at(29, 5));
 
 
