@@ -1,19 +1,21 @@
-package game;
+package game.actions;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.Monologue;
+import game.Speakable;
 
 public class SpeakAction extends Action {
   private Speakable speakable;
-  private String monologue;
-  public  SpeakAction(Speakable speakable, String monologue){
+  private Monologue monologue;
+  public SpeakAction(Speakable speakable, Monologue monologue){
     this.speakable = speakable;
     this.monologue = monologue;
   }
   @Override
   public String execute(Actor actor, GameMap map) {
-    return this.speakable.speak(this.monologue);
+    return this.monologue.getSpeaker() + " to " + actor + ": " + this.monologue.getMonologue();
   }
 
   @Override
