@@ -3,6 +3,11 @@ package game.actors.merchants;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.SpeakAction;
+import game.capabilities.Ability;
+import game.monologues.Speakable;
+import game.capabilities.Status;
+import java.util.ArrayList;
 import game.actions.BuyAction;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
@@ -16,7 +21,7 @@ import java.util.Random;
  *
  * @see Merchant
  */
-public class Traveller extends Merchant {
+public class Traveller extends Merchant implements Speakable {
 
   /**
    * The base healing vial buy price of the traveller
@@ -74,6 +79,9 @@ public class Traveller extends Merchant {
     } else {
       actions.add(new BuyAction(new GreatKnife(), BASE_GREAT_KNIFE_BUY_PRICE));
     }
+
+    String chosenMonologue = this.speak(otherActor);
+    actions.add(new SpeakAction(this,chosenMonologue));
 
     return actions;
   }
