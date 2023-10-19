@@ -9,5 +9,6 @@ public enum Ability {
   UNLOCK,
   TRADING,
   FOLLOW,
-  CRAFTING
+  CRAFTING,
+  STAB_STEP
 }

@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
+import game.capabilities.Status;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
@@ -102,6 +103,7 @@ public class Abxervyer extends Enemy implements WeatherController {
   @Override
   public String unconscious(Actor actor, GameMap map) {
     String result = clearWeather();
+    actor.addCapability(Status.ABXERVYER_KILLER);
     return super.unconscious(actor, map) + "\n" + this + " meets his end, " +
         "and the forest falls silent. Moonlight reveals twisted roots, casting eerie shadows.\n" +
         "The night chills, and leaves rustle ominously. " +

@@ -37,6 +37,7 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
    */
   public GreatKnife() {
     super("Great Knife", '>', 75, "stab", BASE_HIT_RATE);
+    this.addCapability(Ability.STAB_STEP);
     this.setSkill(new StabStepSkill());
   }
 
