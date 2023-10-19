@@ -11,4 +11,5 @@ public enum Status {
     DANGER,
     NEUTRAL,
     ABXERVYER_KILLER,
+    RESET
 }
