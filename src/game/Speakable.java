@@ -2,7 +2,8 @@ package game;
 
 public interface Speakable {
 
-  void speak();
+  String speak(String monologue);
+
 
 
 
