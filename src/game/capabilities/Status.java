@@ -10,5 +10,5 @@ public enum Status {
     HOSTILE_TO_ENEMY,
     DANGER,
     NEUTRAL,
-    DEFEATED_ABXERVYER,
+    ABXERVYER_KILLER,
 }

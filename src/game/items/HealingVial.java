@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
+import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 import java.util.Random;
 
@@ -20,12 +21,17 @@ import java.util.Random;
  * @see Buyable
  * @see Sellable
  */
-public class HealingVial extends Item implements Consumable, Buyable, Sellable {
+public class HealingVial extends Item implements Consumable, Buyable, Sellable, Upgradable {
+
+  private static final int BASE_HEALTH_RECOVERY_PERCENT = 10;
+  private int healthRecoveryPercent;
 
   /**
    * The base selling price of the healing vial
    */
   private static final int BASE_SELL_PRICE = 35;
+  private static final int BASE_UPGRADE_COST = 250;
+  private boolean isUpgraded;
   private Random random = new Random();
 
   /**
@@ -33,6 +39,8 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
    */
   public HealingVial() {
     super("Healing Vial", 'a', true);
+    this.healthRecoveryPercent = BASE_HEALTH_RECOVERY_PERCENT;
+    this.isUpgraded = false;
   }
 
   /**
@@ -49,7 +57,7 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
   }
 
   /**
-   * List of allowable actions that healing vial can perform to the current actor This item can be
+   * List of allowable actions that healing vial can perform to the current actor. This item can be
    * sold to actor that has the trading ability
    *
    * @param otherActor the other actor
@@ -60,6 +68,11 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
     ActionList actions = super.allowableActions(otherActor, location);
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
+    }
+    if (!this.isUpgraded){
+      if (otherActor.hasCapability(Ability.CRAFTING)) {
+        actions.add(new UpgradeAction(this));
+      }
     }
     return actions;
   }
@@ -73,7 +86,8 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
    */
   @Override
   public String consume(Actor actor) {
-    int healthRecovery = Math.round(actor.getAttributeMaximum(BaseActorAttributes.HEALTH) / 10f);
+    int healthRecovery = Math.round(
+        actor.getAttributeMaximum(BaseActorAttributes.HEALTH) * this.healthRecoveryPercent / 100f);
     actor.heal(healthRecovery);
     actor.removeItemFromInventory(this);
     return actor + " restores the health by " + healthRecovery + " points.";
@@ -117,5 +131,17 @@ public class HealingVial extends Item implements Consumable, Buyable, Sellable {
       return BASE_SELL_PRICE * 2;
     }
     return BASE_SELL_PRICE;
+  }
+
+  @Override
+  public String upgrade() {
+    this.healthRecoveryPercent = 80;
+    this.isUpgraded = !this.isUpgraded;
+    return this + " has been upgraded!";
+  }
+
+  @Override
+  public int getUpgradeCost() {
+    return BASE_UPGRADE_COST;
   }
 }
