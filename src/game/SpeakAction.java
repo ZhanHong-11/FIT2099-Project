@@ -6,12 +6,14 @@ import edu.monash.fit2099.engine.positions.GameMap;
 
 public class SpeakAction extends Action {
   private Speakable speakable;
-  public  SpeakAction(Speakable speakable){
+  private String monologue;
+  public  SpeakAction(Speakable speakable, String monologue){
     this.speakable = speakable;
+    this.monologue = monologue;
   }
   @Override
   public String execute(Actor actor, GameMap map) {
-    return this.speakable.speak();
+    return this.speakable.speak(this.monologue);
   }
 
   @Override
