@@ -7,9 +7,6 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.UnlockAction;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A subclass of Ground that implements Unlockable interface. A locked gate is a ground that can be
  * unlocked by an unlock action, and allows an actor to travel to another map.
@@ -27,22 +24,7 @@ public class LockedGate extends Ground implements Unlockable {
   /**
    * An action that allows an actor to travel to another map through the gate
    */
-  private Map<String, Action> travelActions;
-
   private Action travelAction;
-
-  /**
-   * Constructs a new locked gate with the given travel actions and the default display character and
-   * state.
-   *
-   *
-   * @param travelActions The actions that allows an actor to travel to another map through the gate (accepts multiple travel action)
-   */
-  public LockedGate(Map<String, Action> travelActions) {
-    super('=');
-    this.isLocked = true;
-    this.travelActions = new HashMap<>(travelActions);
-  }
 
   /**
    * Constructs a new locked gate with the given travel action and the default display character and
@@ -71,9 +53,9 @@ public class LockedGate extends Ground implements Unlockable {
   /**
    * Returns an ActionList that contains the actions that can be performed on the gate. If the gate
    * is locked, the ActionList contains an UnlockAction that allows an actor to unlock the gate with
-   * a key. If the gate is unlocked, the ActionList contains the travel action/actions that allows an actor
+   * a key. If the gate is unlocked, the ActionList contains the travel action that allows an actor
    * to travel to another map through the gate.
-   *e
+   *
    * @param actor     the Actor acting
    * @param location  The location of the gate
    * @param direction The direction of the gate from the actor
@@ -85,16 +67,7 @@ public class LockedGate extends Ground implements Unlockable {
     if (isLocked) {
       actions.add(new UnlockAction(this));
     } else {
-        if (travelActions != null && !travelActions.isEmpty()) {
-          for (Action travelAction : travelActions.values()) {
-            if (travelAction != null) {
-              actions.add(travelAction);
-            }
-          }
-          if (this.travelAction != null) {
-            actions.add(this.travelAction);
-          }
-        }
+      actions.add(this.travelAction);
     }
     return actions;
   }
