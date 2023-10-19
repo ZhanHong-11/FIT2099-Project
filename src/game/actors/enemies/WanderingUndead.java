@@ -5,7 +5,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Key;
-import game.items.Rune;
 
 import java.util.Random;
 

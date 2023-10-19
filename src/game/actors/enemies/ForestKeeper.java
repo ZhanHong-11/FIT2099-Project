@@ -9,7 +9,6 @@ import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
-import game.items.Rune;
 
 import java.util.Random;
 
