@@ -114,13 +114,13 @@ public abstract class Enemy extends Actor implements Droppable {
    * Drops an item when the enemy is killed. The implementation of this method should specify what
    * item to drop, the probability and where to drop it.
    *
-   * @param map The game map where the enemy is located.
+   * @param location The location where the enemy is located.
    */
   @Override
-  public void drop(GameMap map) {
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(getDropRuneAmount()));
+  public void drop(Location location) {
+    location.addItem(new Rune(getDropRuneAmount()));
   }
+
 
   /**
    * When the enemy is defeated, it may drop some item.
@@ -131,7 +131,7 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public String unconscious(Actor actor, GameMap map) {
-    drop(map);
+    drop(map.locationOf(this));
     return super.unconscious(actor, map);
   }
 }

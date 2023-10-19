@@ -1,6 +1,5 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
@@ -72,19 +71,19 @@ public class WanderingUndead extends Enemy {
    * dropping is independent to the others. The item is dropped at the location of the wandering
    * undead. Wandering Undead also drop runes when killed by another actor.
    *
-   * @param map The game map where the wandering undead is located.
+   * @param location The location where the wandering undead is located.
    */
   @Override
-  public void drop(GameMap map) {
-    super.drop(map);
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
     if (num < BASE_KEY_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new Key());
+      location.addItem(new Key());
     }
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
 }

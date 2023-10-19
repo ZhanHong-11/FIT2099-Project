@@ -1,7 +1,6 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
@@ -83,17 +82,17 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
    * item dropping is independent to the others. The item is dropped at the location of the Red
    * Wolf. Red Wolf also drop runes when killed by another actor.
    *
-   * @param map The game map where the Red Wolf is located.
+   * @param location The location where the Red Wolf is located.
    */
   @Override
-  public void drop(GameMap map) {
-    super.drop(map);
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
   /**
    * Updates the intrinsic weapon damage of the Red Wolf when the weather is updated. If the weather

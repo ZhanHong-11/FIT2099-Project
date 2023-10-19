@@ -91,14 +91,14 @@ public class Abxervyer extends Enemy implements WeatherController {
   /**
    * The Abxervyer will drop runes when killed. The location of the boss will be replaced by a gate
    *
-   * @param map the map that the Abxervyer is on
+   * @param location the location that the Abxervyer is on
    */
   @Override
-  public void drop(GameMap map) {
-    super.drop(map);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).setGround(gate);
+  public void drop(Location location) {
+    super.drop(location);
+    location.setGround(gate);
   }
+
 
   /**
    * A dead message will be return after the boss is dead The weather will be cleared after the boss

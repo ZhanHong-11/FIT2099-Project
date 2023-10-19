@@ -1,6 +1,5 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
@@ -81,18 +80,18 @@ public class EldentreeGuardian extends Enemy {
      * probability of item dropping is independent to the others. The item is dropped at the location
      * of the EldenTree Guardian. It will also drop Runes when killed by another actor
      *
-     * @param map The game map where the EldenTree Guardian is located.
+     * @param location The location where the EldenTree Guardian is located.
      */
     @Override
-    public void drop(GameMap map) {
-        super.drop(map);
+    public void drop(Location location) {
+        super.drop(location);
         int num = random.nextInt(100);
-        Location location = map.locationOf(this);
         if (num < BASE_HEALING_VIAL_DROP_RATE) {
-            map.at(location.x(), location.y()).addItem(new HealingVial());
+            location.addItem(new HealingVial());
         }
         if (num < BASE_REFRESHING_FLASK_DROP_RATE) {
-            map.at(location.x(), location.y()).addItem(new RefreshingFlask());
+            location.addItem(new RefreshingFlask());
         }
     }
+
 }

@@ -1,7 +1,6 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
@@ -80,17 +79,17 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
    * probability of item dropping is independent to the others. The item is dropped at the location
    * of the Forest Keeper. It will also drop Runes when killed by another actor
    *
-   * @param map The game map where the Forest Keeper is located.
+   * @param location The location where the Forest Keeper is located.
    */
   @Override
-  public void drop(GameMap map) {
-    super.drop(map);
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
   /**
    * Updates the Forest Keeper when the weather changes. If the weather is sunny, the Forest Keeper
