@@ -1,21 +1,18 @@
 package game;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
+import game.actors.enemies.LivingBranch;
 import game.actors.enemies.WanderingUndead;
 import game.actors.merchants.Traveller;
+import game.gamemaps.*;
 import game.items.Bloodberry;
-import game.spawners.ForestKeeperFactory;
-import game.spawners.HollowSoldierFactory;
-import game.spawners.RedWolfFactory;
-import game.spawners.WanderingUndeadFactory;
+import game.items.Key;
+import game.spawners.*;
 import game.display.FancyMessage;
-import game.gamemaps.AbandonedVillage;
-import game.gamemaps.AbxervyerBattleMap;
-import game.gamemaps.AncientWood;
-import game.gamemaps.BurialGround;
 import game.grounds.Dirt;
 import game.grounds.Floor;
 import game.grounds.LockedGate;
@@ -32,6 +29,10 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.weapons.GiantHammer;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 /**
  * The main class to start the game. Created by:
@@ -59,6 +60,10 @@ public class Application {
     GameMap abxervyerBattleMap = new AbxervyerBattleMap(groundFactory);
     world.addGameMap(abxervyerBattleMap);
 
+    // A3 : REQ 1
+    GameMap overgrownSanctuary = new OvergrownSanctuary(groundFactory);
+    world.addGameMap(overgrownSanctuary);
+
     for (String line : FancyMessage.TITLE.split("\n")) {
       new Display().println(line);
       try {
@@ -80,8 +85,10 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!")));
 
-    LockedGate gate = new LockedGate(
-        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
+    Map<String, Action> abxervyerBattleMapTravelActions = new HashMap<>();
+    abxervyerBattleMapTravelActions.put("AncientWoods", new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
+    abxervyerBattleMapTravelActions.put("OvergrownSanctuary", new MoveActorAction(overgrownSanctuary.at(16, 0), "to the Overgrown Sanctuary!"));
+    LockedGate gate = new LockedGate(abxervyerBattleMapTravelActions);
     Abxervyer abxervyer = new Abxervyer(gate);
 
     ancientWoods.at(0, 0).addActor(new Traveller());
@@ -102,8 +109,20 @@ public class Application {
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer)));
 
-    Player player = new Player("The Abstracted One", '@', 150, 200);
-    world.addPlayer(player, abandonedVillage.at(29, 5));
+    overgrownSanctuary.at(16, 1).setGround(new Hut(new EldentreeGuardianFactory()));
+    overgrownSanctuary.at(18, 1).setGround(new Bush(new LivingBranchFactory()));
+
+
+
+
+
+    Player player = new Player("The Abstracted One", '@', 999, 200);
+//    world.addPlayer(player, abandonedVillage.at(29, 5));
+
+
+    world.addPlayer(player, abxervyerBattleMap.at(22, 10));
+    player.addItemToInventory(new GiantHammer());
+    player.addItemToInventory(new Key());
 
     world.run();
   }
