@@ -1,8 +1,7 @@
 package game.monologues;
 
 import edu.monash.fit2099.engine.actors.Actor;
-import edu.monash.fit2099.engine.capabilities.CapabilitySet;
-import game.capabilities.Status;
+
 
 public class Monologue {
 
