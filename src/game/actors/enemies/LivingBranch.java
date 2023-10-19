@@ -65,6 +65,11 @@ public class LivingBranch extends Enemy {
 
     }
 
+    @Override
+    protected int getDropRuneAmount() {
+        return BASE_RUNES_DROP_AMOUNT;
+    }
+
     /**
      * Drops an item on the game map when the Living Branch is killed. The item dropped is Bloodberry
      * with a probability of 50%. The item is dropped at the location
@@ -74,9 +79,9 @@ public class LivingBranch extends Enemy {
      */
     @Override
     public void drop(GameMap map) {
+        super.drop(map);
         int num = random.nextInt(100);
         Location location = map.locationOf(this);
-        map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
         if (num < BASE_BLOODBERRY_DROP_CHANCE) {
             map.at(location.x(), location.y()).addItem(new Bloodberry());
         }

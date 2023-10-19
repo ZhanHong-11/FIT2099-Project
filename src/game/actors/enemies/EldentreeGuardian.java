@@ -71,6 +71,11 @@ public class EldentreeGuardian extends Enemy {
 
     }
 
+    @Override
+    protected int getDropRuneAmount() {
+        return BASE_RUNES_DROP_AMOUNT;
+    }
+
     /**
      * Drops an item on the game map when the EldenTree Guardian is killed. The item can be either a
      * healing vial or a refreshing flask, with a probability of 25% and 15% respectively. The
@@ -81,9 +86,9 @@ public class EldentreeGuardian extends Enemy {
      */
     @Override
     public void drop(GameMap map) {
+        super.drop(map);
         int num = random.nextInt(100);
         Location location = map.locationOf(this);
-        map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
         if (num < BASE_HEALING_VIAL_DROP_RATE) {
             map.at(location.x(), location.y()).addItem(new HealingVial());
         }

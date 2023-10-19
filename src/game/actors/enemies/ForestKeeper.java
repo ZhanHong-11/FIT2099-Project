@@ -70,6 +70,11 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * Drops an item on the game map when the Forest Keeper is killed. The item can be either a
    * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
@@ -80,9 +85,9 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
    */
   @Override
   public void drop(GameMap map) {
+    super.drop(map);
     int num = random.nextInt(100);
     Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new HealingVial());
     }

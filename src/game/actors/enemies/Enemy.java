@@ -15,6 +15,7 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
+import game.items.Rune;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,6 +106,10 @@ public abstract class Enemy extends Actor implements Droppable {
     return actions;
   }
 
+  protected int getDropRuneAmount() {
+    return 0;
+  }
+
   /**
    * Drops an item when the enemy is killed. The implementation of this method should specify what
    * item to drop, the probability and where to drop it.
@@ -113,6 +118,8 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public void drop(GameMap map) {
+    Location location = map.locationOf(this);
+    map.at(location.x(), location.y()).addItem(new Rune(getDropRuneAmount()));
   }
 
   /**

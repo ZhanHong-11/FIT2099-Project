@@ -62,6 +62,11 @@ public class WanderingUndead extends Enemy {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * Drops an item on the game map when the wandering undead is killed. The item can be either a
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
@@ -72,9 +77,9 @@ public class WanderingUndead extends Enemy {
    */
   @Override
   public void drop(GameMap map) {
+    super.drop(map);
     int num = random.nextInt(100);
     Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_KEY_DROP_RATE) {
       map.at(location.x(), location.y()).addItem(new Key());
     }

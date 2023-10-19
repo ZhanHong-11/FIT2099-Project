@@ -84,6 +84,11 @@ public class Abxervyer extends Enemy implements WeatherController {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * The Abxervyer will drop runes when killed. The location of the boss will be replaced by a gate
    *
@@ -91,8 +96,8 @@ public class Abxervyer extends Enemy implements WeatherController {
    */
   @Override
   public void drop(GameMap map) {
+    super.drop(map);
     Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     map.at(location.x(), location.y()).setGround(gate);
   }
 
