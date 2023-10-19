@@ -5,12 +5,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ActivateSkillAction;
 import game.actions.SellAction;
-import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.items.Buyable;
 import game.items.Sellable;
-import game.items.Upgradable;
 import game.skills.StabStepSkill;
 import java.util.Random;
 
@@ -23,21 +21,19 @@ import java.util.Random;
  * @see Buyable
  * @see Sellable
  */
-public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgradable {
-  private static final int BASE_HIT_RATE = 70;
+public class GreatKnife extends SkillWeapon implements Buyable, Sellable {
+
   /**
    * The default sell price of the great knife
    */
   private static final int BASE_SELL_PRICE = 175;
-  private static final int BASE_UPGRADE_COST = 2000;
   private Random random = new Random();
 
   /**
    * Constructs a new great knife with the default attributes and skill.
    */
   public GreatKnife() {
-    super("Great Knife", '>', 75, "stab", BASE_HIT_RATE);
-    this.addCapability(Ability.STAB_STEP);
+    super("Great Knife", '>', 75, "stab", 70);
     this.setSkill(new StabStepSkill());
   }
 
@@ -59,9 +55,6 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
     }
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
-    }
-    if (otherActor.hasCapability(Ability.CRAFTING)){
-      actions.add(new UpgradeAction(this));
     }
     return actions;
   }
@@ -108,18 +101,5 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
   @Override
   public int getSellPrice() {
     return BASE_SELL_PRICE;
-  }
-
-  @Override
-  public String upgrade() {
-    int percent = 1;
-    this.increaseHitRate(Math.round(BASE_HIT_RATE * percent / 100f));
-    return this + " has been upgraded!\nThe hit rate of " + this + " has been increased by "
-        + percent + "%.";
-  }
-
-  @Override
-  public int getUpgradeCost() {
-    return BASE_UPGRADE_COST;
   }
 }

@@ -2,7 +2,6 @@ package game;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
-import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
 import game.actors.enemies.LivingBranch;

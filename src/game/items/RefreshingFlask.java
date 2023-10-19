@@ -8,7 +8,6 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ConsumeAction;
 import game.actions.SellAction;
-import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 import java.util.Random;
 
@@ -22,16 +21,12 @@ import java.util.Random;
  * @see Buyable
  * @see Sellable
  */
-public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable, Upgradable {
+public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable {
 
-  private static final int BASE_STAMINA_RECOVERY_PERCENT = 20;
-  private int staminaRecoveryPercent;
   /**
    * The base selling price of the refreshing flask
    */
   private static final int BASE_SELL_PRICE = 25;
-  private static final int BASE_UPGRADE_COST = 175;
-  private boolean isUpgraded;
   private Random random = new Random();
 
   /**
@@ -39,8 +34,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
    */
   public RefreshingFlask() {
     super("Refreshing Flask", 'u', true);
-    this.staminaRecoveryPercent = BASE_STAMINA_RECOVERY_PERCENT;
-    this.isUpgraded = false;
   }
 
   /**
@@ -69,11 +62,6 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
     }
-    if (!this.isUpgraded){
-      if (otherActor.hasCapability(Ability.CRAFTING)) {
-        actions.add(new UpgradeAction(this));
-      }
-    }
     return actions;
   }
 
@@ -87,9 +75,7 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
    */
   @Override
   public String consume(Actor actor) {
-    int staminaRecovery = Math.round(
-        actor.getAttributeMaximum(BaseActorAttributes.STAMINA) * this.staminaRecoveryPercent
-            / 100f);
+    int staminaRecovery = Math.round(actor.getAttributeMaximum(BaseActorAttributes.STAMINA) / 5f);
     actor.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE,
         staminaRecovery);
     actor.removeItemFromInventory(this);
@@ -136,17 +122,5 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
   @Override
   public int getSellPrice() {
     return BASE_SELL_PRICE;
-  }
-
-  @Override
-  public String upgrade() {
-    this.staminaRecoveryPercent = 100;
-    this.isUpgraded = !this.isUpgraded;
-    return this + " has been upgraded!";
-  }
-
-  @Override
-  public int getUpgradeCost() {
-    return BASE_UPGRADE_COST;
   }
 }
