@@ -16,8 +16,7 @@ import java.util.Random;
 /**
  * A class that represents a Red Wolf. A Red Wolf is an enemy that can attack other actors who are
  * hostile to them and wander around the map. A Red Wolf has a follow ability which cause them to
- * follow the player when the player is nearby. A Forest Keeper can drop items when killed.
- *
+ * follow the player when the player is nearby.
  * @see Enemy
  */
 public class RedWolf extends Enemy implements WeatherSubscriber {
