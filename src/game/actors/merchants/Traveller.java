@@ -85,4 +85,35 @@ public class Traveller extends Merchant implements Speakable {
 
     return actions;
   }
+
+  @Override
+  public String speak(Actor listener) {
+    Random random = new Random();
+    ArrayList<String> monologues = new ArrayList<>();
+
+    if (listener.hasCapability(Status.NEUTRAL)){
+      monologues.add("Of course, I will never give you up, valuable customer!");
+      monologues.add("I promise I will never let you down with the quality of the items that I sell.");
+      monologues.add("You can always find me here. I'm never gonna run around and desert you, dear customer!");
+      monologues.add("I'm never gonna make you cry with unfair prices.");
+      monologues.add("Trust is essential in this business. I promise I’m never gonna say goodbye to a valuable customer like you.");
+      monologues.add("Don't worry, I’m never gonna tell a lie and hurt you.");
+
+      if (listener.hasCapability(Ability.HAS_HAMMER)){
+        monologues.add("Ooh, that’s a fascinating weapon you got there. I will pay a good price for it. You wouldn't get this price from any other guy.");
+
+      }
+
+      if (!listener.hasCapability(Status.ABXERVYER_KILLER)){
+        monologues.add("You know the rules of this world, and so do I. Each area is ruled by a lord. Defeat the lord of this area, Abxervyer, and you may proceed to the next area.");
+
+      }
+
+      if (listener.hasCapability(Ability.HAS_HAMMER) && listener.hasCapability(Status.ABXERVYER_KILLER)){
+        monologues.add("Congratulations on defeating the lord of this area. I noticed you still hold on to that hammer. Why don’t you sell it to me? We've known each other for so long. I can tell you probably don’t need that weapon any longer.");
+      }
+    }
+    int index = random.nextInt(monologues.size());
+    return monologues.get(index);
+  }
 }
