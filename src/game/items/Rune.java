@@ -3,7 +3,12 @@ package game.items;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.capabilities.Status;
+import game.dream.DreamCapable;
 import game.actions.ConsumeAction;
+import game.dream.Resettable;
 
 /**
  * A subclass of Item which implements the Consumable Interface, representing a consumable Item
@@ -13,7 +18,7 @@ import game.actions.ConsumeAction;
  * @see Item
  * @see Consumable
  */
-public class Rune extends Item implements Consumable {
+public class Rune extends Item implements Consumable, Resettable {
 
   /**
    * The amount of the rune
@@ -54,5 +59,18 @@ public class Rune extends Item implements Consumable {
     actor.addBalance(this.value);
     actor.removeItemFromInventory(this);
     return actor + " had consumed the runes and gained $" + this.value;
+  }
+
+  @Override
+  public void tick(Location currentLocation) {
+    super.tick(currentLocation);
+    if (this.hasCapability(Status.RESET)) {
+      currentLocation.removeItem(this);
+    }
+  }
+
+  @Override
+  public void reset(GameMap map) {
+    this.addCapability(Status.RESET);
   }
 }

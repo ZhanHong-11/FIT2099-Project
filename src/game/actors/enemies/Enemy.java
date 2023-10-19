@@ -15,6 +15,7 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
+import game.dream.Resettable;
 import game.items.Rune;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ import java.util.Map;
  * @see Actor
  * @see Droppable
  */
-public abstract class Enemy extends Actor implements Droppable {
+public abstract class Enemy extends Actor implements Droppable, Resettable {
 
   /**
    * A map of behaviours that the enemy can perform, with key as the priority
@@ -133,5 +134,10 @@ public abstract class Enemy extends Actor implements Droppable {
   public String unconscious(Actor actor, GameMap map) {
     drop(map.locationOf(this));
     return super.unconscious(actor, map);
+  }
+
+  @Override
+  public void reset(GameMap map) {
+    map.removeActor(this);
   }
 }
