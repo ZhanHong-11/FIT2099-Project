@@ -1,7 +1,6 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
@@ -9,7 +8,6 @@ import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
-import game.items.Rune;
 
 import java.util.Random;
 
@@ -73,23 +71,28 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * Drops an item on the game map when the Red Wolf is killed. The item can be either a healing
    * vial or a refreshing flask, with a probability of 10% and 20% respectively. The probability of
    * item dropping is independent to the others. The item is dropped at the location of the Red
    * Wolf. Red Wolf also drop runes when killed by another actor.
    *
-   * @param map The game map where the Red Wolf is located.
+   * @param location The location where the Red Wolf is located.
    */
   @Override
-  public void drop(GameMap map) {
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
   /**
    * Updates the intrinsic weapon damage of the Red Wolf when the weather is updated. If the weather

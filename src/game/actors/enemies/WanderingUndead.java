@@ -1,11 +1,9 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.items.HealingVial;
 import game.items.Key;
-import game.items.Rune;
 
 import java.util.Random;
 
@@ -62,25 +60,30 @@ public class WanderingUndead extends Enemy {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * Drops an item on the game map when the wandering undead is killed. The item can be either a
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
    * dropping is independent to the others. The item is dropped at the location of the wandering
    * undead. Wandering Undead also drop runes when killed by another actor.
    *
-   * @param map The game map where the wandering undead is located.
+   * @param location The location where the wandering undead is located.
    */
   @Override
-  public void drop(GameMap map) {
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_KEY_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new Key());
+      location.addItem(new Key());
     }
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
 }

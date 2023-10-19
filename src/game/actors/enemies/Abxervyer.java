@@ -13,7 +13,6 @@ import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
 import game.grounds.LockedGate;
-import game.items.Rune;
 
 import java.util.ArrayList;
 
@@ -84,17 +83,22 @@ public class Abxervyer extends Enemy implements WeatherController {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
   /**
    * The Abxervyer will drop runes when killed. The location of the boss will be replaced by a gate
    *
-   * @param map the map that the Abxervyer is on
+   * @param location the location that the Abxervyer is on
    */
   @Override
-  public void drop(GameMap map) {
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
-    map.at(location.x(), location.y()).setGround(gate);
+  public void drop(Location location) {
+    super.drop(location);
+    location.setGround(gate);
   }
+
 
   /**
    * A dead message will be return after the boss is dead The weather will be cleared after the boss

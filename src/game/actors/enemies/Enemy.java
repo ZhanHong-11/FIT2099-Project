@@ -15,6 +15,8 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
+import game.dream.Resettable;
+import game.items.Rune;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,7 @@ import java.util.Map;
  * @see Actor
  * @see Droppable
  */
-public abstract class Enemy extends Actor implements Droppable {
+public abstract class Enemy extends Actor implements Droppable, Resettable {
 
   /**
    * A map of behaviours that the enemy can perform, with key as the priority
@@ -105,15 +107,21 @@ public abstract class Enemy extends Actor implements Droppable {
     return actions;
   }
 
+  protected int getDropRuneAmount() {
+    return 0;
+  }
+
   /**
    * Drops an item when the enemy is killed. The implementation of this method should specify what
    * item to drop, the probability and where to drop it.
    *
-   * @param map The game map where the enemy is located.
+   * @param location The location where the enemy is located.
    */
   @Override
-  public void drop(GameMap map) {
+  public void drop(Location location) {
+    location.addItem(new Rune(getDropRuneAmount()));
   }
+
 
   /**
    * When the enemy is defeated, it may drop some item.
@@ -124,7 +132,12 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public String unconscious(Actor actor, GameMap map) {
-    drop(map);
+    drop(map.locationOf(this));
     return super.unconscious(actor, map);
+  }
+
+  @Override
+  public void reset(GameMap map) {
+    map.removeActor(this);
   }
 }

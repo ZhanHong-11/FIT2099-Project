@@ -1,11 +1,9 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
 import game.items.Bloodberry;
-import game.items.Rune;
 
 import java.util.Random;
 
@@ -65,21 +63,26 @@ public class LivingBranch extends Enemy {
 
     }
 
+    @Override
+    protected int getDropRuneAmount() {
+        return BASE_RUNES_DROP_AMOUNT;
+    }
+
     /**
      * Drops an item on the game map when the Living Branch is killed. The item dropped is Bloodberry
      * with a probability of 50%. The item is dropped at the location
      * of the Living Branch. It will also drop Runes when killed by another actor
      *
-     * @param map The game map where the Living Branch is located.
+     * @param location The location where the Living Branch is located.
      */
     @Override
-    public void drop(GameMap map) {
+    public void drop(Location location) {
+        super.drop(location);
         int num = random.nextInt(100);
-        Location location = map.locationOf(this);
-        map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
         if (num < BASE_BLOODBERRY_DROP_CHANCE) {
-            map.at(location.x(), location.y()).addItem(new Bloodberry());
+            location.addItem(new Bloodberry());
         }
 
     }
+
 }

@@ -9,16 +9,25 @@ import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actors.enemies.Droppable;
+import game.dream.DreamCapable;
+import game.dream.Resettable;
 import game.capabilities.Status;
 import game.display.FancyMessage;
+import game.items.Rune;
+import java.util.ArrayList;
 
 /**
  * Class representing the Player. Created by:
  *
  * @author Adrian Kristanto Modified by: Soo Zhan Hong
  */
-public class Player extends Actor {
+public class Player extends Actor implements DreamCapable, Droppable {
+
+  private Location respawnLocation;
+  private ArrayList<Resettable> resettables = new ArrayList<>();
 
   /**
    * Constructor.
@@ -27,8 +36,10 @@ public class Player extends Actor {
    * @param displayChar Character to represent the player in the UI
    * @param hitPoints   Player's starting number of hitpoints
    */
-  public Player(String name, char displayChar, int hitPoints, int stamina) {
+  public Player(String name, char displayChar, int hitPoints, int stamina,
+      Location respawnLocation) {
     super(name, displayChar, hitPoints);
+    this.respawnLocation = respawnLocation;
     this.addCapability(Status.HOSTILE_TO_ENEMY);
     this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
   }
@@ -73,14 +84,20 @@ public class Player extends Actor {
 
   @Override
   public String unconscious(Actor actor, GameMap map) {
-    map.removeActor(this);
-    return "\n" + FancyMessage.YOU_DIED + "\n" + this + " met their demise in the hand of " + actor;
+    Location deadLocation = map.locationOf(this);
+    respawn(map);
+    drop(deadLocation);
+    return "\n" + FancyMessage.YOU_DIED + "\n" + this + " met their demise in the hand of " + actor
+        + "\n" + this + " is respawned in the Abandoned Village!";
   }
 
   @Override
   public String unconscious(GameMap map) {
-    map.removeActor(this);
-    return "\n" + FancyMessage.YOU_DIED + "\n" + this + " ceased to exist.";
+    Location deadLocation = map.locationOf(this);
+    respawn(map);
+    drop(deadLocation);
+    return "\n" + FancyMessage.YOU_DIED + "\n" + this + " ceased to exist!\n" + this
+        + " is respawned in the Abandoned Village!";
   }
 
   @Override
@@ -109,5 +126,30 @@ public class Player extends Actor {
         this.getAttributeMaximum(BaseActorAttributes.STAMINA) + "\n" +
         "Wallet: $" +
         this.getBalance();
+  }
+
+  @Override
+  public void subscribe(Resettable resettable) {
+    this.resettables.add(resettable);
+  }
+
+  @Override
+  public void unsubscribe(Resettable resettable) {
+    this.resettables.remove(resettable);
+  }
+
+  @Override
+  public void respawn(GameMap map) {
+    map.moveActor(this, this.respawnLocation);
+    for (Resettable resettable : this.resettables) {
+      resettable.reset(map);
+    }
+  }
+
+  @Override
+  public void drop(Location location) {
+    int walletBalance = getBalance();
+    deductBalance(walletBalance);
+    location.addItem(new Rune(walletBalance));
   }
 }
