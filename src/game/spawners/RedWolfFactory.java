@@ -3,6 +3,7 @@ package game.spawners;
 import edu.monash.fit2099.engine.displays.Display;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.RedWolf;
+import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
@@ -29,9 +30,10 @@ public class RedWolfFactory extends EnemyFactory implements WeatherSubscriber {
 
   /**
    * Constructs a new red wolf factory with the default spawning rate.
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public RedWolfFactory(WeatherController controller) {
-    super(BASE_SPAWN_RATE);
+  public RedWolfFactory(WeatherController controller, DreamCapable dreamCapable) {
+    super(BASE_SPAWN_RATE, dreamCapable);
     this.controller = controller;
     this.controller.subscribe(this);
   }
@@ -44,7 +46,7 @@ public class RedWolfFactory extends EnemyFactory implements WeatherSubscriber {
   @Override
   public Enemy spawnEnemy() {
     if (random.nextInt(100) < getSpawningRate()) {
-      return new RedWolf(this.controller);
+      return new RedWolf(this.controller, getDreamCapable());
     }
     return null;
   }
