@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.SpeakAction;
-import game.monologues.Speakable;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import java.util.ArrayList;

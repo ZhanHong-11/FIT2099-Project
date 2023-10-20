@@ -1,4 +1,4 @@
-package game.monologues;
+package game.actors;
 
 import edu.monash.fit2099.engine.actors.Actor;
 
