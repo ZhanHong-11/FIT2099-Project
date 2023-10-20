@@ -2,6 +2,7 @@ package game.actors.enemies;
 
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 
@@ -47,6 +48,7 @@ public class HollowSoldier extends Enemy {
    */
   public HollowSoldier() {
     super("Hollow Soldier", '&', 200);
+    setBehaviour(999, new WanderBehaviour());
   }
 
   /**

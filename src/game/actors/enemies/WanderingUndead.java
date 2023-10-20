@@ -2,6 +2,7 @@ package game.actors.enemies;
 
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.items.HealingVial;
 import game.items.Key;
 
@@ -47,6 +48,7 @@ public class WanderingUndead extends Enemy {
    */
   public WanderingUndead() {
     super("Wandering Undead", 't', 100);
+    setBehaviour(999, new WanderBehaviour());
   }
 
   /**

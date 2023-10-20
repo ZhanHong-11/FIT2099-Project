@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.weather.Weather;
@@ -67,6 +68,7 @@ public class Abxervyer extends Enemy implements WeatherController {
    */
   public Abxervyer(LockedGate gate) {
     super("Abxervyer, the Forest Watcher", 'Y', 2000);
+    setBehaviour(999, new WanderBehaviour());
     this.gate = gate;
     this.addCapability(Ability.IMMUNE_TO_VOID);
     this.addCapability(Ability.FOLLOW);

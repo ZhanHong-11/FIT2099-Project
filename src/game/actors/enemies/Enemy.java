@@ -45,9 +45,12 @@ public abstract class Enemy extends Actor implements Droppable, Resettable {
    */
   public Enemy(String name, char displayChar, int hitPoints) {
     super(name, displayChar, hitPoints);
-    this.behaviours.put(999, new WanderBehaviour());
     this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(Status.DANGER);
+  }
+
+  protected void setBehaviour(int priority, Behaviour behaviour) {
+    this.behaviours.put(priority, behaviour);
   }
 
   /**
