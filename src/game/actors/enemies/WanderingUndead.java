@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
+import game.dream.DreamCapable;
 import game.items.HealingVial;
 import game.items.Key;
 
@@ -46,8 +47,8 @@ public class WanderingUndead extends Enemy {
   /**
    * Constructs a new wandering undead.
    */
-  public WanderingUndead() {
-    super("Wandering Undead", 't', 100);
+  public WanderingUndead(DreamCapable dreamCapable) {
+    super("Wandering Undead", 't', 100, dreamCapable);
     setBehaviour(999, new WanderBehaviour());
   }
 

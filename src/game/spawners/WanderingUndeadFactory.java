@@ -2,6 +2,8 @@ package game.spawners;
 
 import game.actors.enemies.Enemy;
 import game.actors.enemies.WanderingUndead;
+import game.dream.DreamCapable;
+
 import java.util.Random;
 
 /**
@@ -20,8 +22,8 @@ public class WanderingUndeadFactory extends EnemyFactory {
   /**
    * Constructs a new wandering undead factory with the default spawning rate.
    */
-  public WanderingUndeadFactory() {
-    super(BASE_SPAWN_RATE);
+  public WanderingUndeadFactory(DreamCapable dreamCapable) {
+    super(BASE_SPAWN_RATE, dreamCapable);
   }
 
   /**
@@ -32,7 +34,7 @@ public class WanderingUndeadFactory extends EnemyFactory {
   @Override
   public Enemy spawnEnemy() {
     if (random.nextInt(100) < getSpawningRate()) {
-      return new WanderingUndead();
+      return new WanderingUndead(dreamCapable);
     }
     return null;
   }

@@ -15,6 +15,7 @@ import game.capabilities.Ability;
 import game.capabilities.Status;
 import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
+import game.dream.DreamCapable;
 import game.dream.Resettable;
 import game.items.Rune;
 import java.util.HashMap;
@@ -36,6 +37,11 @@ public abstract class Enemy extends Actor implements Droppable, Resettable {
   private Map<Integer, Behaviour> behaviours = new HashMap<>();
 
   /**
+   *
+   */
+  private final DreamCapable dreamCapable;
+
+  /**
    * Constructs a new enemy with the given name, display character, and hit points. The enemy also
    * has two default behaviours: wander and attack, with different priorities.
    *
@@ -43,10 +49,12 @@ public abstract class Enemy extends Actor implements Droppable, Resettable {
    * @param displayChar The character to display for the enemy
    * @param hitPoints   The hit points of the enemy
    */
-  public Enemy(String name, char displayChar, int hitPoints) {
+  public Enemy(String name, char displayChar, int hitPoints, DreamCapable dreamCapable) {
     super(name, displayChar, hitPoints);
     this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(Status.DANGER);
+    this.dreamCapable = dreamCapable;
+    this.dreamCapable.subscribe(this);
   }
 
   protected void setBehaviour(int priority, Behaviour behaviour) {
@@ -122,7 +130,7 @@ public abstract class Enemy extends Actor implements Droppable, Resettable {
    */
   @Override
   public void drop(Location location) {
-    location.addItem(new Rune(getDropRuneAmount()));
+    location.addItem(new Rune(getDropRuneAmount(), this.dreamCapable));
   }
 
 
