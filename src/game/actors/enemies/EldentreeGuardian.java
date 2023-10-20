@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
+import game.dream.DreamCapable;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 
@@ -51,9 +52,10 @@ public class EldentreeGuardian extends Enemy {
 
     /**
      * Constructs a new eldentree guardian
+     * @param dreamCapable the Dream Capable Object (player)
      */
-    public EldentreeGuardian() {
-        super("Eldentree Guardian", 'e', 250);
+    public EldentreeGuardian(DreamCapable dreamCapable) {
+        super("Eldentree Guardian", 'e', 250, dreamCapable);
         setBehaviour(999, new WanderBehaviour());
         this.addCapability(Ability.FOLLOW);
         this.addCapability(Ability.IMMUNE_TO_VOID);

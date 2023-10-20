@@ -16,14 +16,15 @@ public abstract class EnemyFactory implements Spawnable {
   private int spawningRate;
 
   /**
-   *
+   * The dream capable object (player)
    */
-  protected DreamCapable dreamCapable;
+  private DreamCapable dreamCapable;
 
   /**
    * Constructs a new enemy factory with the given spawning rate.
    *
    * @param spawningRate The spawning rate of the enemy
+   * @param dreamCapable the Dream Capable Object (player)
    */
   public EnemyFactory(int spawningRate, DreamCapable dreamCapable) {
     this.spawningRate = spawningRate;
@@ -54,4 +55,14 @@ public abstract class EnemyFactory implements Spawnable {
    * @return The enemy that is spawned
    */
   public abstract Enemy spawnEnemy();
+
+  /**
+   * Getter method that
+   * Retrieves the associated DreamCapable instance for this item.
+   * @return dreamCapable
+   */
+  protected DreamCapable getDreamCapable() {
+    return this.dreamCapable;
+  }
+
 }
