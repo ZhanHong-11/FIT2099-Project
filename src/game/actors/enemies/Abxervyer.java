@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.capabilities.Status;
+import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
  * stayed.
  *
  * @see Enemy
+ * @see WeatherController
  */
 public class Abxervyer extends Enemy implements WeatherController {
 
@@ -62,12 +64,18 @@ public class Abxervyer extends Enemy implements WeatherController {
   private ArrayList<WeatherSubscriber> subscribers = new ArrayList<>();
 
   /**
+   *
+   */
+  private final int BASE_ABXERVYER_HIT_POINTS = 2000;
+
+  /**
    * Constructs a new Abxervyer.
    *
    * @param gate the gate that will appear on the map after the Abxervyer is killed
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public Abxervyer(LockedGate gate) {
-    super("Abxervyer, the Forest Watcher", 'Y', 2000);
+  public Abxervyer(LockedGate gate, DreamCapable dreamCapable) {
+    super("Abxervyer, the Forest Watcher", 'Y', 2000, dreamCapable);
     setBehaviour(999, new WanderBehaviour());
     this.gate = gate;
     this.addCapability(Ability.IMMUNE_TO_VOID);
@@ -204,5 +212,10 @@ public class Abxervyer extends Enemy implements WeatherController {
       subscriber.clear();
     }
     return "The weather is back to normal.";
+  }
+
+  @Override
+  public void reset(GameMap map) {
+    this.heal(BASE_ABXERVYER_HIT_POINTS);
   }
 }
