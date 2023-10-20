@@ -12,11 +12,12 @@ import game.dream.Resettable;
 
 /**
  * A subclass of Item which implements the Consumable Interface, representing a consumable Item
- * (Rune)
+ * It also implements the Resettable Interface, representing a resettable item
  *
  * @author Alvin Andrean
  * @see Item
  * @see Consumable
+ * @see Resettable
  */
 public class Rune extends Item implements Consumable, Resettable {
 
@@ -26,11 +27,20 @@ public class Rune extends Item implements Consumable, Resettable {
   private final int value;
 
   /**
-   * Constructs a new rune with the default attributes and the value of the rune.
+   * the Dream Capable Object (player)
    */
-  public Rune(int value) {
+  private final DreamCapable dreamCapable;
+
+  /**
+   * Constructs a new rune with the default attributes and the value of the rune.
+   * @param value the value of the runes
+   * @param dreamCapable the Dream Capable Object (player)
+   */
+  public Rune(int value, DreamCapable dreamCapable) {
     super("Rune", '$', true);
     this.value = value;
+    this.dreamCapable = dreamCapable;
+    this.dreamCapable.subscribe(this);
   }
 
   /**
@@ -46,7 +56,6 @@ public class Rune extends Item implements Consumable, Resettable {
     return actionList;
   }
 
-
   /**
    * Consumes the runes and add the amount of the rune to the actor's balance
    *
@@ -61,6 +70,15 @@ public class Rune extends Item implements Consumable, Resettable {
     return actor + " had consumed the runes and gained $" + this.value;
   }
 
+  /**
+   * Called every turn for each instance of this item, to execute actions
+   * or modify its status based on its current location or state.
+   *
+   * If the item has the capability `Status.RESET`, it will be removed
+   * from its current location.
+   *
+   * @param currentLocation The location where the item currently resides.
+   */
   @Override
   public void tick(Location currentLocation) {
     super.tick(currentLocation);
@@ -69,8 +87,19 @@ public class Rune extends Item implements Consumable, Resettable {
     }
   }
 
+  /**
+   * Introduces a status change to the item, particularly adding the
+   * `Status.RESET` capability.
+   * This indicates that the item is flagged for a reset, which might
+   * lead to its removal or other changes in subsequent turns or actions.
+   *
+   * @param map The game map, representing the current game state.
+   *             Currently unused in this method but can be utilized for
+   *             future extensions or modifications.
+   */
   @Override
   public void reset(GameMap map) {
     this.addCapability(Status.RESET);
   }
+
 }
