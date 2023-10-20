@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
+import game.dream.DreamCapable;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
 
@@ -45,9 +46,10 @@ public class HollowSoldier extends Enemy {
 
   /**
    * Constructs a new hollow soldier.
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public HollowSoldier() {
-    super("Hollow Soldier", '&', 200);
+  public HollowSoldier(DreamCapable dreamCapable) {
+    super("Hollow Soldier", '&', 200, dreamCapable);
     setBehaviour(999, new WanderBehaviour());
   }
 
