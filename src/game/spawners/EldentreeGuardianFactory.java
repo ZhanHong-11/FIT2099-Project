@@ -2,6 +2,7 @@ package game.spawners;
 
 import game.actors.enemies.EldentreeGuardian;
 import game.actors.enemies.Enemy;
+import game.dream.DreamCapable;
 
 
 import java.util.Random;
@@ -16,9 +17,10 @@ public class EldentreeGuardianFactory extends EnemyFactory {
 
     /**
      * Constructs a new eldentree guardian factory with the default spawning rate.
+     * @param dreamCapable the Dream Capable Object (player)
      */
-    public EldentreeGuardianFactory() {
-        super(BASE_SPAWN_RATE);
+    public EldentreeGuardianFactory(DreamCapable dreamCapable) {
+        super(BASE_SPAWN_RATE, dreamCapable);
 
     }
 
@@ -30,7 +32,7 @@ public class EldentreeGuardianFactory extends EnemyFactory {
     @Override
     public Enemy spawnEnemy() {
         if (random.nextInt(100) < getSpawningRate()) {
-            return new EldentreeGuardian();
+            return new EldentreeGuardian(getDreamCapable());
         }
         return null;
     }
