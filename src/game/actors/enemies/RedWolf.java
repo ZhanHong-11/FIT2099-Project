@@ -5,6 +5,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
+import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
@@ -52,9 +53,11 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
 
   /**
    * Constructs a new Red Wolf.
+   * @param controller the Weather Controller object (abxervyer)
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public RedWolf(WeatherController controller) {
-    super("Red Wolf", 'r', 25);
+  public RedWolf(WeatherController controller, DreamCapable dreamCapable) {
+    super("Red Wolf", 'r', 25, dreamCapable);
     setBehaviour(999, new WanderBehaviour());
     this.controller = controller;
     this.controller.subscribe(this);
