@@ -3,6 +3,7 @@ package game.spawners;
 import game.actors.enemies.EldentreeGuardian;
 import game.actors.enemies.Enemy;
 import game.actors.enemies.LivingBranch;
+import game.dream.DreamCapable;
 
 import java.util.Random;
 
@@ -16,9 +17,10 @@ public class LivingBranchFactory extends EnemyFactory {
 
     /**
      * Constructs a new living branch factory with the default spawning rate.
+     * @param dreamCapable the Dream Capable Object (player)
      */
-    public LivingBranchFactory() {
-        super(BASE_SPAWN_RATE);
+    public LivingBranchFactory(DreamCapable dreamCapable) {
+        super(BASE_SPAWN_RATE, dreamCapable);
 
     }
 
@@ -30,7 +32,7 @@ public class LivingBranchFactory extends EnemyFactory {
     @Override
     public Enemy spawnEnemy() {
         if (random.nextInt(100) < getSpawningRate()) {
-            return new LivingBranch();
+            return new LivingBranch(getDreamCapable());
         }
         return null;
     }

@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.capabilities.Ability;
+import game.dream.DreamCapable;
 import game.items.Bloodberry;
 
 import java.util.Random;
@@ -45,9 +46,10 @@ public class LivingBranch extends Enemy {
 
     /**
      * Constructs a new living branch
+     * @param dreamCapable the Dream Capable Object (player)
      */
-    public LivingBranch() {
-        super("Living Branch", '?', 75);
+    public LivingBranch(DreamCapable dreamCapable) {
+        super("Living Branch", '?', 75, dreamCapable);
         this.addCapability(Ability.IMMUNE_TO_VOID);
     }
 
@@ -63,6 +65,11 @@ public class LivingBranch extends Enemy {
 
     }
 
+    /**
+     * Getter method for amount of runes dropped
+     *
+     * @return amount of runes dropped
+     */
     @Override
     protected int getDropRuneAmount() {
         return BASE_RUNES_DROP_AMOUNT;
