@@ -3,7 +3,7 @@ package game.actions;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.monologues.Speakable;
+import game.actors.Speakable;
 
 public class SpeakAction extends Action {
   private Speakable speaker;
