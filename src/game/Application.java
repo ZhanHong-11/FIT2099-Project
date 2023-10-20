@@ -2,6 +2,7 @@ package game;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
+import game.actors.Blacksmith;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
 import game.actors.enemies.WanderingUndead;
@@ -69,6 +70,7 @@ public class Application {
       }
     }
 
+    abandonedVillage.at(45, 11).addActor(new Blacksmith());
     abandonedVillage.at(23, 10).addActor(new WanderingUndead());
     abandonedVillage.at(28, 6).addItem(new Broadsword());
     abandonedVillage.at(40, 2).setGround(new Graveyard(new WanderingUndeadFactory()));
