@@ -21,6 +21,7 @@ public class WanderingUndeadFactory extends EnemyFactory {
 
   /**
    * Constructs a new wandering undead factory with the default spawning rate.
+   * @param dreamCapable the Dream Capable Object (player)
    */
   public WanderingUndeadFactory(DreamCapable dreamCapable) {
     super(BASE_SPAWN_RATE, dreamCapable);
@@ -34,7 +35,7 @@ public class WanderingUndeadFactory extends EnemyFactory {
   @Override
   public Enemy spawnEnemy() {
     if (random.nextInt(100) < getSpawningRate()) {
-      return new WanderingUndead(dreamCapable);
+      return new WanderingUndead(getDreamCapable());
     }
     return null;
   }

@@ -46,6 +46,7 @@ public class WanderingUndead extends Enemy {
 
   /**
    * Constructs a new wandering undead.
+   * @param dreamCapable the Dream Capable Object (player)
    */
   public WanderingUndead(DreamCapable dreamCapable) {
     super("Wandering Undead", 't', 100, dreamCapable);
