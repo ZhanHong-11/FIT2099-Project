@@ -44,7 +44,16 @@ public class Player extends Actor implements DreamCapable, Droppable {
     this.addAttribute(BaseActorAttributes.STAMINA, new BaseActorAttribute(stamina));
   }
 
-
+  /**
+   * Determines and returns the action to be performed by the player in their current turn.
+   *
+   *
+   * @param actions     A list of possible actions the player can perform during this turn.
+   * @param lastAction  The last action that the player took.
+   * @param map         The game map, representing the current game state.
+   * @param display     The display used to present information to the player.
+   * @return            The action the player has chosen to take this turn.
+   */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
     // Handle multi-turn Actions
@@ -82,6 +91,12 @@ public class Player extends Actor implements DreamCapable, Droppable {
         staminaRecovery);
   }
 
+  /**
+   * Handles player's death by another actor.
+   *
+   * @param actor an actor representing the killer
+   * @param map the Game Map
+   */
   @Override
   public String unconscious(Actor actor, GameMap map) {
     Location deadLocation = map.locationOf(this);
@@ -91,6 +106,11 @@ public class Player extends Actor implements DreamCapable, Droppable {
         + "\n" + this + " is respawned in the Abandoned Village!";
   }
 
+  /**
+   * Handles player's death.
+   *
+   * @param map the Game Map
+   */
   @Override
   public String unconscious(GameMap map) {
     Location deadLocation = map.locationOf(this);
@@ -128,16 +148,31 @@ public class Player extends Actor implements DreamCapable, Droppable {
         this.getBalance();
   }
 
+  /**
+   * Adds the resettable object to the resettable list
+   *
+   * @param resettable a resettable object
+   */
   @Override
   public void subscribe(Resettable resettable) {
     this.resettables.add(resettable);
   }
 
+  /**
+   * Remove the resettable object from the resettable list
+   *
+   * @param resettable a resettable object
+   */
   @Override
   public void unsubscribe(Resettable resettable) {
     this.resettables.remove(resettable);
   }
 
+  /**
+   * Respawns the player in the starting position, and resets the resettable objects.
+   *
+   * @param map The Game Map
+   */
   @Override
   public void respawn(GameMap map) {
     map.moveActor(this, this.respawnLocation);
@@ -146,10 +181,15 @@ public class Player extends Actor implements DreamCapable, Droppable {
     }
   }
 
+  /**
+   * Handles dropping items from the player's inventory.
+   *
+   * @param location the location of the actor.
+   */
   @Override
   public void drop(Location location) {
     int walletBalance = getBalance();
     deductBalance(walletBalance);
-    location.addItem(new Rune(walletBalance));
+    location.addItem(new Rune(walletBalance, this));
   }
 }
