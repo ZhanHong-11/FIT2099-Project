@@ -7,14 +7,12 @@ import game.actors.Speakable;
 
 public class SpeakAction extends Action {
   private Speakable speaker;
-  private String monologue;
-  public SpeakAction(Speakable speaker, String monologue){
+  public SpeakAction(Speakable speaker){
     this.speaker = speaker;
-    this.monologue = monologue;
   }
   @Override
   public String execute(Actor actor, GameMap map) {
-    return this.speaker + " to " + actor + ": " + this.monologue;
+    return this.speaker + " to " + actor + ": " + this.speaker.speak(actor);
   }
 
   @Override

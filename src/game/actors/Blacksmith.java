@@ -24,8 +24,7 @@ public class Blacksmith extends Actor implements Speakable {
   @Override
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = new ActionList();
-    String chosenMonologue = this.speak(otherActor);
-    actions.add(new SpeakAction(this,chosenMonologue));
+    actions.add(new SpeakAction(this));
     return actions;
   }
 
