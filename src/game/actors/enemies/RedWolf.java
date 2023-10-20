@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.weather.Weather;
 import game.weather.WeatherController;
@@ -54,6 +55,7 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
    */
   public RedWolf(WeatherController controller) {
     super("Red Wolf", 'r', 25);
+    setBehaviour(999, new WanderBehaviour());
     this.controller = controller;
     this.controller.subscribe(this);
     this.addCapability(Ability.FOLLOW);

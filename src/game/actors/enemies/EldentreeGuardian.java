@@ -2,6 +2,7 @@ package game.actors.enemies;
 
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
 import game.items.HealingVial;
 import game.items.RefreshingFlask;
@@ -53,6 +54,7 @@ public class EldentreeGuardian extends Enemy {
      */
     public EldentreeGuardian() {
         super("Eldentree Guardian", 'e', 250);
+        setBehaviour(999, new WanderBehaviour());
         this.addCapability(Ability.FOLLOW);
         this.addCapability(Ability.IMMUNE_TO_VOID);
     }
