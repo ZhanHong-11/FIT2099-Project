@@ -3,9 +3,12 @@ package game.grounds;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.UnlockAction;
+import game.dream.DreamCapable;
+import game.dream.Resettable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,30 +21,41 @@ import java.util.Map;
  * @see Unlockable
  * @see UnlockAction
  */
-public class LockedGate extends Ground implements Unlockable {
+public class LockedGate extends Ground implements Unlockable, Resettable {
 
   /**
    * A boolean flag that indicates whether the gate is locked or not
    */
   private boolean isLocked;
+
   /**
-   * An action that allows an actor to travel to another map through the gate
+   * A map containing actions that allows an actor to travel to another map through the gate
    */
   private Map<String, Action> travelActions;
 
+  /**
+   * The travel action that allows an actor to travel to another map through the gate
+   */
   private Action travelAction;
+
+  /**
+   * The Dream Capable object (player)
+   */
+  private DreamCapable dreamCapable;
 
   /**
    * Constructs a new locked gate with the given travel actions and the default display character and
    * state.
    *
-   *
    * @param travelActions The actions that allows an actor to travel to another map through the gate (accepts multiple travel action)
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public LockedGate(Map<String, Action> travelActions) {
+  public LockedGate(Map<String, Action> travelActions, DreamCapable dreamCapable) {
     super('=');
     this.isLocked = true;
     this.travelActions = new HashMap<>(travelActions);
+    this.dreamCapable = dreamCapable;
+    this.dreamCapable.subscribe(this);
   }
 
   /**
@@ -49,11 +63,14 @@ public class LockedGate extends Ground implements Unlockable {
    * state.
    *
    * @param travelAction The action that allows an actor to travel to another map through the gate
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public LockedGate(Action travelAction) {
+  public LockedGate(Action travelAction, DreamCapable dreamCapable) {
     super('=');
     this.isLocked = true;
     this.travelAction = travelAction;
+    this.dreamCapable = dreamCapable;
+    this.dreamCapable.subscribe(this);
   }
 
   /**
@@ -117,4 +134,13 @@ public class LockedGate extends Ground implements Unlockable {
     return "locked gate";
   }
 
+  /**
+   * Returns a string that represents the gate.
+   *
+   * @return A string that represents the gate
+   */
+  @Override
+  public void reset(GameMap map) {
+    this.isLocked = true;
+  }
 }
