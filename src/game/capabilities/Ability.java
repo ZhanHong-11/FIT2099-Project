@@ -10,5 +10,6 @@ public enum Ability {
   TRADING,
   FOLLOW,
   CRAFTING,
-  STAB_STEP
+  STAB_STEP,
+  HAS_HAMMER
 }
