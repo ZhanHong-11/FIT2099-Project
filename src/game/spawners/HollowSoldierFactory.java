@@ -21,6 +21,7 @@ public class HollowSoldierFactory extends EnemyFactory {
 
   /**
    * Constructs a new hollow soldier factory with the default spawning rate.
+   *
    * @param dreamCapable the Dream Capable Object (player)
    */
   public HollowSoldierFactory(DreamCapable dreamCapable) {

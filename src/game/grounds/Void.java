@@ -7,8 +7,8 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.capabilities.Ability;
 
 /**
- * A class that represents the void.
- * Created by:
+ * A class that represents the void. Created by:
+ *
  * @author Soo Zhan Hong
  */
 public class Void extends Ground {
@@ -35,5 +35,4 @@ public class Void extends Ground {
       }
     }
   }
-
 }

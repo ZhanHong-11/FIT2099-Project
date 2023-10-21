@@ -46,6 +46,7 @@ public class HollowSoldier extends Enemy {
 
   /**
    * Constructs a new hollow soldier.
+   *
    * @param dreamCapable the Dream Capable Object (player)
    */
   public HollowSoldier(DreamCapable dreamCapable) {
@@ -65,6 +66,11 @@ public class HollowSoldier extends Enemy {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  /**
+   * Returns the amount of runes that the Hollow Soldier will drop when killed by another actor.
+   *
+   * @return the amount of runes that the Hollow Soldier will drop when killed by another actor
+   */
   @Override
   protected int getDropRuneAmount() {
     return BASE_RUNES_DROP_AMOUNT;
@@ -74,7 +80,7 @@ public class HollowSoldier extends Enemy {
    * Drops an item on the game map when the hollow soldier is killed. The item can be either a
    * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
    * probability of item dropping is independent to the others. The item is dropped at the location
-   * of the hollow soldier. Will also drop Runes when killed by another actor
+   * of the hollow soldier.
    *
    * @param location The location where the hollow soldier is located.
    */
@@ -89,6 +95,4 @@ public class HollowSoldier extends Enemy {
       location.addItem(new RefreshingFlask());
     }
   }
-
-
 }

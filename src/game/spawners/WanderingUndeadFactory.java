@@ -21,6 +21,7 @@ public class WanderingUndeadFactory extends EnemyFactory {
 
   /**
    * Constructs a new wandering undead factory with the default spawning rate.
+   *
    * @param dreamCapable the Dream Capable Object (player)
    */
   public WanderingUndeadFactory(DreamCapable dreamCapable) {

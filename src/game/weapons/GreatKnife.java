@@ -12,6 +12,7 @@ import game.items.Buyable;
 import game.items.Sellable;
 import game.items.Upgradable;
 import game.skills.StabStepSkill;
+
 import java.util.Random;
 
 /**
@@ -24,11 +25,18 @@ import java.util.Random;
  * @see Sellable
  */
 public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgradable {
+
+  /**
+   * The base hit rate of the great knife
+   */
   private static final int BASE_HIT_RATE = 70;
   /**
    * The default sell price of the great knife
    */
   private static final int BASE_SELL_PRICE = 175;
+  /**
+   * The default upgrade cost of the great knife
+   */
   private static final int BASE_UPGRADE_COST = 2000;
   private Random random = new Random();
 
@@ -45,7 +53,7 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
    * Returns an ActionList that contains an ActivateSkillAction that allows an actor to attack
    * another actor with the great knife's skill. If the other actor has a neutral status, it will
    * not add this action. This method also adds a SellAction if the other actor has a trading
-   * capability.
+   * capability. This method also adds an UpgradeAction if the other actor has a crafting ability.
    *
    * @param otherActor the other actor
    * @param location   the location of the other actor
@@ -60,7 +68,7 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
     }
-    if (otherActor.hasCapability(Ability.CRAFTING)){
+    if (otherActor.hasCapability(Ability.CRAFTING)) {
       actions.add(new UpgradeAction(this));
     }
     return actions;
@@ -110,6 +118,11 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
     return BASE_SELL_PRICE;
   }
 
+  /**
+   * Upgrade the great knife by increasing its hit rate.
+   *
+   * @return A string describing the upgrading action
+   */
   @Override
   public String upgrade() {
     int percent = 1;
@@ -118,6 +131,11 @@ public class GreatKnife extends SkillWeapon implements Buyable, Sellable, Upgrad
         + percent + "%.";
   }
 
+  /**
+   * Returns the upgrade cost of the great knife.
+   *
+   * @return the upgrade cost of the great knife
+   */
   @Override
   public int getUpgradeCost() {
     return BASE_UPGRADE_COST;

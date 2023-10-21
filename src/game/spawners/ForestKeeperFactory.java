@@ -7,6 +7,7 @@ import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
+
 import java.util.Random;
 
 /**
@@ -29,7 +30,8 @@ public class ForestKeeperFactory extends EnemyFactory implements WeatherSubscrib
 
   /**
    * Constructs a new forest keeper factory with the default spawning rate.
-   * @param controller The weather controller (abxervyer)
+   *
+   * @param controller   The weather controller (abxervyer)
    * @param dreamCapable the Dream Capable Object (player)
    */
   public ForestKeeperFactory(WeatherController controller, DreamCapable dreamCapable) {

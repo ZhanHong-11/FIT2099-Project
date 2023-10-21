@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A subclass of Actor that represents a blacksmith who can speak to the player.
- * A blacksmith is a npc that can upgrade healing vials, refreshing flasks,
- * broadswords and great knives.
+ * A subclass of Actor that represents a blacksmith who can speak to the player. A blacksmith is a
+ * npc that can upgrade certain items.
  *
  * @see Actor
  * @see Speakable
@@ -23,7 +22,7 @@ import java.util.Random;
 public class Blacksmith extends Actor implements Speakable {
 
   /**
-   * Constructs a new blacksmith.
+   * Constructs a new blacksmith. The blacksmith cannot be attacked by other actors
    */
   public Blacksmith() {
     super("Blacksmith", 'B', 999);
@@ -33,25 +32,26 @@ public class Blacksmith extends Actor implements Speakable {
   }
 
   /**
-   * The allowable actions that the blacksmith provide.
+   * The allowable actions that the blacksmith provide. The blacksmith can speak to the player.
    *
-   * @param direction a string representing direction
-   * @param map the game map
+   * @param direction  a string representing direction
+   * @param map        the game map
    * @param otherActor the other actor that will see the possible action
    * @return actions
    */
   @Override
   public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
     ActionList actions = super.allowableActions(otherActor, direction, map);
-    if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+    if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
       actions.add(new SpeakAction(this));
     }
     return actions;
   }
 
   /**
-   * Speak method of the blacksmith
-   * @param listener the other actor which will listen to the blacksmith
+   * Returns a monologue that is said by the blacksmith.
+   *
+   * @param listener the actor that listen to the blacksmith
    * @return a string representing a monologue
    */
   @Override
@@ -59,20 +59,22 @@ public class Blacksmith extends Actor implements Speakable {
     Random random = new Random();
     ArrayList<String> monologues = new ArrayList<>();
 
-    monologues.add("I used to be an adventurer like you, but then .... Nevermind, let’s get back to smithing.");
+    monologues.add(
+        "I used to be an adventurer like you, but then .... Nevermind, let’s get back to smithing.");
     monologues.add("It’s dangerous to go alone. Take my creation with you on your adventure!");
     monologues.add("Ah, it’s you. Let’s get back to make your weapons stronger.");
 
-    if (listener.hasCapability(Status.ABXERVYER_KILLER)){
-      monologues.add("Somebody once told me that a sacred tree rules the land beyond the ancient woods until this day.");
-
+    if (listener.hasCapability(Status.ABXERVYER_KILLER)) {
+      monologues.add(
+          "Somebody once told me that a sacred tree rules the land beyond the ancient woods until this day.");
+    } else {
+      monologues.add(
+          "Beyond the burial ground, you’ll come across the ancient woods ruled by Abxervyer. Use my creation to slay them and proceed further!");
     }
-    else{
-      monologues.add("Beyond the burial ground, you’ll come across the ancient woods ruled by Abxervyer. Use my creation to slay them and proceed further!");
 
-    }
-    if (listener.hasCapability(Ability.STAB_STEP)){
-      monologues.add("Hey now, that’s a weapon from a foreign land that I have not seen for so long. I can upgrade it for you if you wish.");
+    if (listener.hasCapability(Ability.STAB_STEP)) {
+      monologues.add(
+          "Hey now, that’s a weapon from a foreign land that I have not seen for so long. I can upgrade it for you if you wish.");
     }
 
     int index = random.nextInt(monologues.size());

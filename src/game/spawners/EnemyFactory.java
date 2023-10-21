@@ -57,12 +57,11 @@ public abstract class EnemyFactory implements Spawnable {
   public abstract Enemy spawnEnemy();
 
   /**
-   * Getter method that
-   * Retrieves the associated DreamCapable instance for this item.
+   * Getter method that retrieves the associated DreamCapable instance for this item.
+   *
    * @return dreamCapable
    */
   protected DreamCapable getDreamCapable() {
     return this.dreamCapable;
   }
-
 }
