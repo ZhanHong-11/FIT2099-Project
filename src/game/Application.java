@@ -1,6 +1,5 @@
 package game;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import game.actors.Blacksmith;
 import game.actors.Player;
@@ -84,9 +83,9 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!"), player));
 
-    Map<String, Action> abxervyerBattleMapTravelActions = new HashMap<>();
-    abxervyerBattleMapTravelActions.put("AncientWoods", new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
-    abxervyerBattleMapTravelActions.put("OvergrownSanctuary", new MoveActorAction(overgrownSanctuary.at(16, 0), "to the Overgrown Sanctuary!"));
+    Map<String, MoveActorAction> abxervyerBattleMapTravelActions = new HashMap<>();
+    abxervyerBattleMapTravelActions.put("AncientWoods", new MoveActorAction(ancientWoods.at(55, 1), "to the Ancient Woods!"));
+    abxervyerBattleMapTravelActions.put("OvergrownSanctuary", new MoveActorAction(overgrownSanctuary.at(46, 1), "to the Overgrown Sanctuary!"));
     LockedGate gate = new LockedGate(abxervyerBattleMapTravelActions, player);
     Abxervyer abxervyer = new Abxervyer(gate, player);
 
@@ -108,9 +107,13 @@ public class Application {
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer, player)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer, player)));
 
+    overgrownSanctuary.at(33, 13).setGround(new Graveyard(new HollowSoldierFactory(player)));
     overgrownSanctuary.at(3, 5).setGround(new Hut(new EldentreeGuardianFactory(player)));
     overgrownSanctuary.at(18, 1).setGround(new Bush(new LivingBranchFactory(player)));
     overgrownSanctuary.at(21, 8).setGround(new Bush(new LivingBranchFactory(player)));
+    overgrownSanctuary.at(47, 0).setGround(
+        new LockedGate(
+            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"), player));
 
 
     world.addPlayer(player, abandonedVillage.at(29, 5));
