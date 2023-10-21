@@ -48,8 +48,6 @@ public class Application {
     GameMap abandonedVillage = new AbandonedVillage(groundFactory);
     world.addGameMap(abandonedVillage);
 
-    Player player = new Player("The Abstracted One", '@', 150, 200, abandonedVillage.at(29, 5));
-
     GameMap burialGround = new BurialGround(groundFactory);
     world.addGameMap(burialGround);
 
@@ -61,6 +59,8 @@ public class Application {
 
     GameMap overgrownSanctuary = new OvergrownSanctuary(groundFactory);
     world.addGameMap(overgrownSanctuary);
+
+    Player player = new Player("The Abstracted One", '@', 150, 200, abandonedVillage.at(29, 5));
 
     for (String line : FancyMessage.TITLE.split("\n")) {
       new Display().println(line);
@@ -102,14 +102,15 @@ public class Application {
         new LockedGate(
             new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"), player));
 
-    abandonedVillage.at(29, 10).addActor(abxervyer);
+    abxervyerBattleMap.at(20, 10).addActor(abxervyer);
     abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
     abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory(abxervyer, player)));
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer, player)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer, player)));
 
-    overgrownSanctuary.at(16, 1).setGround(new Hut(new EldentreeGuardianFactory(player)));
+    overgrownSanctuary.at(3, 5).setGround(new Hut(new EldentreeGuardianFactory(player)));
     overgrownSanctuary.at(18, 1).setGround(new Bush(new LivingBranchFactory(player)));
+    overgrownSanctuary.at(21, 8).setGround(new Bush(new LivingBranchFactory(player)));
 
 
     world.addPlayer(player, abandonedVillage.at(29, 5));

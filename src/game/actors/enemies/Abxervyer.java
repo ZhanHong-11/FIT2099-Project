@@ -3,6 +3,7 @@ package game.actors.enemies;
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -62,11 +63,6 @@ public class Abxervyer extends Enemy implements WeatherController {
    * The list of subscribers that are subscribed to the weather of the boss
    */
   private ArrayList<WeatherSubscriber> subscribers = new ArrayList<>();
-
-  /**
-   *
-   */
-  private final int BASE_ABXERVYER_HIT_POINTS = 2000;
 
   /**
    * Constructs a new Abxervyer.
@@ -216,6 +212,6 @@ public class Abxervyer extends Enemy implements WeatherController {
 
   @Override
   public void reset(GameMap map) {
-    this.heal(BASE_ABXERVYER_HIT_POINTS);
+    this.heal(getAttributeMaximum(BaseActorAttributes.HEALTH));
   }
 }
