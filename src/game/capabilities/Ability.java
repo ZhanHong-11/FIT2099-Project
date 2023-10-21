@@ -11,5 +11,6 @@ public enum Ability {
   FOLLOW,
   CRAFTING,
   STAB_STEP,
-  HAS_HAMMER
+  HAS_HAMMER,
+  GREAT_SLAM
 }
