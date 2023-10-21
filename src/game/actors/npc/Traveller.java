@@ -1,10 +1,9 @@
-package game.actors.merchants;
+package game.actors.npc;
 
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actions.SpeakAction;
-import game.actors.Speakable;
 import game.capabilities.Ability;
 import game.capabilities.Status;
 import java.util.ArrayList;

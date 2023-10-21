@@ -1,11 +1,11 @@
 package game;
 
 import edu.monash.fit2099.engine.actions.MoveActorAction;
-import game.actors.Blacksmith;
+import game.actors.npc.Blacksmith;
 import game.actors.Player;
 import game.actors.enemies.Abxervyer;
 import game.actors.enemies.WanderingUndead;
-import game.actors.merchants.Traveller;
+import game.actors.npc.Traveller;
 import game.gamemaps.*;
 import game.items.Bloodberry;
 import game.spawners.*;
