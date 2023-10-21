@@ -12,7 +12,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
-import game.actors.enemies.Droppable;
 import game.dream.DreamCapable;
 import game.dream.Resettable;
 import game.capabilities.Status;
