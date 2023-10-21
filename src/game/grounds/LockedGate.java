@@ -2,6 +2,7 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
@@ -31,12 +32,12 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
   /**
    * A map containing actions that allows an actor to travel to another map through the gate
    */
-  private Map<String, Action> travelActions;
+  private Map<String, MoveActorAction> travelActionList;
 
   /**
    * The travel action that allows an actor to travel to another map through the gate
    */
-  private Action travelAction;
+  private MoveActorAction travelAction;
 
   /**
    * The Dream Capable object (player)
@@ -50,10 +51,10 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
    * @param travelActions The actions that allows an actor to travel to another map through the gate (accepts multiple travel action)
    * @param dreamCapable the Dream Capable Object (player)
    */
-  public LockedGate(Map<String, Action> travelActions, DreamCapable dreamCapable) {
+  public LockedGate(Map<String, MoveActorAction> travelActions, DreamCapable dreamCapable) {
     super('=');
     this.isLocked = true;
-    this.travelActions = new HashMap<>(travelActions);
+    this.travelActionList = new HashMap<>(travelActions);
     this.dreamCapable = dreamCapable;
     this.dreamCapable.subscribe(this);
   }
@@ -65,7 +66,7 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
    * @param travelAction The action that allows an actor to travel to another map through the gate
    * @param dreamCapable the Dream Capable Object (player)
    */
-  public LockedGate(Action travelAction, DreamCapable dreamCapable) {
+  public LockedGate(MoveActorAction travelAction, DreamCapable dreamCapable) {
     super('=');
     this.isLocked = true;
     this.travelAction = travelAction;
@@ -101,17 +102,20 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
     ActionList actions = new ActionList();
     if (isLocked) {
       actions.add(new UnlockAction(this));
-    } else {
-        if (travelActions != null && !travelActions.isEmpty()) {
-          for (Action travelAction : travelActions.values()) {
-            if (travelAction != null) {
-              actions.add(travelAction);
+    }
+    else {
+      if (this.travelAction != null) {
+        actions.add(this.travelAction);
+      }
+      else {
+        if (!this.travelActionList.isEmpty()){
+          for (Action travel : travelActionList.values()) {
+            if (travel != null) {
+              actions.add(travel);
             }
           }
-          if (this.travelAction != null) {
-            actions.add(this.travelAction);
-          }
         }
+      }
     }
     return actions;
   }
