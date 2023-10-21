@@ -21,16 +21,29 @@ import java.util.Random;
  * @see Consumable
  * @see Buyable
  * @see Sellable
+ * @see Upgradable
  */
 public class RefreshingFlask extends Item implements Consumable, Buyable, Sellable, Upgradable {
 
+  /**
+   * The base percentage of stamina that the refreshing flask can restore
+   */
   private static final int BASE_STAMINA_RECOVERY_PERCENT = 20;
+  /**
+   * The percentage of stamina that the refreshing flask can restore
+   */
   private int staminaRecoveryPercent;
   /**
    * The base selling price of the refreshing flask
    */
   private static final int BASE_SELL_PRICE = 25;
+  /**
+   * The base upgrade cost of the refreshing flask
+   */
   private static final int BASE_UPGRADE_COST = 175;
+  /**
+   * A boolean that represents whether the refreshing flask has been upgraded
+   */
   private boolean isUpgraded;
   private Random random = new Random();
 
@@ -58,7 +71,8 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
 
   /**
    * List of allowable actions that refreshing flask can perform to the current actor This item can
-   * be sold to actor that has the trading ability
+   * be sold to actor that has the trading ability. This item can also be upgraded by the actor that
+   * has the crafting ability.
    *
    * @param otherActor the other actor
    * @return an ActionList that contain the SellAction
@@ -69,7 +83,7 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
     }
-    if (!this.isUpgraded){
+    if (!this.isUpgraded) {
       if (otherActor.hasCapability(Ability.CRAFTING)) {
         actions.add(new UpgradeAction(this));
       }
@@ -138,6 +152,12 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     return BASE_SELL_PRICE;
   }
 
+  /**
+   * Upgrades the refreshing flask and returns a message showing that the refreshing flask has been
+   * upgraded. The upgraded refreshing flask restores 100% of the actor's maximum stamina.
+   *
+   * @return a message showing that the refreshing flask has been upgraded
+   */
   @Override
   public String upgrade() {
     this.staminaRecoveryPercent = 100;
@@ -145,6 +165,12 @@ public class RefreshingFlask extends Item implements Consumable, Buyable, Sellab
     return this + " has been upgraded!";
   }
 
+  /**
+   * Returns the upgrade cost of the refreshing flask. The upgrade cost of the refreshing flask is
+   * 175 coins.
+   *
+   * @return the upgrade cost of the refreshing flask
+   */
   @Override
   public int getUpgradeCost() {
     return BASE_UPGRADE_COST;

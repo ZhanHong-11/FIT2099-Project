@@ -67,7 +67,7 @@ public class Abxervyer extends Enemy implements WeatherController {
   /**
    * Constructs a new Abxervyer.
    *
-   * @param gate the gate that will appear on the map after the Abxervyer is killed
+   * @param gate         the gate that will appear on the map after the Abxervyer is killed
    * @param dreamCapable the Dream Capable Object (player)
    */
   public Abxervyer(LockedGate gate, DreamCapable dreamCapable) {
@@ -89,13 +89,18 @@ public class Abxervyer extends Enemy implements WeatherController {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  /**
+   * Returns the base amount of runes that the Abxervyer will drop when killed.
+   *
+   * @return the base amount of runes that the Abxervyer will drop when killed
+   */
   @Override
   protected int getDropRuneAmount() {
     return BASE_RUNES_DROP_AMOUNT;
   }
 
   /**
-   * The Abxervyer will drop runes when killed. The location of the boss will be replaced by a gate
+   * The location of the actor will be replaced by a gate when it is dead
    *
    * @param location the location that the Abxervyer is on
    */
@@ -131,7 +136,7 @@ public class Abxervyer extends Enemy implements WeatherController {
    *                   conjunction with Action.getNextAction()
    * @param map        the map containing the Actor
    * @param display    the I/O object to which messages may be written
-   * @return
+   * @return the action to be performed
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
@@ -210,6 +215,12 @@ public class Abxervyer extends Enemy implements WeatherController {
     return "The weather is back to normal.";
   }
 
+  /**
+   * This method specify the actual details for the Abxervyer when the DreamCapable (player) is
+   * dead.
+   *
+   * @param map the map that the Abxervyer is on
+   */
   @Override
   public void reset(GameMap map) {
     this.heal(getAttributeMaximum(BaseActorAttributes.HEALTH));

@@ -10,7 +10,6 @@ import java.util.List;
 /**
  * an abstract class which represents a SpawnGround, it extends from the Ground Class
  *
- * @author Soo Zhan Hong
  * @see Ground
  */
 public abstract class SpawnGround extends Ground {
@@ -23,9 +22,9 @@ public abstract class SpawnGround extends Ground {
   /**
    * Constructor.
    *
-   * @param displayChar  character to display for this type of terrain
-   * @param spawnable represents an Enemy Factory that will spawn a certain type of enemy in this
-   *                     spawning ground
+   * @param displayChar character to display for this type of terrain
+   * @param spawnable   represents an Enemy Factory that will spawn a certain type of enemy in this
+   *                    spawning ground
    */
   public SpawnGround(char displayChar, Spawnable spawnable) {
     super(displayChar);

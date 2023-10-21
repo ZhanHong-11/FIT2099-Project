@@ -84,8 +84,10 @@ public class Application {
         new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!"), player));
 
     Map<String, MoveActorAction> abxervyerBattleMapTravelActions = new HashMap<>();
-    abxervyerBattleMapTravelActions.put("AncientWoods", new MoveActorAction(ancientWoods.at(55, 1), "to the Ancient Woods!"));
-    abxervyerBattleMapTravelActions.put("OvergrownSanctuary", new MoveActorAction(overgrownSanctuary.at(46, 1), "to the Overgrown Sanctuary!"));
+    abxervyerBattleMapTravelActions.put("AncientWoods",
+        new MoveActorAction(ancientWoods.at(55, 1), "to the Ancient Woods!"));
+    abxervyerBattleMapTravelActions.put("OvergrownSanctuary",
+        new MoveActorAction(overgrownSanctuary.at(46, 1), "to the Overgrown Sanctuary!"));
     LockedGate gate = new LockedGate(abxervyerBattleMapTravelActions, player);
     Abxervyer abxervyer = new Abxervyer(gate, player);
 
@@ -99,7 +101,8 @@ public class Application {
         new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!"), player));
     ancientWoods.at(55, 0).setGround(
         new LockedGate(
-            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"), player));
+            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"),
+            player));
 
     abxervyerBattleMap.at(20, 10).addActor(abxervyer);
     abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
@@ -113,8 +116,8 @@ public class Application {
     overgrownSanctuary.at(21, 8).setGround(new Bush(new LivingBranchFactory(player)));
     overgrownSanctuary.at(47, 0).setGround(
         new LockedGate(
-            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"), player));
-
+            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"),
+            player));
 
     world.addPlayer(player, abandonedVillage.at(29, 5));
     world.run();

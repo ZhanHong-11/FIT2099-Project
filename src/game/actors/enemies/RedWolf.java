@@ -17,7 +17,9 @@ import java.util.Random;
  * A class that represents a Red Wolf. A Red Wolf is an enemy that can attack other actors who are
  * hostile to them and wander around the map. A Red Wolf has a follow ability which cause them to
  * follow the player when the player is nearby.
+ *
  * @see Enemy
+ * @see WeatherController
  */
 public class RedWolf extends Enemy implements WeatherSubscriber {
 
@@ -53,7 +55,8 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
 
   /**
    * Constructs a new Red Wolf.
-   * @param controller the Weather Controller object (abxervyer)
+   *
+   * @param controller   the Weather Controller object (abxervyer)
    * @param dreamCapable the Dream Capable Object (player)
    */
   public RedWolf(WeatherController controller, DreamCapable dreamCapable) {
@@ -65,8 +68,7 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
   }
 
   /**
-   * Returns an IntrinsicWeapon that represents the attack of the Red Wolf. If the Red Wolf has the
-   * sunny buff, the damage of the attack is tripled.
+   * Returns an IntrinsicWeapon that represents the attack of the Red Wolf.
    *
    * @return An IntrinsicWeapon that represents the attack
    */
@@ -76,6 +78,11 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  /**
+   * Returns the amount of runes that the Red Wolf will drop when killed by another actor.
+   *
+   * @return the amount of runes that the Red Wolf will drop when killed by another actor
+   */
   @Override
   protected int getDropRuneAmount() {
     return BASE_RUNES_DROP_AMOUNT;
@@ -83,9 +90,7 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
 
   /**
    * Drops an item on the game map when the Red Wolf is killed. The item can be either a healing
-   * vial or a refreshing flask, with a probability of 10% and 20% respectively. The probability of
-   * item dropping is independent to the others. The item is dropped at the location of the Red
-   * Wolf. Red Wolf also drop runes when killed by another actor.
+   * vial with a probability of 10%. The item is dropped at the last location of the Red Wolf.
    *
    * @param location The location where the Red Wolf is located.
    */

@@ -13,8 +13,7 @@ import edu.monash.fit2099.engine.actors.Behaviour;
 /**
  * Created by:
  *
- * @author Riordan D. Alfredo
- * Modified by: Zhan
+ * @author Riordan D. Alfredo Modified by: Zhan
  */
 public class WanderBehaviour implements Behaviour {
 
@@ -44,6 +43,5 @@ public class WanderBehaviour implements Behaviour {
     } else {
       return null;
     }
-
   }
 }

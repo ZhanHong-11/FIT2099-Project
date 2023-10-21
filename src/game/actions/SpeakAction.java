@@ -4,34 +4,33 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.actors.npc.Speakable;
-import game.items.Consumable;
 
 /**
- * A subclass of Action that represents a speak action. A speak action is an action that allows
- * an actor to speak and tell stories.
+ * A subclass of Action that represents a speak action. Speak action is an action allowing an npc to
+ * speak to the player.
  *
  * @see Action
  */
 public class SpeakAction extends Action {
 
   /**
-   * The Speaker object
+   * The actor that speaks
    */
   private Speakable speaker;
 
   /**
    * Constructs a new speak action
    *
-   * @param speaker The speaker object
+   * @param speaker The actor that speaks
    */
-  public SpeakAction(Speakable speaker){
+  public SpeakAction(Speakable speaker) {
     this.speaker = speaker;
   }
 
   /**
-   * Executes the speak action and returns a string that describes the action executed.
+   * Executes the speak action and returns a monologue.
    *
-   * @param actor The actor who performs the consume action
+   * @param actor The actor that listen to the monologue
    * @param map   The game map that contains the actor
    * @return the action description to be displayed on the menu
    */
@@ -41,9 +40,9 @@ public class SpeakAction extends Action {
   }
 
   /**
-   * Returns a string that describes the consume action in a menu.
+   * Returns a string that describes the speak action in a menu.
    *
-   * @param actor The actor performing the action.
+   * @param actor The actor that listen.
    * @return the action description to be displayed on the menu
    */
   @Override

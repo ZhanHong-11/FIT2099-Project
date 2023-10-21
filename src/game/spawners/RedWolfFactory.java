@@ -30,6 +30,7 @@ public class RedWolfFactory extends EnemyFactory implements WeatherSubscriber {
 
   /**
    * Constructs a new red wolf factory with the default spawning rate.
+   *
    * @param dreamCapable the Dream Capable Object (player)
    */
   public RedWolfFactory(WeatherController controller, DreamCapable dreamCapable) {

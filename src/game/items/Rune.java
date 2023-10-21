@@ -11,8 +11,8 @@ import game.actions.ConsumeAction;
 import game.dream.Resettable;
 
 /**
- * A subclass of Item which implements the Consumable Interface, representing a consumable Item
- * It also implements the Resettable Interface, representing a resettable item
+ * A subclass of Item which implements the Consumable Interface, representing a consumable Item It
+ * also implements the Resettable Interface, representing a resettable item
  *
  * @author Alvin Andrean
  * @see Item
@@ -33,7 +33,8 @@ public class Rune extends Item implements Consumable, Resettable {
 
   /**
    * Constructs a new rune with the default attributes and the value of the rune.
-   * @param value the value of the runes
+   *
+   * @param value        the value of the runes
    * @param dreamCapable the Dream Capable Object (player)
    */
   public Rune(int value, DreamCapable dreamCapable) {
@@ -71,11 +72,10 @@ public class Rune extends Item implements Consumable, Resettable {
   }
 
   /**
-   * Called every turn for each instance of this item, to execute actions
-   * or modify its status based on its current location or state.
-   *
-   * If the item has the capability `Status.RESET`, it will be removed
-   * from its current location.
+   * Called every turn for each instance of this item, to execute actions or modify its status based
+   * on its current location or state.
+   * <p>
+   * If the item has the capability `Status.RESET`, it will be removed from its current location.
    *
    * @param currentLocation The location where the item currently resides.
    */
@@ -88,14 +88,12 @@ public class Rune extends Item implements Consumable, Resettable {
   }
 
   /**
-   * Introduces a status change to the item, particularly adding the
-   * `Status.RESET` capability.
-   * This indicates that the item is flagged for a reset, which might
-   * lead to its removal or other changes in subsequent turns or actions.
+   * Introduces a status change to the item, particularly adding the `Status.RESET` capability. This
+   * indicates that the item is flagged for a reset, which might lead to its removal or other
+   * changes in subsequent turns or actions.
    *
-   * @param map The game map, representing the current game state.
-   *             Currently unused in this method but can be utilized for
-   *             future extensions or modifications.
+   * @param map The game map, representing the current game state. Currently unused in this method
+   *            but can be utilized for future extensions or modifications.
    */
   @Override
   public void reset(GameMap map) {

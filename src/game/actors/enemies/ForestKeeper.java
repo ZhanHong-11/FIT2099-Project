@@ -20,6 +20,7 @@ import java.util.Random;
  * killed.
  *
  * @see Enemy
+ * @see WeatherController
  */
 public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
@@ -51,7 +52,8 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
   /**
    * Constructs a new Forest Keeper.
-   * @param controller the Weather Controller object (abxervyer)
+   *
+   * @param controller   the Weather Controller object (abxervyer)
    * @param dreamCapable the Dream Capable Object (player)
    */
   public ForestKeeper(WeatherController controller, DreamCapable dreamCapable) {
@@ -73,6 +75,11 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  /**
+   * Returns the amount of runes that the Forest Keeper will drop when killed by another actor.
+   *
+   * @return the amount of runes that the Forest Keeper will drop when killed by another actor
+   */
   @Override
   protected int getDropRuneAmount() {
     return BASE_RUNES_DROP_AMOUNT;
@@ -80,9 +87,8 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
   /**
    * Drops an item on the game map when the Forest Keeper is killed. The item can be either a
-   * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
-   * probability of item dropping is independent to the others. The item is dropped at the location
-   * of the Forest Keeper. It will also drop Runes when killed by another actor
+   * healing vial with a probability of 20%. The item is dropped at the last location of the Forest
+   * Keeper.
    *
    * @param location The location where the Forest Keeper is located.
    */

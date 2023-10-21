@@ -33,7 +33,13 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
    * The default sell price of the broadsword
    */
   private static final int BASE_SELL_PRICE = 100;
+  /**
+   * The default upgrade cost of the broadsword
+   */
   private static final int BASE_UPGRADE_COST = 1000;
+  /**
+   * The extra damage that the broadsword can deal after it has been upgraded
+   */
   private int extraDamage;
 
   /**
@@ -57,7 +63,9 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
 
   /**
    * Returns an ActionList that contains an AttackAction that allows an actor to attack another
-   * actor with the broadsword.
+   * actor with the broadsword. If the other actor has the ability to trade, then a SellAction is
+   * also return. If the other actor has the ability to craft, then an UpgradeAction is also
+   * return.
    *
    * @param otherActor the other actor
    * @param location   the location of the other actor
@@ -69,7 +77,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
     }
-    if (otherActor.hasCapability(Ability.CRAFTING)){
+    if (otherActor.hasCapability(Ability.CRAFTING)) {
       actions.add(new UpgradeAction(this));
     }
     return actions;
@@ -113,6 +121,12 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
     getSkill().tickSkill(this);
   }
 
+  /**
+   * Returns the damage of the broadsword. Add the extra damage if the broadsword has been
+   * upgraded.
+   *
+   * @return the damage of the broadsword
+   */
   @Override
   public int damage() {
     return super.damage() + this.extraDamage;
@@ -150,6 +164,11 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
     return BASE_SELL_PRICE;
   }
 
+  /**
+   * Upgrade the broadsword by having an additional damage.
+   *
+   * @return A string describing the upgrading action
+   */
   @Override
   public String upgrade() {
     this.extraDamage += 10;
@@ -157,6 +176,11 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgrad
         + this.extraDamage + " damage";
   }
 
+  /**
+   * Returns the upgrade cost of the broadsword.
+   *
+   * @return the upgrade cost of the broadsword
+   */
   @Override
   public int getUpgradeCost() {
     return BASE_UPGRADE_COST;

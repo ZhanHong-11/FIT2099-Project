@@ -20,21 +20,32 @@ import game.items.Rune;
 import java.util.ArrayList;
 
 /**
- * Class representing the Player. Created by:
+ * Class representing the Player.
  *
  * @author Adrian Kristanto Modified by: Soo Zhan Hong
+ * @see Actor
+ * @see DreamCapable
+ * @see Droppable Created by:
  */
 public class Player extends Actor implements DreamCapable, Droppable {
 
+  /**
+   * The location where the player will respawn.
+   */
   private Location respawnLocation;
+  /**
+   * A list of resettable objects.
+   */
   private ArrayList<Resettable> resettables = new ArrayList<>();
 
   /**
    * Constructor.
    *
-   * @param name        Name to call the player in the UI
-   * @param displayChar Character to represent the player in the UI
-   * @param hitPoints   Player's starting number of hitpoints
+   * @param name            Name to call the player in the UI
+   * @param displayChar     Character to represent the player in the UI
+   * @param hitPoints       Player's starting number of hitpoints
+   * @param stamina         Player's starting stamina
+   * @param respawnLocation The location where the player will respawn.
    */
   public Player(String name, char displayChar, int hitPoints, int stamina,
       Location respawnLocation) {
@@ -47,12 +58,11 @@ public class Player extends Actor implements DreamCapable, Droppable {
   /**
    * Determines and returns the action to be performed by the player in their current turn.
    *
-   *
-   * @param actions     A list of possible actions the player can perform during this turn.
-   * @param lastAction  The last action that the player took.
-   * @param map         The game map, representing the current game state.
-   * @param display     The display used to present information to the player.
-   * @return            The action the player has chosen to take this turn.
+   * @param actions    A list of possible actions the player can perform during this turn.
+   * @param lastAction The last action that the player took.
+   * @param map        The game map, representing the current game state.
+   * @param display    The display used to present information to the player.
+   * @return The action the player has chosen to take this turn.
    */
   @Override
   public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
@@ -92,10 +102,11 @@ public class Player extends Actor implements DreamCapable, Droppable {
   }
 
   /**
-   * Handles player's death by another actor.
+   * Handles player's death by another actor. The player will respawn in the starting position. The
+   * wallet balance of the players will be dropped on the death location as runes.
    *
    * @param actor an actor representing the killer
-   * @param map the Game Map
+   * @param map   the Game Map
    */
   @Override
   public String unconscious(Actor actor, GameMap map) {
@@ -107,7 +118,10 @@ public class Player extends Actor implements DreamCapable, Droppable {
   }
 
   /**
-   * Handles player's death.
+   * Handles player's natural death (Example: stepping on the void). The player will respawn in the
+   * starting position. The wallet balance of the players will be dropped on the death location as
+   * runes. If the player died on the void, the runes will still be dropped on the void. This
+   * basically means that the runes cannot be picked up again.
    *
    * @param map the Game Map
    */
@@ -169,7 +183,8 @@ public class Player extends Actor implements DreamCapable, Droppable {
   }
 
   /**
-   * Respawns the player in the starting position, and resets the resettable objects.
+   * Respawns the player in the starting position, and resets the resettable objects. Remove the
+   * reset status from the items in the player's inventory as those items should not be affected.
    *
    * @param map The Game Map
    */
@@ -179,13 +194,13 @@ public class Player extends Actor implements DreamCapable, Droppable {
     for (Resettable resettable : this.resettables) {
       resettable.reset(map);
     }
-    for (Item item: this.getItemInventory()){
+    for (Item item : this.getItemInventory()) {
       item.removeCapability(Status.RESET);
     }
   }
 
   /**
-   * Handles dropping items from the player's inventory.
+   * Drop items when the player is killed. The player will drop the wallet balance as runes.
    *
    * @param location the location of the actor.
    */

@@ -10,9 +10,9 @@ import game.items.Key;
 import java.util.Random;
 
 /**
- * A subclass of Enemy that represents a wandering undead. A wandering undead is an enemy that are
- * immune to the void and can attack those that are hostile to enemy. It can drop healing vials or
- * refreshing flasks when killed with a certain probability.
+ * A subclass of Enemy that represents a wandering undead. A wandering undead is an enemy that can
+ * attack those that are hostile to enemy. It can drop healing vials or refreshing flasks when
+ * killed with a certain probability.
  *
  * @see Enemy
  */
@@ -46,6 +46,7 @@ public class WanderingUndead extends Enemy {
 
   /**
    * Constructs a new wandering undead.
+   *
    * @param dreamCapable the Dream Capable Object (player)
    */
   public WanderingUndead(DreamCapable dreamCapable) {
@@ -64,6 +65,11 @@ public class WanderingUndead extends Enemy {
         BASE_INTRINSIC_HIT_RATE);
   }
 
+  /**
+   * Returns the amount of runes that the Wandering Undead will drop when killed by another actor.
+   *
+   * @return the amount of runes that the Wandering Undead will drop when killed by another actor
+   */
   @Override
   protected int getDropRuneAmount() {
     return BASE_RUNES_DROP_AMOUNT;
@@ -73,7 +79,7 @@ public class WanderingUndead extends Enemy {
    * Drops an item on the game map when the wandering undead is killed. The item can be either a
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
    * dropping is independent to the others. The item is dropped at the location of the wandering
-   * undead. Wandering Undead also drop runes when killed by another actor.
+   * undead.
    *
    * @param location The location where the wandering undead is located.
    */
@@ -88,6 +94,4 @@ public class WanderingUndead extends Enemy {
       location.addItem(new HealingVial());
     }
   }
-
-
 }
