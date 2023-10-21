@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actors.attributes.ActorAttributeOperations;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttribute;
 import edu.monash.fit2099.engine.actors.attributes.BaseActorAttributes;
 import edu.monash.fit2099.engine.displays.Display;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.positions.Location;
@@ -178,6 +179,9 @@ public class Player extends Actor implements DreamCapable, Droppable {
     map.moveActor(this, this.respawnLocation);
     for (Resettable resettable : this.resettables) {
       resettable.reset(map);
+    }
+    for (Item item: this.getItemInventory()){
+      item.removeCapability(Status.RESET);
     }
   }
 
