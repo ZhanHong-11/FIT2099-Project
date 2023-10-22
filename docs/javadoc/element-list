@@ -22,6 +22,7 @@ game.actors.npc
 game.behaviours
 game.capabilities
 game.display
+game.dream
 game.gamemaps
 game.grounds
 game.grounds.spawnlocation
