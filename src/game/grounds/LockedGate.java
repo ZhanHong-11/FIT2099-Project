@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.UnlockAction;
+import game.capabilities.Status;
 import game.dream.DreamCapable;
 import game.dream.Resettable;
 
@@ -82,10 +83,13 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
    * unlocked.
    *
    * @param actor The actor who tries to enter the gate
-   * @return true if the gate is unlocked, false otherwise
+   * @return false if the actor is an enemy, and true for the player if the gate is unlocked, false otherwise
    */
   @Override
   public boolean canActorEnter(Actor actor) {
+    if (actor.hasCapability(Status.DANGER)) {
+      return false;
+    }
     return !this.isLocked;
   }
 

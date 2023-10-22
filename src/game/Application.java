@@ -75,19 +75,19 @@ public class Application {
     abandonedVillage.at(28, 6).addItem(new Broadsword());
     abandonedVillage.at(40, 2).setGround(new Graveyard(new WanderingUndeadFactory(player)));
     abandonedVillage.at(4, 3).setGround(new LockedGate(
-        new MoveActorAction(burialGround.at(22, 7), "to the Burial Grounds!"), player));
+        new MoveActorAction(burialGround.at(22, 6), "to the Burial Grounds!"), player));
 
     burialGround.at(7, 3).setGround(new Graveyard(new HollowSoldierFactory(player)));
     burialGround.at(22, 6).setGround(new LockedGate(
-        new MoveActorAction(abandonedVillage.at(5, 3), "to the Abandoned Village!"), player));
+        new MoveActorAction(abandonedVillage.at(4, 3), "to the Abandoned Village!"), player));
     burialGround.at(0, 8).setGround(new LockedGate(
-        new MoveActorAction(ancientWoods.at(1, 7), "to the Ancient Woods!"), player));
+        new MoveActorAction(ancientWoods.at(0, 7), "to the Ancient Woods!"), player));
 
     Map<String, MoveActorAction> abxervyerBattleMapTravelActions = new HashMap<>();
     abxervyerBattleMapTravelActions.put("AncientWoods",
-        new MoveActorAction(ancientWoods.at(55, 1), "to the Ancient Woods!"));
+        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
     abxervyerBattleMapTravelActions.put("OvergrownSanctuary",
-        new MoveActorAction(overgrownSanctuary.at(46, 1), "to the Overgrown Sanctuary!"));
+        new MoveActorAction(overgrownSanctuary.at(47, 0), "to the Overgrown Sanctuary!"));
     LockedGate gate = new LockedGate(abxervyerBattleMapTravelActions, player);
     Abxervyer abxervyer = new Abxervyer(gate, player);
 
