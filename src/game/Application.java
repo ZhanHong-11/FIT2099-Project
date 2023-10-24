@@ -116,7 +116,7 @@ public class Application {
     overgrownSanctuary.at(21, 8).setGround(new Bush(new LivingBranchFactory(player)));
     overgrownSanctuary.at(47, 0).setGround(
         new LockedGate(
-            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"),
+            new MoveActorAction(abxervyerBattleMap.at(31, 1), "to the Abxervyer Battle Room!"),
             player));
 
     world.addPlayer(player, abandonedVillage.at(29, 5));
