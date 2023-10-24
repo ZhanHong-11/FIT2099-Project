@@ -13,9 +13,9 @@ import game.items.Consumable;
 /**
  * A class that represents puddle. Extending to the Ground class, and implements the Consumable
  * Interface.
- *
  * Created by:
- * @author Riordan D. Alfredo Modified by:
+ * @author Riordan D. Alfredo
+ * Modified by:
  * @author Alvin Andrean
  * @author Soo Zhan Hong
  * @see Ground

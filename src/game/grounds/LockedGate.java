@@ -83,7 +83,8 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
    * unlocked.
    *
    * @param actor The actor who tries to enter the gate
-   * @return false if the actor is an enemy, and true for the player if the gate is unlocked, false otherwise
+   * @return false if the actor is an enemy, and true for the player if the gate is unlocked, false
+   * otherwise
    */
   @Override
   public boolean canActorEnter(Actor actor) {
