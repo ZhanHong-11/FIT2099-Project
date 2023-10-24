@@ -6,20 +6,18 @@ import game.capabilities.Status;
 
 /**
  * A class that represents the floor inside a building.
- *
  * Created by:
  * @author Riordan D. Alfredo
  * Modified by: Soo Zhan Hong
- *
  */
 public class Floor extends Ground {
 
-    public Floor() {
-        super('_');
-    }
+  public Floor() {
+    super('_');
+  }
 
-    @Override
-    public boolean canActorEnter(Actor actor) {
-        return !actor.hasCapability(Status.DANGER);
-    }
+  @Override
+  public boolean canActorEnter(Actor actor) {
+    return !actor.hasCapability(Status.DANGER);
+  }
 }

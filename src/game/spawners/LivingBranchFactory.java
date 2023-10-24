@@ -21,7 +21,6 @@ public class LivingBranchFactory extends EnemyFactory {
    */
   public LivingBranchFactory(DreamCapable dreamCapable) {
     super(BASE_SPAWN_RATE, dreamCapable);
-
   }
 
   /**
