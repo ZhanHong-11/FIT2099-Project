@@ -105,7 +105,7 @@ public class Application {
             player));
 
     abxervyerBattleMap.at(20, 10).addActor(abxervyer);
-    abxervyerBattleMap.at(33, 19).addItem(new GiantHammer());
+    abxervyerBattleMap.at(34, 4).addItem(new GiantHammer());
     abxervyerBattleMap.at(1, 8).setGround(new Hut(new ForestKeeperFactory(abxervyer, player)));
     abxervyerBattleMap.at(8, 1).setGround(new Hut(new ForestKeeperFactory(abxervyer, player)));
     abxervyerBattleMap.at(33, 17).setGround(new Bush(new RedWolfFactory(abxervyer, player)));
