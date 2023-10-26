@@ -39,12 +39,12 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
   private DreamCapable dreamCapable;
 
   /**
-   * Constructs a new locked gate with the given travel actions and the default display
-   * character and state.
+   * Constructs a new locked gate with the given travel actions and the default display character
+   * and state.
    *
-   * @param travelAction The travel action that allows an actor to travel to another map through
-   *                      the gate (multiple travel action)
-   * @param dreamCapable  the Dream Capable Object (player)
+   * @param travelAction The travel action that allows an actor to travel to another map through the
+   *                     gate (multiple travel action)
+   * @param dreamCapable the Dream Capable Object (player)
    */
   public LockedGate(MoveActorAction travelAction, DreamCapable dreamCapable) {
     super('=');
@@ -87,9 +87,9 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
     if (isLocked) {
       actions.add(new UnlockAction(this));
     } else {
-        for (MoveActorAction travelAction : travelActionList) {
-          actions.add(travelAction);
-        }
+      for (MoveActorAction travelAction : travelActionList) {
+        actions.add(travelAction);
+      }
     }
     return actions;
   }
@@ -97,8 +97,8 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
   /**
    * Adds a travel action to the gate. This method allows the gate to have multiple destinations.
    *
-   * @param travelAction The travel action that allows an actor to travel to another map through
-   *                      the gate
+   * @param travelAction The travel action that allows an actor to travel to another map through the
+   *                     gate
    */
   public void addTravelAction(MoveActorAction travelAction) {
     this.travelActionList.add(travelAction);

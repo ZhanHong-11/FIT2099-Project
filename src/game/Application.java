@@ -80,8 +80,10 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(0, 7), "to the Ancient Woods!"), player));
 
-    LockedGate abxervyerGate = new LockedGate(new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"), player);
-    abxervyerGate.addTravelAction(new MoveActorAction(overgrownSanctuary.at(47, 0), "to the Overgrown Sanctuary!"));
+    LockedGate abxervyerGate = new LockedGate(
+        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"), player);
+    abxervyerGate.addTravelAction(
+        new MoveActorAction(overgrownSanctuary.at(47, 0), "to the Overgrown Sanctuary!"));
 
     Abxervyer abxervyer = new Abxervyer(abxervyerGate, player);
 
