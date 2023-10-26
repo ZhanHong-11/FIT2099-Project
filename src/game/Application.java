@@ -101,7 +101,7 @@ public class Application {
         new MoveActorAction(burialGround.at(0, 8), "to the Burial Grounds!"), player));
     ancientWoods.at(55, 0).setGround(
         new LockedGate(
-            new MoveActorAction(abxervyerBattleMap.at(38, 19), "to the Abxervyer Battle Room!"),
+            new MoveActorAction(abxervyerBattleMap.at(31, 1), "to the Abxervyer Battle Room!"),
             player));
 
     abxervyerBattleMap.at(20, 10).addActor(abxervyer);
