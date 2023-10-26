@@ -1,6 +1,5 @@
 package game.grounds;
 
-import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
 import edu.monash.fit2099.engine.actors.Actor;
@@ -12,8 +11,7 @@ import game.capabilities.Status;
 import game.dream.DreamCapable;
 import game.dream.Resettable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * A subclass of Ground that implements Unlockable interface. A locked gate is a ground that can be
@@ -33,12 +31,7 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
   /**
    * A map containing actions that allows an actor to travel to another map through the gate
    */
-  private Map<String, MoveActorAction> travelActionList;
-
-  /**
-   * The travel action that allows an actor to travel to another map through the gate
-   */
-  private MoveActorAction travelAction;
+  private ArrayList<MoveActorAction> travelActionList = new ArrayList<>();
 
   /**
    * The Dream Capable object (player)
@@ -46,34 +39,17 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
   private DreamCapable dreamCapable;
 
   /**
-   * Constructs a new locked gate with the given travel actions list and the default display
-   * character and state. This constructor is specifically used for the locked gate that has
-   * multiple destination.
+   * Constructs a new locked gate with the given travel actions and the default display
+   * character and state.
    *
-   * @param travelActions The travel actions that allows an actor to travel to another map through
+   * @param travelAction The travel action that allows an actor to travel to another map through
    *                      the gate (multiple travel action)
    * @param dreamCapable  the Dream Capable Object (player)
-   */
-  public LockedGate(Map<String, MoveActorAction> travelActions, DreamCapable dreamCapable) {
-    super('=');
-    this.isLocked = true;
-    this.travelActionList = new HashMap<>(travelActions);
-    this.dreamCapable = dreamCapable;
-    this.dreamCapable.subscribe(this);
-  }
-
-  /**
-   * Constructs a new locked gate with the given travel action and the default display character and
-   * state. This constructor is specifically used for the locked gate that has only one
-   * destination.
-   *
-   * @param travelAction The action that allows an actor to travel to another map through the gate
-   * @param dreamCapable the Dream Capable Object (player)
    */
   public LockedGate(MoveActorAction travelAction, DreamCapable dreamCapable) {
     super('=');
     this.isLocked = true;
-    this.travelAction = travelAction;
+    this.travelActionList.add(travelAction);
     this.dreamCapable = dreamCapable;
     this.dreamCapable.subscribe(this);
   }
@@ -98,7 +74,7 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
    * Returns an ActionList that contains the actions that can be performed on the gate. If the gate
    * is locked, the ActionList contains an UnlockAction that allows an actor to unlock the gate with
    * a key. If the gate is unlocked, the ActionList contains the travel action/actions that allows
-   * an actor to travel to another map through the gate. e
+   * an actor to travel to another map through the gate.
    *
    * @param actor     the Actor acting
    * @param location  The location of the gate
@@ -111,19 +87,21 @@ public class LockedGate extends Ground implements Unlockable, Resettable {
     if (isLocked) {
       actions.add(new UnlockAction(this));
     } else {
-      if (this.travelAction != null) {
-        actions.add(this.travelAction);
-      } else {
-        if (!this.travelActionList.isEmpty()) {
-          for (Action travel : travelActionList.values()) {
-            if (travel != null) {
-              actions.add(travel);
-            }
-          }
+        for (MoveActorAction travelAction : travelActionList) {
+          actions.add(travelAction);
         }
-      }
     }
     return actions;
+  }
+
+  /**
+   * Adds a travel action to the gate. This method allows the gate to have multiple destinations.
+   *
+   * @param travelAction The travel action that allows an actor to travel to another map through
+   *                      the gate
+   */
+  public void addTravelAction(MoveActorAction travelAction) {
+    this.travelActionList.add(travelAction);
   }
 
   /**
