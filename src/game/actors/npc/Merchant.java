@@ -1,4 +1,4 @@
-package game.actors.merchants;
+package game.actors.npc;
 
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;

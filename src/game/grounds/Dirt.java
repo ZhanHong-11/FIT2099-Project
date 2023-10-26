@@ -7,11 +7,10 @@ import edu.monash.fit2099.engine.positions.Ground;
  * Created by:
  * @author Riordan D. Alfredo
  * Modified by:
- *
  */
 public class Dirt extends Ground {
 
-    public Dirt() {
-        super('.');
-    }
+  public Dirt() {
+    super('.');
+  }
 }

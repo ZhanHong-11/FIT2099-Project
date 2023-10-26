@@ -28,6 +28,11 @@ public class AncientWood extends GameMap {
       "++++...............~~~~~~~~~~~........~~~.......~~~~~~......",
       "+++++..............~~~~~~~~~~~........~~~........~~~~~......");
 
+  /**
+   * Constructs a new ancient wood with the given ground factory.
+   *
+   * @param groundFactory The ground factory that creates the ground types for the map
+   */
   public AncientWood(GroundFactory groundFactory) {
     super(groundFactory, AncientWood.MAP);
   }

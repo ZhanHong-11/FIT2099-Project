@@ -18,10 +18,11 @@ game
 game.actions
 game.actors
 game.actors.enemies
-game.actors.merchants
+game.actors.npc
 game.behaviours
 game.capabilities
 game.display
+game.dream
 game.gamemaps
 game.grounds
 game.grounds.spawnlocation

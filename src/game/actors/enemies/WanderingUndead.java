@@ -1,18 +1,18 @@
 package game.actors.enemies;
 
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
+import game.dream.DreamCapable;
 import game.items.HealingVial;
 import game.items.Key;
-import game.items.Rune;
 
 import java.util.Random;
 
 /**
- * A subclass of Enemy that represents a wandering undead. A wandering undead is an enemy that are
- * immune to the void and can attack those that are hostile to enemy. It can drop healing vials or
- * refreshing flasks when killed with a certain probability.
+ * A subclass of Enemy that represents a wandering undead. A wandering undead is an enemy that can
+ * attack those that are hostile to enemy. It can drop healing vials or refreshing flasks when
+ * killed with a certain probability.
  *
  * @see Enemy
  */
@@ -46,9 +46,12 @@ public class WanderingUndead extends Enemy {
 
   /**
    * Constructs a new wandering undead.
+   *
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public WanderingUndead() {
-    super("Wandering Undead", 't', 100);
+  public WanderingUndead(DreamCapable dreamCapable) {
+    super("Wandering Undead", 't', 100, dreamCapable);
+    setBehaviour(999, new WanderBehaviour());
   }
 
   /**
@@ -63,24 +66,32 @@ public class WanderingUndead extends Enemy {
   }
 
   /**
+   * Returns the amount of runes that the Wandering Undead will drop when killed by another actor.
+   *
+   * @return the amount of runes that the Wandering Undead will drop when killed by another actor
+   */
+  @Override
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
+  /**
    * Drops an item on the game map when the wandering undead is killed. The item can be either a
    * healing vial or a key, with a probability of 20% and 10% respectively. The probability of item
    * dropping is independent to the others. The item is dropped at the location of the wandering
-   * undead. Wandering Undead also drop runes when killed by another actor.
+   * undead.
    *
-   * @param map The game map where the wandering undead is located.
+   * @param location The location where the wandering undead is located.
    */
   @Override
-  public void drop(GameMap map) {
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_KEY_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new Key());
+      location.addItem(new Key());
     }
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
-
 }

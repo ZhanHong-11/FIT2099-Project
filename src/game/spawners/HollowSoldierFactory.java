@@ -2,6 +2,8 @@ package game.spawners;
 
 import game.actors.enemies.Enemy;
 import game.actors.enemies.HollowSoldier;
+import game.dream.DreamCapable;
+
 import java.util.Random;
 
 /**
@@ -19,9 +21,11 @@ public class HollowSoldierFactory extends EnemyFactory {
 
   /**
    * Constructs a new hollow soldier factory with the default spawning rate.
+   *
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public HollowSoldierFactory() {
-    super(BASE_SPAWN_RATE);
+  public HollowSoldierFactory(DreamCapable dreamCapable) {
+    super(BASE_SPAWN_RATE, dreamCapable);
   }
 
   /**
@@ -32,7 +36,7 @@ public class HollowSoldierFactory extends EnemyFactory {
   @Override
   public Enemy spawnEnemy() {
     if (random.nextInt(100) < getSpawningRate()) {
-      return new HollowSoldier();
+      return new HollowSoldier(getDreamCapable());
     }
     return null;
   }

@@ -6,9 +6,11 @@ import edu.monash.fit2099.engine.items.PickUpAction;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.ActivateSkillAction;
 import game.actions.SellAction;
+import game.actions.UpgradeAction;
 import game.capabilities.Ability;
 import game.items.Buyable;
 import game.items.Sellable;
+import game.items.Upgradable;
 import game.skills.FocusSkill;
 
 /**
@@ -21,7 +23,7 @@ import game.skills.FocusSkill;
  * @see Buyable
  * @see Sellable
  */
-public class Broadsword extends SkillWeapon implements Buyable, Sellable {
+public class Broadsword extends SkillWeapon implements Buyable, Sellable, Upgradable {
 
   /**
    * The default hit rate of the broadsword
@@ -31,6 +33,14 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
    * The default sell price of the broadsword
    */
   private static final int BASE_SELL_PRICE = 100;
+  /**
+   * The default upgrade cost of the broadsword
+   */
+  private static final int BASE_UPGRADE_COST = 1000;
+  /**
+   * The extra damage that the broadsword can deal after it has been upgraded
+   */
+  private int extraDamage;
 
   /**
    * Constructs a new broadsword with the default attributes and skill.
@@ -38,6 +48,7 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   public Broadsword() {
     super("Broadsword", '1', 110, "slashes", BASE_HIT_RATE);
     this.setSkill(new FocusSkill());
+    this.extraDamage = 0;
   }
 
   /**
@@ -52,7 +63,9 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
 
   /**
    * Returns an ActionList that contains an AttackAction that allows an actor to attack another
-   * actor with the broadsword.
+   * actor with the broadsword. If the other actor has the ability to trade, then a SellAction is
+   * also return. If the other actor has the ability to craft, then an UpgradeAction is also
+   * return.
    *
    * @param otherActor the other actor
    * @param location   the location of the other actor
@@ -63,6 +76,9 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
     ActionList actions = super.allowableActions(otherActor, location);
     if (otherActor.hasCapability(Ability.TRADING)) {
       actions.add(new SellAction(this));
+    }
+    if (otherActor.hasCapability(Ability.CRAFTING)) {
+      actions.add(new UpgradeAction(this));
     }
     return actions;
   }
@@ -106,6 +122,17 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   }
 
   /**
+   * Returns the damage of the broadsword. Add the extra damage if the broadsword has been
+   * upgraded.
+   *
+   * @return the damage of the broadsword
+   */
+  @Override
+  public int damage() {
+    return super.damage() + this.extraDamage;
+  }
+
+  /**
    * Buy the broadsword and add it to the inventory of the actor.
    *
    * @return A string describing the buying action
@@ -135,5 +162,27 @@ public class Broadsword extends SkillWeapon implements Buyable, Sellable {
   @Override
   public int getSellPrice() {
     return BASE_SELL_PRICE;
+  }
+
+  /**
+   * Upgrade the broadsword by having an additional damage.
+   *
+   * @return A string describing the upgrading action
+   */
+  @Override
+  public String upgrade() {
+    this.extraDamage += 10;
+    return this + " has been upgraded!\nThe " + this + " will now cause an additional "
+        + this.extraDamage + " damage";
+  }
+
+  /**
+   * Returns the upgrade cost of the broadsword.
+   *
+   * @return the upgrade cost of the broadsword
+   */
+  @Override
+  public int getUpgradeCost() {
+    return BASE_UPGRADE_COST;
   }
 }

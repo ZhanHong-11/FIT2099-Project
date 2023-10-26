@@ -9,24 +9,28 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actors.Droppable;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.FollowBehaviour;
 import game.capabilities.Ability;
 import game.capabilities.Status;
-import game.behaviours.WanderBehaviour;
 import game.actions.AttackAction;
+import game.dream.DreamCapable;
+import game.dream.Resettable;
+import game.items.Rune;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An abstract class that extends Actor and implements Droppable interface. An enemy is NPC that can
- * attack other actors who are hostile to them and wander around the map. An enemy has a capability
- * of Status.DANGER which cause them unable to enter the floor. Enemy can drop items when killed.
+ * An abstract class that extends Actor and implements Droppable and Resettable interface. An enemy
+ * is NPC that can attack other actors who are hostile to them and wander around the map. An enemy
+ * has a capability of Status.DANGER which cause them unable to enter the floor. Enemy can drop
+ * items when killed. All the enemies will be removed from the map when the player is respawned.
  *
  * @see Actor
  * @see Droppable
  */
-public abstract class Enemy extends Actor implements Droppable {
+public abstract class Enemy extends Actor implements Droppable, Resettable {
 
   /**
    * A map of behaviours that the enemy can perform, with key as the priority
@@ -34,18 +38,32 @@ public abstract class Enemy extends Actor implements Droppable {
   private Map<Integer, Behaviour> behaviours = new HashMap<>();
 
   /**
+   * The Dream Capable Object (player)
+   */
+  private final DreamCapable dreamCapable;
+
+  /**
    * Constructs a new enemy with the given name, display character, and hit points. The enemy also
    * has two default behaviours: wander and attack, with different priorities.
    *
-   * @param name        The name of the enemy
-   * @param displayChar The character to display for the enemy
-   * @param hitPoints   The hit points of the enemy
+   * @param name         The name of the enemy
+   * @param displayChar  The character to display for the enemy
+   * @param hitPoints    The hit points of the enemy
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public Enemy(String name, char displayChar, int hitPoints) {
+  public Enemy(String name, char displayChar, int hitPoints, DreamCapable dreamCapable) {
     super(name, displayChar, hitPoints);
-    this.behaviours.put(999, new WanderBehaviour());
     this.behaviours.put(1, new AttackBehaviour());
     this.addCapability(Status.DANGER);
+    this.dreamCapable = dreamCapable;
+    this.dreamCapable.subscribe(this);
+  }
+
+  /**
+   * Used for enemy concrete class to add behaviour (wandering, follow, etc.)
+   */
+  protected void setBehaviour(int priority, Behaviour behaviour) {
+    this.behaviours.put(priority, behaviour);
   }
 
   /**
@@ -75,6 +93,11 @@ public abstract class Enemy extends Actor implements Droppable {
     return new DoNothingAction();
   }
 
+  /**
+   * Add a follow behaviour to the enemy when a nearby actor is hostile to the enemy
+   *
+   * @param map the game map
+   */
   private void addFollowBehaviour(GameMap map) {
     for (Exit exit : map.locationOf(this).getExits()) {
       Location firstDestination = exit.getDestination();
@@ -106,17 +129,27 @@ public abstract class Enemy extends Actor implements Droppable {
   }
 
   /**
-   * Drops an item when the enemy is killed. The implementation of this method should specify what
-   * item to drop, the probability and where to drop it.
+   * Returns the amount of rune that the enemy will drop when killed. The implementation of this
+   * method should specify the exact amount of rune to drop
    *
-   * @param map The game map where the enemy is located.
+   * @return the amount of rune that the enemy will drop when killed
    */
-  @Override
-  public void drop(GameMap map) {
-  }
+  protected abstract int getDropRuneAmount();
 
   /**
-   * When the enemy is defeated, it may drop some item.
+   * Drops an item when the enemy is killed. The implementation of this method should specify what
+   * item to drop, the probability and where to drop it. Every enemy will drop runes when killed.
+   *
+   * @param location The location where the enemy is located.
+   */
+  @Override
+  public void drop(Location location) {
+    location.addItem(new Rune(getDropRuneAmount(), this.dreamCapable));
+  }
+
+
+  /**
+   * When the enemy is defeated, it will drop runes and may drop some item.
    *
    * @param actor the perpetrator
    * @param map   where the actor fell unconscious
@@ -124,7 +157,17 @@ public abstract class Enemy extends Actor implements Droppable {
    */
   @Override
   public String unconscious(Actor actor, GameMap map) {
-    drop(map);
+    drop(map.locationOf(this));
     return super.unconscious(actor, map);
+  }
+
+  /**
+   * When the player is respawned, all the enemies will be removed from the map
+   *
+   * @param map the game map
+   */
+  @Override
+  public void reset(GameMap map) {
+    map.removeActor(this);
   }
 }

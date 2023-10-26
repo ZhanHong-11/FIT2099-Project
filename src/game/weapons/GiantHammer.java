@@ -34,6 +34,7 @@ public class GiantHammer extends SkillWeapon implements Sellable {
    */
   public GiantHammer() {
     super("Giant Hammer", 'P', 160, "slam", 90);
+    this.addCapability(Ability.GREAT_SLAM);
     this.setSkill(new GreatSlamSkill());
   }
 
