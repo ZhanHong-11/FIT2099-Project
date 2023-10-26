@@ -191,9 +191,9 @@ public class Player extends Actor implements DreamCapable, Droppable {
   @Override
   public void respawn(GameMap map) {
     map.moveActor(this, this.respawnLocation);
-    this.heal(getAttributeMaximum(BaseActorAttributes.HEALTH));
+    this.heal(getAttributeMaximum(BaseActorAttributes.HEALTH) - getAttribute(BaseActorAttributes.HEALTH));
     this.modifyAttribute(BaseActorAttributes.STAMINA, ActorAttributeOperations.INCREASE,
-        getAttributeMaximum(BaseActorAttributes.STAMINA));
+        getAttributeMaximum(BaseActorAttributes.STAMINA) - getAttribute(BaseActorAttributes.STAMINA));
     for (Resettable resettable : this.resettables) {
       resettable.reset(map);
     }
