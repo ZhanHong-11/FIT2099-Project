@@ -27,9 +27,6 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.World;
 import game.weapons.GiantHammer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * The main class to start the game. Created by:
  *
@@ -83,13 +80,10 @@ public class Application {
     burialGround.at(0, 8).setGround(new LockedGate(
         new MoveActorAction(ancientWoods.at(0, 7), "to the Ancient Woods!"), player));
 
-    Map<String, MoveActorAction> abxervyerBattleMapTravelActions = new HashMap<>();
-    abxervyerBattleMapTravelActions.put("AncientWoods",
-        new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"));
-    abxervyerBattleMapTravelActions.put("OvergrownSanctuary",
-        new MoveActorAction(overgrownSanctuary.at(47, 0), "to the Overgrown Sanctuary!"));
-    LockedGate gate = new LockedGate(abxervyerBattleMapTravelActions, player);
-    Abxervyer abxervyer = new Abxervyer(gate, player);
+    LockedGate abxervyerGate = new LockedGate(new MoveActorAction(ancientWoods.at(55, 0), "to the Ancient Woods!"), player);
+    abxervyerGate.addTravelAction(new MoveActorAction(overgrownSanctuary.at(47, 0), "to the Overgrown Sanctuary!"));
+
+    Abxervyer abxervyer = new Abxervyer(abxervyerGate, player);
 
     ancientWoods.at(0, 0).addActor(new Traveller());
     ancientWoods.at(7, 7).addItem(new Bloodberry());
