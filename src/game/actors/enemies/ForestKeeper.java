@@ -1,15 +1,15 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
+import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
-import game.items.Rune;
 
 import java.util.Random;
 
@@ -20,6 +20,7 @@ import java.util.Random;
  * killed.
  *
  * @see Enemy
+ * @see WeatherController
  */
 public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
@@ -51,9 +52,13 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
 
   /**
    * Constructs a new Forest Keeper.
+   *
+   * @param controller   the Weather Controller object (abxervyer)
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public ForestKeeper(WeatherController controller) {
-    super("Forest Keeper", '8', 125);
+  public ForestKeeper(WeatherController controller, DreamCapable dreamCapable) {
+    super("Forest Keeper", '8', 125, dreamCapable);
+    setBehaviour(999, new WanderBehaviour());
     this.controller = controller;
     this.controller.subscribe(this);
     this.addCapability(Ability.FOLLOW);
@@ -71,22 +76,31 @@ public class ForestKeeper extends Enemy implements WeatherSubscriber {
   }
 
   /**
-   * Drops an item on the game map when the Forest Keeper is killed. The item can be either a
-   * healing vial or a refreshing flask, with a probability of 20% and 30% respectively. The
-   * probability of item dropping is independent to the others. The item is dropped at the location
-   * of the Forest Keeper. It will also drop Runes when killed by another actor
+   * Returns the amount of runes that the Forest Keeper will drop when killed by another actor.
    *
-   * @param map The game map where the Forest Keeper is located.
+   * @return the amount of runes that the Forest Keeper will drop when killed by another actor
    */
   @Override
-  public void drop(GameMap map) {
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
+  /**
+   * Drops an item on the game map when the Forest Keeper is killed. The item can be either a
+   * healing vial with a probability of 20%. The item is dropped at the last location of the Forest
+   * Keeper.
+   *
+   * @param location The location where the Forest Keeper is located.
+   */
+  @Override
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
   /**
    * Updates the Forest Keeper when the weather changes. If the weather is sunny, the Forest Keeper

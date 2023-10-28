@@ -1,6 +1,7 @@
 package game.spawners;
 
 import game.actors.enemies.Enemy;
+import game.dream.DreamCapable;
 
 /**
  * An abstract parent that represents a factory that can spawn an enemy.
@@ -15,12 +16,19 @@ public abstract class EnemyFactory implements Spawnable {
   private int spawningRate;
 
   /**
+   * The dream capable object (player)
+   */
+  private DreamCapable dreamCapable;
+
+  /**
    * Constructs a new enemy factory with the given spawning rate.
    *
    * @param spawningRate The spawning rate of the enemy
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public EnemyFactory(int spawningRate) {
+  public EnemyFactory(int spawningRate, DreamCapable dreamCapable) {
     this.spawningRate = spawningRate;
+    this.dreamCapable = dreamCapable;
   }
 
   /**
@@ -47,4 +55,13 @@ public abstract class EnemyFactory implements Spawnable {
    * @return The enemy that is spawned
    */
   public abstract Enemy spawnEnemy();
+
+  /**
+   * Getter method that retrieves the associated DreamCapable instance for this item.
+   *
+   * @return dreamCapable
+   */
+  protected DreamCapable getDreamCapable() {
+    return this.dreamCapable;
+  }
 }

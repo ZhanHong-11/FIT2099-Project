@@ -8,5 +8,8 @@ public enum Ability {
   IMMUNE_TO_VOID,
   UNLOCK,
   TRADING,
-  FOLLOW
+  FOLLOW,
+  CRAFTING,
+  STAB_STEP,
+  GREAT_SLAM
 }

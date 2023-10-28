@@ -1,24 +1,25 @@
 package game.actors.enemies;
 
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.WanderBehaviour;
 import game.capabilities.Ability;
+import game.dream.DreamCapable;
 import game.weather.Weather;
 import game.weather.WeatherController;
 import game.weather.WeatherSubscriber;
 import game.items.HealingVial;
-import game.items.Rune;
 
 import java.util.Random;
 
 /**
  * A class that represents a Red Wolf. A Red Wolf is an enemy that can attack other actors who are
  * hostile to them and wander around the map. A Red Wolf has a follow ability which cause them to
- * follow the player when the player is nearby. A Forest Keeper can drop items when killed.
+ * follow the player when the player is nearby.
  *
  * @see Enemy
+ * @see WeatherController
  */
 public class RedWolf extends Enemy implements WeatherSubscriber {
 
@@ -54,17 +55,20 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
 
   /**
    * Constructs a new Red Wolf.
+   *
+   * @param controller   the Weather Controller object (abxervyer)
+   * @param dreamCapable the Dream Capable Object (player)
    */
-  public RedWolf(WeatherController controller) {
-    super("Red Wolf", 'r', 25);
+  public RedWolf(WeatherController controller, DreamCapable dreamCapable) {
+    super("Red Wolf", 'r', 25, dreamCapable);
+    setBehaviour(999, new WanderBehaviour());
     this.controller = controller;
     this.controller.subscribe(this);
     this.addCapability(Ability.FOLLOW);
   }
 
   /**
-   * Returns an IntrinsicWeapon that represents the attack of the Red Wolf. If the Red Wolf has the
-   * sunny buff, the damage of the attack is tripled.
+   * Returns an IntrinsicWeapon that represents the attack of the Red Wolf.
    *
    * @return An IntrinsicWeapon that represents the attack
    */
@@ -75,22 +79,30 @@ public class RedWolf extends Enemy implements WeatherSubscriber {
   }
 
   /**
-   * Drops an item on the game map when the Red Wolf is killed. The item can be either a healing
-   * vial or a refreshing flask, with a probability of 10% and 20% respectively. The probability of
-   * item dropping is independent to the others. The item is dropped at the location of the Red
-   * Wolf. Red Wolf also drop runes when killed by another actor.
+   * Returns the amount of runes that the Red Wolf will drop when killed by another actor.
    *
-   * @param map The game map where the Red Wolf is located.
+   * @return the amount of runes that the Red Wolf will drop when killed by another actor
    */
   @Override
-  public void drop(GameMap map) {
+  protected int getDropRuneAmount() {
+    return BASE_RUNES_DROP_AMOUNT;
+  }
+
+  /**
+   * Drops an item on the game map when the Red Wolf is killed. The item can be either a healing
+   * vial with a probability of 10%. The item is dropped at the last location of the Red Wolf.
+   *
+   * @param location The location where the Red Wolf is located.
+   */
+  @Override
+  public void drop(Location location) {
+    super.drop(location);
     int num = random.nextInt(100);
-    Location location = map.locationOf(this);
-    map.at(location.x(), location.y()).addItem(new Rune(BASE_RUNES_DROP_AMOUNT));
     if (num < BASE_HEALING_VIAL_DROP_RATE) {
-      map.at(location.x(), location.y()).addItem(new HealingVial());
+      location.addItem(new HealingVial());
     }
   }
+
 
   /**
    * Updates the intrinsic weapon damage of the Red Wolf when the weather is updated. If the weather
